@@ -6,6 +6,139 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  UserId         Int          @id
+  FullName       String
+  Identification String
+  PhoneNumber    String
+  Email          String
+  Password       String
+  RoleId         Int
+  IsActive       Boolean
+  Address        String
+  Role           Role         @relation(fields: [RoleId], references: [RoleId])
+  Addresses      Address[]
+  Questions      Question[]
+  Answers        Answer[]
+  Evaluations    Evaluation[]
+}
+
+model Role {
+  RoleId   Int    @id
+  RoleName String
+  Users    User[]
+}
+
+model Customer {
+  CustomerId      Int        @id
+  CustomerAddress String
+  Purchases       Purchase[]
+}
+
+model PaymentMethod {
+  PaymentMethodId Int        @id
+  PaymentType     String
+  Provider        String
+  AccountNumber   String
+  ExpirationDate  DateTime
+  Purchases       Purchase[]
+}
+
+model Address {
+  AddressId    Int        @id
+  Province     String
+  Canton       String
+  District     String
+  ExactAddress String
+  PostalCode   String
+  Phone        String
+  UserId       Int
+  User         User       @relation(fields: [UserId], references: [UserId])
+  Purchase     Purchase[]
+}
+
+model Category {
+  CategoryId   Int       @id
+  CategoryName String
+  Products     Product[]
+}
+
+model Product {
+  ProductId    Int            @id
+  ProductName  String
+  Description  String
+  Price        Float
+  Quantity     Int
+  CategoryId   Int
+  Status       String
+  Category     Category       @relation(fields: [CategoryId], references: [CategoryId])
+  Photos       Photo[]
+  Questions    Question[]
+  PurchaseItem PurchaseItem[]
+}
+
+model Photo {
+  PhotoId   Int     @id
+  ProductId Int
+  PhotoURL  String
+  Product   Product @relation(fields: [ProductId], references: [ProductId])
+}
+
+model Question {
+  QuestionId   Int      @id
+  ProductId    Int
+  UserId       Int
+  QuestionText String
+  Product      Product  @relation(fields: [ProductId], references: [ProductId])
+  User         User     @relation(fields: [UserId], references: [UserId])
+  Answers      Answer[]
+}
+
+model Answer {
+  AnswerId   Int      @id
+  QuestionId Int
+  UserId     Int
+  AnswerText String
+  Question   Question @relation(fields: [QuestionId], references: [QuestionId])
+  User       User     @relation(fields: [UserId], references: [UserId])
+}
+
+model Purchase {
+  PurchaseId      Int            @id
+  CustomerId      Int
+  AddressId       Int
+  TotalAmount     Float
+  TaxAmount       Float
+  PaymentMethodId Int
+  PurchaseDate    DateTime
+  PurchaseStatus  String
+  Customer        Customer       @relation(fields: [CustomerId], references: [CustomerId])
+  Address         Address        @relation(fields: [AddressId], references: [AddressId])
+  PaymentMethod   PaymentMethod  @relation(fields: [PaymentMethodId], references: [PaymentMethodId])
+  PurchaseItems   PurchaseItem[]
+  Evaluations     Evaluation[]
+}
+
+model PurchaseItem {
+  PurchaseItemId Int      @id
+  PurchaseId     Int
+  ProductId      Int
+  Quantity       Int
+  Subtotal       Float
+  Purchase       Purchase @relation(fields: [PurchaseId], references: [PurchaseId])
+  Product        Product  @relation(fields: [ProductId], references: [ProductId])
+}
+
+model Evaluation {
+  EvaluationId       Int       @id
+  UserId             Int
+  Rating             Int
+  Comment            String
+  User               User      @relation(fields: [UserId], references: [UserId])
+  Purchase           Purchase? @relation(fields: [purchasePurchaseId], references: [PurchaseId])
+  purchasePurchaseId Int?
 }
