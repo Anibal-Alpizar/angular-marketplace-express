@@ -1,4 +1,6 @@
-export const products = [
+import { Product } from "../types";
+
+export const products: Product[] = [
   {
     ProductId: 1,
     ProductName: "Guitarra eléctrica",

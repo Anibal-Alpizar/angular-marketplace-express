@@ -1,4 +1,6 @@
-export const purchaseItems = [
+import { PurchaseItem } from "../types";
+
+export const purchaseItems: PurchaseItem[] = [
   {
     PurchaseItemId: 1,
     PurchaseId: 1,

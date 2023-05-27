@@ -1,4 +1,6 @@
-export const roles = [
+import { Role } from "../types";
+
+export const roles: Role[] = [
   {
     RoleId: 1,
     RoleName: "Admin",

@@ -1,4 +1,6 @@
-export const paymentMethods = [
+import { PaymentMethod } from "../types";
+
+export const paymentMethods: PaymentMethod[] = [
   {
     PaymentMethodId: 1,
     PaymentType: "Tarjeta de crédito",

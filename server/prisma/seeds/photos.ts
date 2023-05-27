@@ -1,4 +1,6 @@
-export const photos = [
+import { Photo } from "../types";
+
+export const photos : Photo[] = [
   {
     PhotoId: 1,
     ProductId: 1,

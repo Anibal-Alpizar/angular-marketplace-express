@@ -1,4 +1,6 @@
-export const evaluations = [
+import { Evaluation } from "../types";
+
+export const evaluations: Evaluation[] = [
   {
     EvaluationId: 1,
     UserId: 1,

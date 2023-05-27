@@ -1,4 +1,6 @@
-export const customers = [
+import { Customer } from "../types";
+
+export const customers: Customer[] = [
   {
     CustomerId: 1,
     CustomerAddress: "Avenida Central, Casa 123",

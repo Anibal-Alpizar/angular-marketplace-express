@@ -1,4 +1,6 @@
-export const answers = [
+import { Answer } from "../types";
+
+export const answers: Answer[] = [
   {
     AnswerId: 1,
     QuestionId: 1,

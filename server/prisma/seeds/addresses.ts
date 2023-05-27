@@ -1,4 +1,6 @@
-export const addresses = [
+import { Address } from "../types";
+
+export const addresses: Address[] = [
   {
     AddressId: 1,
     Province: "San José",
