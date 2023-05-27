@@ -12,60 +12,75 @@ import { paymentMethods } from "./seeds/paymentMethods";
 import { purchases } from "./seeds/purchases";
 import { purchaseItems } from "./seeds/purchaseItems";
 import { evaluations } from "./seeds/evaluations";
+import {
+  Role,
+  User,
+  Category,
+  Product,
+  Photo,
+  Question,
+  Answer,
+  Address,
+  Customer,
+  PaymentMethod,
+  Purchase,
+  PurchaseItem,
+  Evaluation,
+} from "./types";
 
 const prisma = new PrismaClient();
 
 async function main() {
   await prisma.role.createMany({
-    data: roles,
+    data: roles as Role[],
   });
 
   await prisma.user.createMany({
-    data: users,
+    data: users as User[],
   });
 
   await prisma.category.createMany({
-    data: categories,
+    data: categories as Category[],
   });
 
   await prisma.product.createMany({
-    data: products,
+    data: products as Product[],
   });
 
   await prisma.photo.createMany({
-    data: photos,
+    data: photos as Photo[],
   });
 
   await prisma.question.createMany({
-    data: questions,
+    data: questions as Question[],
   });
 
   await prisma.answer.createMany({
-    data: answers,
+    data: answers as Answer[],
   });
 
   await prisma.address.createMany({
-    data: addresses,
+    data: addresses as Address[],
   });
 
   await prisma.customer.createMany({
-    data: customers,
+    data: customers as Customer[],
   });
 
   await prisma.paymentMethod.createMany({
-    data: paymentMethods,
+    data: paymentMethods as PaymentMethod[],
   });
 
   await prisma.purchase.createMany({
-    data: purchases,
+    data: purchases as Purchase[],
   });
 
   await prisma.purchaseItem.createMany({
-    data: purchaseItems,
+    data: purchaseItems as PurchaseItem[],
   });
 
   await prisma.evaluation.createMany({
-    data: evaluations,
+    data: evaluations as Evaluation[],
   });
 }
 
