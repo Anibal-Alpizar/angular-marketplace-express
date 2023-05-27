@@ -85,10 +85,10 @@ async function main() {
 }
 
 main()
-  .then(async () => {
+  .then(async (): Promise<void> => {
     await prisma.$disconnect();
   })
-  .catch(async (e) => {
+  .catch(async (e: Error): Promise<void> => {
     console.error(e);
     await prisma.$disconnect();
     process.exit(1);
