@@ -11,41 +11,46 @@ datasource db {
 }
 
 model User {
-  UserId         Int          @id
+  UserId         Int             @id
   FullName       String
   Identification String
   PhoneNumber    String
   Email          String
   Password       String
-  RoleId         Int
   IsActive       Boolean
   Address        String
-  Role           Role         @relation(fields: [RoleId], references: [RoleId])
+  Roles          UserRole[] // Nueva relación con UserRole
   Addresses      Address[]
   Questions      Question[]
   Answers        Answer[]
   Evaluations    Evaluation[]
+  PaymentMethod  PaymentMethod[]
+  Purchase       Purchase[]
 }
 
 model Role {
-  RoleId   Int    @id
+  RoleId   Int        @id
   RoleName String
-  Users    User[]
+  Users    UserRole[] // Nueva relación con UserRole
 }
 
-model Customer {
-  CustomerId      Int        @id
-  CustomerAddress String
-  Purchases       Purchase[]
+model UserRole {
+  User   User @relation(fields: [UserId], references: [UserId])
+  Role   Role @relation(fields: [RoleId], references: [RoleId])
+  UserId Int
+  RoleId Int
+
+  @@unique([UserId, RoleId]) // Nueva restricción única
 }
 
 model PaymentMethod {
-  PaymentMethodId Int        @id
+  PaymentMethodId Int      @id
+  UserId          Int // Relación con User
   PaymentType     String
   Provider        String
   AccountNumber   String
   ExpirationDate  DateTime
-  Purchases       Purchase[]
+  User            User     @relation(fields: [UserId], references: [UserId])
 }
 
 model Address {
@@ -108,19 +113,19 @@ model Answer {
 }
 
 model Purchase {
-  PurchaseId      Int            @id
-  CustomerId      Int
-  AddressId       Int
-  TotalAmount     Float
-  TaxAmount       Float
-  PaymentMethodId Int
-  PurchaseDate    DateTime
-  PurchaseStatus  String
-  Customer        Customer       @relation(fields: [CustomerId], references: [CustomerId])
-  Address         Address        @relation(fields: [AddressId], references: [AddressId])
-  PaymentMethod   PaymentMethod  @relation(fields: [PaymentMethodId], references: [PaymentMethodId])
-  PurchaseItems   PurchaseItem[]
-  Evaluations     Evaluation[]
+  PurchaseId                   Int            @id
+  UserId                       Int // Relación con User
+  AddressId                    Int
+  TotalAmount                  Float
+  TaxAmount                    Float
+  PaymentMethodId              Int
+  PurchaseDate                 DateTime
+  PurchaseStatus               String
+  User                         User           @relation(fields: [UserId], references: [UserId])
+  Address                      Address        @relation(fields: [AddressId], references: [AddressId])
+  PurchaseItems                PurchaseItem[]
+  Evaluations                  Evaluation[]
+  paymentMethodPaymentMethodId Int?
 }
 
 model PurchaseItem {

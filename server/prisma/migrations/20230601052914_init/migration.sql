@@ -6,7 +6,6 @@ CREATE TABLE `User` (
     `PhoneNumber` VARCHAR(191) NOT NULL,
     `Email` VARCHAR(191) NOT NULL,
     `Password` VARCHAR(191) NOT NULL,
-    `RoleId` INTEGER NOT NULL,
     `IsActive` BOOLEAN NOT NULL,
     `Address` VARCHAR(191) NOT NULL,
 
@@ -22,16 +21,17 @@ CREATE TABLE `Role` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Customer` (
-    `CustomerId` INTEGER NOT NULL,
-    `CustomerAddress` VARCHAR(191) NOT NULL,
+CREATE TABLE `UserRole` (
+    `UserId` INTEGER NOT NULL,
+    `RoleId` INTEGER NOT NULL,
 
-    PRIMARY KEY (`CustomerId`)
+    UNIQUE INDEX `UserRole_UserId_RoleId_key`(`UserId`, `RoleId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `PaymentMethod` (
     `PaymentMethodId` INTEGER NOT NULL,
+    `UserId` INTEGER NOT NULL,
     `PaymentType` VARCHAR(191) NOT NULL,
     `Provider` VARCHAR(191) NOT NULL,
     `AccountNumber` VARCHAR(191) NOT NULL,
@@ -107,13 +107,14 @@ CREATE TABLE `Answer` (
 -- CreateTable
 CREATE TABLE `Purchase` (
     `PurchaseId` INTEGER NOT NULL,
-    `CustomerId` INTEGER NOT NULL,
+    `UserId` INTEGER NOT NULL,
     `AddressId` INTEGER NOT NULL,
     `TotalAmount` DOUBLE NOT NULL,
     `TaxAmount` DOUBLE NOT NULL,
     `PaymentMethodId` INTEGER NOT NULL,
     `PurchaseDate` DATETIME(3) NOT NULL,
     `PurchaseStatus` VARCHAR(191) NOT NULL,
+    `paymentMethodPaymentMethodId` INTEGER NULL,
 
     PRIMARY KEY (`PurchaseId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -141,7 +142,13 @@ CREATE TABLE `Evaluation` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `User` ADD CONSTRAINT `User_RoleId_fkey` FOREIGN KEY (`RoleId`) REFERENCES `Role`(`RoleId`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `UserRole` ADD CONSTRAINT `UserRole_UserId_fkey` FOREIGN KEY (`UserId`) REFERENCES `User`(`UserId`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `UserRole` ADD CONSTRAINT `UserRole_RoleId_fkey` FOREIGN KEY (`RoleId`) REFERENCES `Role`(`RoleId`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `PaymentMethod` ADD CONSTRAINT `PaymentMethod_UserId_fkey` FOREIGN KEY (`UserId`) REFERENCES `User`(`UserId`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Address` ADD CONSTRAINT `Address_UserId_fkey` FOREIGN KEY (`UserId`) REFERENCES `User`(`UserId`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -165,13 +172,10 @@ ALTER TABLE `Answer` ADD CONSTRAINT `Answer_QuestionId_fkey` FOREIGN KEY (`Quest
 ALTER TABLE `Answer` ADD CONSTRAINT `Answer_UserId_fkey` FOREIGN KEY (`UserId`) REFERENCES `User`(`UserId`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Purchase` ADD CONSTRAINT `Purchase_CustomerId_fkey` FOREIGN KEY (`CustomerId`) REFERENCES `Customer`(`CustomerId`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Purchase` ADD CONSTRAINT `Purchase_UserId_fkey` FOREIGN KEY (`UserId`) REFERENCES `User`(`UserId`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Purchase` ADD CONSTRAINT `Purchase_AddressId_fkey` FOREIGN KEY (`AddressId`) REFERENCES `Address`(`AddressId`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `Purchase` ADD CONSTRAINT `Purchase_PaymentMethodId_fkey` FOREIGN KEY (`PaymentMethodId`) REFERENCES `PaymentMethod`(`PaymentMethodId`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `PurchaseItem` ADD CONSTRAINT `PurchaseItem_PurchaseId_fkey` FOREIGN KEY (`PurchaseId`) REFERENCES `Purchase`(`PurchaseId`) ON DELETE RESTRICT ON UPDATE CASCADE;
