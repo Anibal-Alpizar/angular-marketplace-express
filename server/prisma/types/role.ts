@@ -1,4 +1,4 @@
-export type Role = {
+export interface Role {
   RoleId: number;
   RoleName: string;
 };

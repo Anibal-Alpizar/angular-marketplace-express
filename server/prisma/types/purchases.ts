@@ -1,10 +1,9 @@
-export type Purchase = {
+export interface Purchase {
   PurchaseId: number;
-  CustomerId: number;
+  UserId: number;
   AddressId: number;
   TotalAmount: number;
   TaxAmount: number;
-  PaymentMethodId: number;
   PurchaseDate: string;
   PurchaseStatus: string;
-};
+}

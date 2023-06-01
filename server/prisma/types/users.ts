@@ -1,4 +1,4 @@
-export type User = {
+export interface User {
   UserId: number;
   FullName: string;
   Identification: string;
@@ -8,4 +8,4 @@ export type User = {
   RoleId: number;
   IsActive: boolean;
   Address: string;
-};
+}
