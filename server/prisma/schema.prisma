@@ -118,14 +118,12 @@ model Purchase {
   AddressId                    Int
   TotalAmount                  Float
   TaxAmount                    Float
-  PaymentMethodId              Int
   PurchaseDate                 DateTime
   PurchaseStatus               String
   User                         User           @relation(fields: [UserId], references: [UserId])
   Address                      Address        @relation(fields: [AddressId], references: [AddressId])
   PurchaseItems                PurchaseItem[]
   Evaluations                  Evaluation[]
-  paymentMethodPaymentMethodId Int?
 }
 
 model PurchaseItem {
