@@ -3,6 +3,7 @@ import { PaymentMethod } from "../types";
 export const paymentMethods: PaymentMethod[] = [
   {
     PaymentMethodId: 1,
+    UserId: 1,
     PaymentType: "Tarjeta de crédito",
     Provider: "Visa",
     AccountNumber: "**** **** **** 1234",
@@ -10,6 +11,7 @@ export const paymentMethods: PaymentMethod[] = [
   },
   {
     PaymentMethodId: 2,
+    UserId: 2,
     PaymentType: "PayPal",
     Provider: "PayPal Inc.",
     AccountNumber: "user@example.com",
@@ -17,6 +19,7 @@ export const paymentMethods: PaymentMethod[] = [
   },
   {
     PaymentMethodId: 3,
+    UserId: 1,
     PaymentType: "Transferencia bancaria",
     Provider: "Banco ABC",
     AccountNumber: "1234567890",

@@ -111,10 +111,8 @@ CREATE TABLE `Purchase` (
     `AddressId` INTEGER NOT NULL,
     `TotalAmount` DOUBLE NOT NULL,
     `TaxAmount` DOUBLE NOT NULL,
-    `PaymentMethodId` INTEGER NOT NULL,
     `PurchaseDate` DATETIME(3) NOT NULL,
     `PurchaseStatus` VARCHAR(191) NOT NULL,
-    `paymentMethodPaymentMethodId` INTEGER NULL,
 
     PRIMARY KEY (`PurchaseId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
