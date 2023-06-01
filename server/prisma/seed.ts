@@ -61,10 +61,6 @@ async function main() {
     data: addresses as Address[],
   });
 
-  await prisma.customer.createMany({
-    data: customers as Customer[],
-  });
-
   await prisma.paymentMethod.createMany({
     data: paymentMethods as PaymentMethod[],
   });
