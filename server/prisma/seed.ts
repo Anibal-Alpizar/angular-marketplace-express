@@ -7,7 +7,6 @@ import { photos } from "./seeds/photos";
 import { questions } from "./seeds/questions";
 import { answers } from "./seeds/answers";
 import { addresses } from "./seeds/addresses";
-import { customers } from "./seeds/customers";
 import { paymentMethods } from "./seeds/paymentMethods";
 import { purchases } from "./seeds/purchases";
 import { purchaseItems } from "./seeds/purchaseItems";
@@ -21,7 +20,6 @@ import {
   Question,
   Answer,
   Address,
-  Customer,
   PaymentMethod,
   Purchase,
   PurchaseItem,

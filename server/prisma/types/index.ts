@@ -6,8 +6,6 @@ export { Answer } from "./answers";
 
 export { Category } from "./categories";
 
-export { Customer } from "./customers";
-
 export { Evaluation } from "./evaluations";
 
 export { PaymentMethod } from "./paymentMethods";
