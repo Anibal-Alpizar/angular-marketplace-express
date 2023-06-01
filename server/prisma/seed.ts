@@ -11,6 +11,7 @@ import { paymentMethods } from "./seeds/paymentMethods";
 import { purchases } from "./seeds/purchases";
 import { purchaseItems } from "./seeds/purchaseItems";
 import { evaluations } from "./seeds/evaluations";
+import { userRoles } from "./seeds/userRol";
 import {
   Role,
   User,
@@ -24,6 +25,7 @@ import {
   Purchase,
   PurchaseItem,
   Evaluation,
+  UserRole,
 } from "./types";
 
 const prisma = new PrismaClient();
@@ -35,6 +37,10 @@ async function main() {
 
   await prisma.user.createMany({
     data: users as User[],
+  });
+
+  await prisma.userRole.createMany({
+    data: userRoles as UserRole[],
   });
 
   await prisma.category.createMany({

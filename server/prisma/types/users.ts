@@ -5,7 +5,6 @@ export interface User {
   PhoneNumber: string;
   Email: string;
   Password: string;
-  RoleId: number;
   IsActive: boolean;
   Address: string;
 }

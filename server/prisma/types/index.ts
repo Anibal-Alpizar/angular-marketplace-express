@@ -21,3 +21,5 @@ export { Purchase } from "./purchases";
 export { Question } from "./questions";
 
 export { User } from "./users";
+
+export { UserRole } from "./userRol";
