@@ -1,10 +1,22 @@
 const express = require("express");
+const cors = require("cors");
+const { PORT } = require("./config.ts");
+const indexRoutes = require("./routes/index.routes.ts");
 
 const app = express();
-const port = 3000;
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+app.use(
+  cors({
+    // angular
+    origin: "http://localhost:4200",
+  })
+);
 
-app.get("/", (req: any, res: any) => {
-  res.send("Hello world");
-});
+app.use(express.json());
+
+// Routes
+app.use(indexRoutes);
+
+app.listen(PORT);
+
+console.log(`Server is running on port ${PORT}`);
