@@ -4,4 +4,5 @@ export interface PurchaseItem {
   ProductId: number;
   Quantity: number;
   Subtotal: number;
+  PurchaseStatus: string;
 }

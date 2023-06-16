@@ -113,17 +113,17 @@ model Answer {
 }
 
 model Purchase {
-  PurchaseId                   Int            @id
-  UserId                       Int // Relación con User
-  AddressId                    Int
-  TotalAmount                  Float
-  TaxAmount                    Float
-  PurchaseDate                 DateTime
-  PurchaseStatus               String
-  User                         User           @relation(fields: [UserId], references: [UserId])
-  Address                      Address        @relation(fields: [AddressId], references: [AddressId])
-  PurchaseItems                PurchaseItem[]
-  Evaluations                  Evaluation[]
+  PurchaseId     Int            @id
+  UserId         Int // Relación con User
+  AddressId      Int
+  TotalAmount    Float
+  TaxAmount      Float
+  PurchaseDate   DateTime
+  PurchaseStatus String
+  User           User           @relation(fields: [UserId], references: [UserId])
+  Address        Address        @relation(fields: [AddressId], references: [AddressId])
+  PurchaseItems  PurchaseItem[]
+  Evaluations    Evaluation[]
 }
 
 model PurchaseItem {
@@ -132,6 +132,7 @@ model PurchaseItem {
   ProductId      Int
   Quantity       Int
   Subtotal       Float
+  PurchaseStatus String
   Purchase       Purchase @relation(fields: [PurchaseId], references: [PurchaseId])
   Product        Product  @relation(fields: [ProductId], references: [ProductId])
 }
