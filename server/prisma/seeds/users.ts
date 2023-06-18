@@ -28,7 +28,7 @@ export const users: User[] = [
     PhoneNumber: "567890123",
     Email: "bobjohnson@example.com",
     Password: "password789",
-    IsActive: false,
+    IsActive: true,
     Address: "789 Oak Street",
   },
 ];

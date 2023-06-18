@@ -3,9 +3,8 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const getProducts = (req: Request, res: Response) => {
-  const products = prisma.product
-    .findMany({
+export const getProducts =  (req: Request, res: Response) => {
+  const products =  prisma.product.findMany({
       select: {
         ProductId: true,
         ProductName: true,
@@ -15,6 +14,7 @@ export const getProducts = (req: Request, res: Response) => {
         CategoryId: true,
         Status: true,
       },
+     
     })
     .then((data) => {
       res.json(data);
