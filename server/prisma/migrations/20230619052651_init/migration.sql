@@ -70,6 +70,7 @@ CREATE TABLE `Product` (
     `Price` DOUBLE NOT NULL,
     `Quantity` INTEGER NOT NULL,
     `CategoryId` INTEGER NOT NULL,
+    `UserId` INTEGER NOT NULL,
     `Status` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`ProductId`)
@@ -124,6 +125,7 @@ CREATE TABLE `PurchaseItem` (
     `ProductId` INTEGER NOT NULL,
     `Quantity` INTEGER NOT NULL,
     `Subtotal` DOUBLE NOT NULL,
+    `PurchaseStatus` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`PurchaseItemId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -153,6 +155,9 @@ ALTER TABLE `Address` ADD CONSTRAINT `Address_UserId_fkey` FOREIGN KEY (`UserId`
 
 -- AddForeignKey
 ALTER TABLE `Product` ADD CONSTRAINT `Product_CategoryId_fkey` FOREIGN KEY (`CategoryId`) REFERENCES `Category`(`CategoryId`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Product` ADD CONSTRAINT `Product_UserId_fkey` FOREIGN KEY (`UserId`) REFERENCES `User`(`UserId`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Photo` ADD CONSTRAINT `Photo_ProductId_fkey` FOREIGN KEY (`ProductId`) REFERENCES `Product`(`ProductId`) ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -21,7 +21,7 @@ export const purchases: Purchase[] = [
   },
   {
     PurchaseId: 3,
-    UserId: 1,
+    UserId: 3,
     AddressId: 3,
     TotalAmount: 75.0,
     TaxAmount: 7.5,

@@ -8,6 +8,7 @@ export const products: Product[] = [
     Price: 999.99,
     Quantity: 10,
     CategoryId: 1,
+    UserId: 2,
     Status: "Disponible",
   },
   {
@@ -17,6 +18,7 @@ export const products: Product[] = [
     Price: 1499.99,
     Quantity: 5,
     CategoryId: 3,
+    UserId: 3,
     Status: "Disponible",
   },
   {
@@ -27,6 +29,7 @@ export const products: Product[] = [
     Price: 199.99,
     Quantity: 20,
     CategoryId: 2,
+    UserId: 3,
     Status: "Disponible",
   },
 ];

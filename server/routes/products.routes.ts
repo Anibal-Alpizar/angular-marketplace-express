@@ -1,7 +1,8 @@
 import { Router } from "express";
 import {
-  getProducts,
-  getProduct,
+  getProductsByVendor,
+  getProductByUser,
+  detailsProducts,
   createProduct,
   updateProduct,
   deleteProduct,
@@ -9,9 +10,11 @@ import {
 
 const router = Router();
 
-router.get("/products", getProducts);
+router.get("/products", getProductsByVendor);
 
-router.get("/products/:id", getProduct);
+router.get("/products/:id", getProductByUser);
+
+router.get('/productsDetails/:id', detailsProducts);
 
 router.post("/products", createProduct);
 

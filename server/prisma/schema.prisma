@@ -26,6 +26,7 @@ model User {
   Evaluations    Evaluation[]
   PaymentMethod  PaymentMethod[]
   Purchase       Purchase[]
+  Products       Product[]
 }
 
 model Role {
@@ -79,8 +80,10 @@ model Product {
   Price        Float
   Quantity     Int
   CategoryId   Int
+  UserId       Int
   Status       String
   Category     Category       @relation(fields: [CategoryId], references: [CategoryId])
+  User         User           @relation(fields: [UserId], references: [UserId])
   Photos       Photo[]
   Questions    Question[]
   PurchaseItem PurchaseItem[]

@@ -5,5 +5,6 @@ export interface Product {
   Price: number;
   Quantity: number;
   CategoryId: number;
+  UserId: number;
   Status: string;
 }

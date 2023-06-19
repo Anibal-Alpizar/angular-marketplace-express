@@ -13,4 +13,5 @@ export const roles: Role[] = [
     RoleId: 3,
     RoleName: "Vendor",
   },
+  
 ];

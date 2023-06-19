@@ -3,11 +3,11 @@ import { PurchaseItem } from "../types";
 export const purchaseItems: PurchaseItem[] = [
   {
     PurchaseItemId: 1,
-    PurchaseId: 1,
+    PurchaseId: 3,
     ProductId: 1,
     Quantity: 2,
     Subtotal: 19.98,
-    PurchaseStatus: "Completada"
+    PurchaseStatus: "Cancelada"
   },
   {
     PurchaseItemId: 2,
@@ -23,6 +23,6 @@ export const purchaseItems: PurchaseItem[] = [
     ProductId: 2,
     Quantity: 1,
     Subtotal: 85.0,
-    PurchaseStatus: "Incompleta"
+    PurchaseStatus: "En progreso"
   },
 ];
