@@ -45,13 +45,14 @@ model UserRole {
 }
 
 model PaymentMethod {
-  PaymentMethodId Int      @id
+  PaymentMethodId Int        @id
   UserId          Int // Relación con User
   PaymentType     String
   Provider        String
   AccountNumber   String
   ExpirationDate  DateTime
-  User            User     @relation(fields: [UserId], references: [UserId])
+  User            User       @relation(fields: [UserId], references: [UserId])
+  Purchase        Purchase[]
 }
 
 model Address {
@@ -116,17 +117,19 @@ model Answer {
 }
 
 model Purchase {
-  PurchaseId     Int            @id
-  UserId         Int // Relación con User
-  AddressId      Int
-  TotalAmount    Float
-  TaxAmount      Float
-  PurchaseDate   DateTime
-  PurchaseStatus String
-  User           User           @relation(fields: [UserId], references: [UserId])
-  Address        Address        @relation(fields: [AddressId], references: [AddressId])
-  PurchaseItems  PurchaseItem[]
-  Evaluations    Evaluation[]
+  PurchaseId      Int            @id
+  UserId          Int // Relación con User
+  PaymentMethodId Int // Relación con metodo de pago
+  AddressId       Int
+  TotalAmount     Float
+  TaxAmount       Float
+  PurchaseDate    DateTime
+  PurchaseStatus  String
+  User            User           @relation(fields: [UserId], references: [UserId])
+  Address         Address        @relation(fields: [AddressId], references: [AddressId])
+  PaymentMethod   PaymentMethod  @relation(fields: [PaymentMethodId], references: [PaymentMethodId])
+  PurchaseItems   PurchaseItem[]
+  Evaluations     Evaluation[]
 }
 
 model PurchaseItem {

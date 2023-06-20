@@ -109,6 +109,7 @@ CREATE TABLE `Answer` (
 CREATE TABLE `Purchase` (
     `PurchaseId` INTEGER NOT NULL,
     `UserId` INTEGER NOT NULL,
+    `PaymentMethodId` INTEGER NOT NULL,
     `AddressId` INTEGER NOT NULL,
     `TotalAmount` DOUBLE NOT NULL,
     `TaxAmount` DOUBLE NOT NULL,
@@ -179,6 +180,9 @@ ALTER TABLE `Purchase` ADD CONSTRAINT `Purchase_UserId_fkey` FOREIGN KEY (`UserI
 
 -- AddForeignKey
 ALTER TABLE `Purchase` ADD CONSTRAINT `Purchase_AddressId_fkey` FOREIGN KEY (`AddressId`) REFERENCES `Address`(`AddressId`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Purchase` ADD CONSTRAINT `Purchase_PaymentMethodId_fkey` FOREIGN KEY (`PaymentMethodId`) REFERENCES `PaymentMethod`(`PaymentMethodId`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `PurchaseItem` ADD CONSTRAINT `PurchaseItem_PurchaseId_fkey` FOREIGN KEY (`PurchaseId`) REFERENCES `Purchase`(`PurchaseId`) ON DELETE RESTRICT ON UPDATE CASCADE;

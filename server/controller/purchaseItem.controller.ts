@@ -21,15 +21,7 @@ export const getPurchaseItemByUser = async (req: Request, res: Response) => {
                 }
             },
             include: {
-                Product: {
-                    select: {
-                        ProductId: true,
-                        ProductName: true,
-                        Description: true,
-                        Price: true
-                    }
-                }
-
+                Product: true
             }
         });
 
@@ -62,14 +54,7 @@ export const getPurchaseItemByVendor = async (req: Request, res: Response) => {
                 }
             },
             include: {
-                Product: {
-                    select: {
-                        ProductId: true,
-                        ProductName: true,
-                        Description: true,
-                        Price: true
-                    }
-                }
+                Product: true
 
             }
         });
@@ -103,14 +88,7 @@ export const detailsPurchaseItemByCustomer = async (req: Request, res: Response)
                 }
             },
             include: {
-                Product: {
-                    select: {
-                        ProductId: true,
-                        ProductName: true,
-                        Description: true,
-                        Price: true
-                    }
-                },
+                Product: true,
                 
                 Purchase :{
                     select: {
