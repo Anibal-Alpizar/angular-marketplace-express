@@ -21,7 +21,8 @@ export const getPurchaseItemByUser = async (req: Request, res: Response) => {
                 }
             },
             include: {
-                Product: true
+                Product: true,
+               
             }
         });
 
@@ -92,9 +93,14 @@ export const detailsPurchaseItemByCustomer = async (req: Request, res: Response)
                 
                 Purchase :{
                     select: {
+                        PurchaseId: true,
+                        UserId: true,
+                        PaymentMethodId: true,
+                        AddressId: true,
                         TotalAmount: true,
                         TaxAmount: true,
                         PurchaseDate: true,
+                        PurchaseStatus: true,
                         User: {
                             select: {
                                 PaymentMethod : {

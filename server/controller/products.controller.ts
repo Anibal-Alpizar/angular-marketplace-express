@@ -20,14 +20,7 @@ export const getProductsByVendor = async (req: Request, res: Response) => {
         }
       },
       include: {
-        Products: {
-          select: {
-            ProductId: true,
-            ProductName: true,
-            Description: true,
-            Price: true
-          }
-        }
+        Products: true
       }
     });
 
@@ -59,14 +52,7 @@ export const getProductByUser = async (req: Request, res: Response) => {
         }
       },
       include: {
-        Products: {
-          select: {
-            ProductId: true,
-            ProductName: true,
-            Description: true,
-            Price: true
-          }
-        }
+        Products: true
       }
     });
 
@@ -92,19 +78,18 @@ export const detailsProducts = async (req: Request, res: Response) => {
     const product = await prisma.product.findMany({
       where: {UserId: UserIdId},
       include: {
-        Category: {
-          select: {
-           CategoryName: true
-          },          
-        },
+        Category: true,
         User: {
           select:{
+            UserId: true,
             FullName: true,
-            Answers : {
-              select:{
-                AnswerText: true
-              }
-            }
+            Identification: true,
+            PhoneNumber: true,
+            Email: true,
+            Password: true,
+            IsActive: true,
+            Address: true,
+            Answers : true
 
           }
         }
