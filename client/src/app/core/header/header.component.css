@@ -1,0 +1,24 @@
+.loginbtn {
+  background: linear-gradient(to left, #0073e6 50%, #005cb8 50%) right;
+  background-size: 200%;
+  transition: background-position 0.3s ease;
+}
+
+.loginbtn:hover {
+  background-position: left;
+}
+
+.postbtn {
+  background: linear-gradient(to left, #1c4980 50%, #163a66 50%) right;
+  background-size: 200%;
+  transition: background-position 0.3s ease;
+}
+
+.postbtn:hover {
+  background-position: left;
+}
+
+.iconChange:hover img {
+  transform: translateX(-180%);
+  transition: transform 0.3s ease;
+}

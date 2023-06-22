@@ -1,1 +1,165 @@
-<p>header works!</p>
+<nav>
+  <div class="flex items-center justify-between p-3 border-b">
+    <div class="flex items-center gap-2">
+      <div class="text-xl font-medium text-blue-800">
+        <span class="font-bold text-blue-900">Rio</span> Sur
+      </div>
+      <div class="w-[1px] bg-blue-900 h-10 hidden lg:block"></div>
+      <div class="hidden font-thin leading-4 text-blue-900 lg:block">
+        <p class="text-xs" style="margin-bottom: 0.25rem">MarketPlace</p>
+        <p class="text-xs" style="margin-bottom: 0">Community</p>
+      </div>
+      <div class="hidden xl:block">
+        <div class="flex items-center p-2 border rounded-md bg-slate-100">
+          <i class="fas fa-search w-4 h-4 mr-2"></i>
+          <input
+            type="text"
+            placeholder="Search for products"
+            class="text-blue-900 outline-none w-72 bg-slate-100 placeholder:text-blue-900 placeholder:bg-slate-100"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center">
+      <div class="hidden lg:block">
+        <ul class="flex items-center justify-center text-sm text-blue-900">
+          <li
+            class="text-center pt-2 mr-6 iconChange hover:after:bg-blue-600 hover:after:w-[100%] after:transition-all after:duration-300 after:m-auto after:h-[3px] after:w-0 after:block"
+          >
+            <a href="#">
+              <i
+                class="fas fa-store w-5 h-5 mx-2 transition-all duration-500 text-black"
+              ></i>
+              <div class="">Vendedor</div>
+            </a>
+          </li>
+          <li
+            class="mr-6 text-center pt-2 iconChange hover:after:bg-blue-600 hover:after:w-[100%] after:transition-all after:duration-300 after:m-auto after:h-[3px] after:w-0 after:block"
+          >
+            <a href="#">
+              <i
+                class="fas fa-gamepad w-5 h-5 mx-2 transition-all duration-500 text-black"
+              ></i>
+              <div class="">Todos</div>
+            </a>
+          </li>
+          <li
+            class="mr-6 text-center pt-2 iconChange hover:after:bg-blue-600 hover:after:w-[100%] after:transition-all after:duration-300 after:m-auto after:h-[3px] after:w-0 after:block"
+          >
+            <a href="#">
+              <i
+                class="fas fa-chart-bar w-5 h-5 mx-2 transition-all duration-500 text-black"
+              ></i>
+              <div>Detalle</div>
+            </a>
+          </li>
+          <li
+            class="mr-6 text-center pt-2 iconChange hover:after:bg-blue-600 hover:after:w-[100%] after:transition-all after:duration-300 after:m-auto after:h-[3px] after:w-0 after:block"
+          >
+            <a href="#">
+              <i
+                class="fas fa-lightbulb w-5 h-5 mx-2 transition-all duration-500 text-black"
+              ></i>
+              <div>Pedidos</div>
+            </a>
+          </li>
+          <li
+            class="mr-6 text-center pt-2 iconChange hover:after:bg-blue-600 hover:after:w-[100%] after:transition-all after:duration-300 after:m-auto after:h-[3px] after:w-0 after:block"
+          >
+            <a href="#">
+              <i class="fas fa-briefcase w-5 h-5 mx-2 text-black"></i>
+              <div>Detalle Pedido</div>
+            </a>
+          </li>
+          <li
+            class="mr-6 text-center pt-2 iconChange hover:after:bg-blue-600 hover:after:w-[100%] after:transition-all after:duration-300 after:m-auto after:h-[3px] after:w-0 after:block"
+          >
+            <i class="fas fa-user w-5 h-5 mx-2 text-black"></i>
+            <div>Pedidos Vendedor</div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="xl:hidden">
+        <div
+          class="flex items-center justify-center w-8 h-8 mr-4 rounded-full bg-slate-100"
+        >
+          <i class="fas fa-search w-4 h-4"></i>
+        </div>
+      </div>
+      <div class="flex items-center">
+        <div class="hidden lg:inline-block">
+          <button
+            type="button"
+            class="flex items-center gap-2 px-4 py-1 mx-2 text-white transition-all duration-500 postbtn hover:bg-left rounded-3xl"
+          >
+            <i class="fas fa-store hidden sm:block"></i>
+            New Product
+          </button>
+        </div>
+        <button
+          type="button"
+          class="flex items-center gap-2 px-4 py-1 mr-2 text-white transition-all duration-500 loginbtn hover:bg-left rounded-3xl"
+        >
+          Login
+          <i class="fas fa-sign-in-alt hidden sm:block"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+<nav id="secondNav" class="text-blue-900 lg:hidden">
+  <div class="fixed bottom-0 left-0 right-0 p-2 shadow bg-slate-50">
+    <ul class="flex items-center justify-between">
+      <li>
+        <a href="#">
+          <i
+            class="fas fa-store flex items-center w-5 h-5 mx-auto text-black"
+          ></i>
+          <div class="text-sm">Vendedor</div>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i
+            class="fas fa-gamepad flex items-center w-5 h-5 mx-auto text-black"
+          ></i>
+          <div class="text-sm">Todos</div>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i
+            class="fas fa-chart-bar flex items-center w-5 h-5 mx-auto text-black"
+          ></i>
+          <div class="text-sm">Detalle</div>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i
+            class="fas fa-lightbulb flex items-center w-5 h-5 mx-auto text-black"
+          ></i>
+          <div class="text-sm">Pedidos</div>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i
+            class="fas fa-briefcase flex items-center w-5 h-5 mx-auto text-black"
+          ></i>
+          <div class="text-sm">Detalle Pedido</div>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i
+            class="fas fa-user flex items-center w-5 h-5 mx-auto text-black"
+          ></i>
+          <div class="text-sm">Pedidos Vendedor</div>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
