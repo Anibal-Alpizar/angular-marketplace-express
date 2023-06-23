@@ -59,7 +59,6 @@
   opacity: 0;
 }
 
-
 .dark .dark\:outline-white {
   border-color: #ffffff;
 }
@@ -87,4 +86,14 @@
 .dark .dark\:placeholder-text-gray-400:-moz-placeholder {
   /* Mozilla Firefox 4 to 18 */
   color: #cccccc;
+}
+
+.button-icon .fa-moon {
+  color: #0e2bce;
+  font-size: 1.2rem;
+}
+
+.button-icon .fa-sun {
+  color: #ffd700;
+  font-size: 1.2rem;
 }
