@@ -1,4 +1,4 @@
-<nav id="nav" class="text-blue-900">
+<nav class="text-blue-900">
   <div class="flex items-center justify-between p-3 border-b">
     <div class="flex items-center gap-2">
       <div class="text-xl font-medium text-blue-800">
@@ -20,7 +20,6 @@
         </div>
       </div>
     </div>
-
     <div class="flex items-center">
       <div class="hidden lg:block">
         <ul class="flex items-center justify-center text-sm text-blue-900">
@@ -105,15 +104,15 @@
           Login
           <i class="fas fa-sign-in-alt hidden sm:block"></i>
         </button>
+        <button (click)="toggleDarkMode()" class="text-blue-900 ml-2 mr-2">
+          <i class="fas fa-moon"></i>
+        </button>
       </div>
     </div>
   </div>
-  <button (click)="toggleDarkMode()" class="text-blue-900 ml-2">
-    Cambiar Modo
-  </button>
 </nav>
-<nav id="secondNav" class="text-blue-900 lg:hidden">
-  <div class="fixed bottom-0 left-0 right-0 p-2 shadow mr-3 ml-3 bg-slate-50">
+<nav class="text-blue-900 lg:hidden">
+  <div class="fixed bottom-0 left-0 right-0 p-2 shadow mr-3 ml-3">
     <ul class="flex items-center justify-between">
       <li>
         <a href="#">
