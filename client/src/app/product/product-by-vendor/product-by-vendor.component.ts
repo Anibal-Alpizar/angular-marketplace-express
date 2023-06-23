@@ -13,6 +13,12 @@ export class ProductByVendorComponent implements AfterViewInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   products: any[] = [];
 
+  columns: any[] = [
+    { name: 'Nombre del producto', key: 'ProductName' },
+    { name: 'Descripción', key: 'Description' },
+    { name: 'Precio', key: 'Price' },
+  ];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
