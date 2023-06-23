@@ -1,39 +1,44 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-product-by-vendor',
-//   templateUrl: './product-by-vendor.component.html',
-//   styleUrls: ['./product-by-vendor.component.css']
-// })
-// export class ProductByVendorComponent {
-
-// }
-
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { GenericService } from 'src/app/share/generic.service';
 
 @Component({
   selector: 'app-product-by-vendor',
   templateUrl: './product-by-vendor.component.html',
   styleUrls: ['./product-by-vendor.component.css'],
 })
-export class ProductByVendorComponent implements OnInit {
+export class ProductByVendorComponent implements AfterViewInit {
+  data: any;
+  destroy$: Subject<boolean> = new Subject<boolean>();
   products: any[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private gService: GenericService
+  ) {}
 
-  ngOnInit(): void {
-    this.getProductsByVendor();
+  ngAfterViewInit(): void {
+    this.vendorProductsList();
   }
 
-  getProductsByVendor(): void {
-    this.http.get<any[]>('http://localhost:3000/products').subscribe(
-      (response) => {
-        this.products = response;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+  vendorProductsList() {
+    this.gService
+      .list('/products')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        console.log(data);
+        this.products = data;
+      });
+  }
+  detail(id: number) {
+    this.router.navigate(['/productsDetails', id], {
+      relativeTo: this.route,
+    });
+  }
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }
