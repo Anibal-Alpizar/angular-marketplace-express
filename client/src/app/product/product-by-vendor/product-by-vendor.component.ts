@@ -2,6 +2,8 @@ import { AfterViewInit, Component } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GenericService } from 'src/app/share/generic.service';
+import { Product } from '../interfaces/product';
+import { Column } from '../interfaces/table';
 
 @Component({
   selector: 'app-product-by-vendor',
@@ -9,11 +11,11 @@ import { GenericService } from 'src/app/share/generic.service';
   styleUrls: ['./product-by-vendor.component.css'],
 })
 export class ProductByVendorComponent implements AfterViewInit {
-  data: any;
+  data: Product[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
-  products: any[] = [];
+  products: Product[] = [];
 
-  columns: any[] = [
+  columns: Column[] = [
     { name: 'Nombre del producto', key: 'ProductName' },
     { name: 'Descripción', key: 'Description' },
     { name: 'Precio', key: 'Price' },
@@ -33,8 +35,7 @@ export class ProductByVendorComponent implements AfterViewInit {
     this.gService
       .list('/products')
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data: any) => {
-        console.log(data);
+      .subscribe((data: Product[]) => {
         this.products = data;
       });
   }
