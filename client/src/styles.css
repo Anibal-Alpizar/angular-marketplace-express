@@ -1,3 +1,18 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@layer utilities {
+  .dark-mode {
+    @apply dark;
+  }
+}
+
+.dark {
+  background-color: #191919;
+  color: #fff;
+}
+
+.dark nav {
+  background-color: #191919;
+}
