@@ -9,10 +9,82 @@
 }
 
 .dark {
-  background-color: #191919;
-  color: #fff;
+  background-color: #202020;
+  color: white;
 }
 
 .dark nav {
-  background-color: #191919;
+  background-color: #202020;
+  color: white;
+}
+
+.dark .name-nav-first {
+  color: white;
+}
+
+.dark .name-nav-last {
+  color: #ff6b6b;
+}
+
+.dark p {
+  color: antiquewhite;
+}
+
+.dark .sub-title {
+  background-color: #202020;
+  color: white;
+}
+
+.dark .navicon {
+  color: #ff6b6b;
+}
+
+.dark .iconnav:hover::after {
+  background-color: #ff6b6b;
+}
+
+.dark .dark\:bg-gray-800 {
+  background-color: #333333;
+}
+
+.dark .dark\:text-white {
+  color: #ffffff;
+}
+
+.dark .dark\:placeholder-text-gray-400::placeholder {
+  opacity: 0;
+}
+
+.dark .dark\:placeholder-text-white::placeholder {
+  opacity: 0;
+}
+
+
+.dark .dark\:outline-white {
+  border-color: #ffffff;
+}
+
+.dark .dark\:outline-white:focus {
+  outline-color: #ffffff;
+  box-shadow: 0 0 0 2px #ffffff;
+}
+
+.dark .dark\:placeholder-text-gray-400::-webkit-input-placeholder {
+  /* WebKit browsers */
+  color: #cccccc;
+}
+
+.dark .dark\:placeholder-text-gray-400::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: #cccccc;
+}
+
+.dark .dark\:placeholder-text-gray-400:-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+  color: #cccccc;
+}
+
+.dark .dark\:placeholder-text-gray-400:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: #cccccc;
 }
