@@ -9,26 +9,23 @@ import { ShareModule } from './share/share.module';
 import { HomeModule } from './home/home.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
-import { ProductByVendorComponent } from './product/product-by-vendor/product-by-vendor.component';
-import { ProductByUserComponent } from './product/product-by-user/product-by-user.component';
-import { ProductDetailComponent } from './product/product-detail/product-detail.component';
-import { OrderByUserComponent } from './order/order-by-user/order-by-user.component';
-import { OrderDetailComponent } from './order/order-detail/order-detail.component';
-import { OrderByVendorComponent } from './order/order-by-vendor/order-by-vendor.component';
+import { OrderModule } from './order/order.module';
+import { ProductModule } from './product/product.module';
 
 @NgModule({
-  declarations: [AppComponent, ProductByVendorComponent, ProductByUserComponent, ProductDetailComponent, OrderByUserComponent, OrderDetailComponent, OrderByVendorComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
-    ToastrModule.forRoot(),
     HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
 
     // my modules
     CoreModule,
     ShareModule,
     HomeModule,
-
-    BrowserAnimationsModule,
+    ProductModule,
+    OrderModule,
 
     // my routing
     AppRoutingModule,
