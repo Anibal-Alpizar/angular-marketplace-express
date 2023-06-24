@@ -16,7 +16,7 @@ export class GenericService {
     return this.http.get<any>(this.urlAPI + endPoint);
   }
 
-  get(endPoint: string, filter: any): Observable<any | any[]> {
-    return this.http.get<any | any[]>(this.urlAPI + endPoint + `/${filter}`);
+  get(endPoint: string, userId: number): Observable<any | any[]> {
+    return this.http.get<any | any[]>(`${this.urlAPI}${endPoint}/${userId}`);
   }
 }
