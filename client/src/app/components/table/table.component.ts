@@ -9,5 +9,5 @@ import { Column } from 'src/app/components/interfaces/table';
 })
 export class TableComponent {
   @Input() columns!: Column[];
-  @Input() products!: Product[];
+  @Input() filterProducts: Product[] = [];
 }
