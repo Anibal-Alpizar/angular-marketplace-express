@@ -10,6 +10,7 @@ export const products: Product[] = [
     CategoryId: 1,
     UserId: 2,
     Status: "Disponible",
+    Rating: 4,
   },
   {
     ProductId: 2,
@@ -20,6 +21,7 @@ export const products: Product[] = [
     CategoryId: 3,
     UserId: 3,
     Status: "Disponible",
+    Rating: 3,
   },
   {
     ProductId: 3,
@@ -31,5 +33,6 @@ export const products: Product[] = [
     CategoryId: 2,
     UserId: 3,
     Status: "Disponible",
+    Rating: 1,
   },
 ];

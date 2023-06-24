@@ -7,4 +7,5 @@ export interface Product {
   CategoryId: number;
   UserId: number;
   Status: string;
+  Rating: number;
 }

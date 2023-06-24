@@ -83,6 +83,7 @@ model Product {
   CategoryId   Int
   UserId       Int
   Status       String
+  Rating       Int
   Category     Category       @relation(fields: [CategoryId], references: [CategoryId])
   User         User           @relation(fields: [UserId], references: [UserId])
   Photos       Photo[]

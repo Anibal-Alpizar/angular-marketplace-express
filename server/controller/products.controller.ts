@@ -5,7 +5,6 @@ import { categories } from "../prisma/seeds/categories";
 
 const prisma = new PrismaClient();
 
-
 //Funtion about get all products to only vendor
 export const getProductsByVendor = async (req: Request, res: Response) => {
   let roleId = 3; // ID del Role específico para el vendedor
@@ -15,23 +14,24 @@ export const getProductsByVendor = async (req: Request, res: Response) => {
       where: {
         Roles: {
           some: {
-            RoleId: roleId
-          }
-        }
+            RoleId: roleId,
+          },
+        },
       },
       include: {
-        Products: true
-      }
+        Products: true,
+      },
     });
 
     if (users.length === 0) {
-      return res.status(404).json({ message: "No products found for the specified user role" });
+      return res
+        .status(404)
+        .json({ message: "No products found for the specified user role" });
     }
 
-    const products = users.flatMap(user => user.Products);
+    const products = users.flatMap((user) => user.Products);
 
     res.json(products);
-
   } catch (error) {
     console.log(error);
     res.json(error);
@@ -40,30 +40,32 @@ export const getProductsByVendor = async (req: Request, res: Response) => {
 
 //Funtion about get all products to anything user
 export const getProductByUser = async (req: Request, res: Response) => {
-  let roleId = parseInt(req.params.id); // ID de cualquier Rol 
+  let roleId = parseInt(req.params.id); // ID de cualquier Rol
 
   try {
     const users = await prisma.user.findMany({
       where: {
         Roles: {
           some: {
-            RoleId: roleId
-          }
-        }
+            RoleId: roleId,
+          },
+        },
       },
       include: {
-        Products: true
-      }
+        Products: true,
+      },
     });
 
     if (users.length === 0) {
-      return res.status(404).json({ message: "No products found for the specified user role" });
+      return res.status(404).json({
+        message:
+          "No users found for the specified role or the users do not have any products",
+      });
     }
 
-    const products = users.flatMap(user => user.Products);
+    const products = users.flatMap((user) => user.Products);
 
     res.json(products);
-
   } catch (error) {
     console.log(error);
     res.json(error);
@@ -76,11 +78,11 @@ export const detailsProducts = async (req: Request, res: Response) => {
 
   try {
     const product = await prisma.product.findMany({
-      where: {UserId: UserIdId},
+      where: { UserId: UserIdId },
       include: {
         Category: true,
         User: {
-          select:{
+          select: {
             UserId: true,
             FullName: true,
             Identification: true,
@@ -89,25 +91,24 @@ export const detailsProducts = async (req: Request, res: Response) => {
             Password: true,
             IsActive: true,
             Address: true,
-            Answers : true
-
-          }
-        }
-      }
-      
+            Answers: true,
+          },
+        },
+      },
     });
 
     if (product.length === 0) {
-      return res.status(404).json({ message: "No products found for the specified user role" });
+      return res
+        .status(404)
+        .json({ message: "No products found for the specified user role" });
     }
 
     res.json(product);
-
   } catch (error) {
     console.log(error);
     res.json(error);
   }
-}
+};
 
 export const createProduct = (req: Request, res: Response) => {
   res.send(`Server response: create product`);
