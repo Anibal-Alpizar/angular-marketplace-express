@@ -19,6 +19,8 @@ export class ProductByVendorComponent implements AfterViewInit {
     { name: 'Nombre del producto', key: 'ProductName' },
     { name: 'Descripción', key: 'Description' },
     { name: 'Precio', key: 'Price' },
+    { name: 'Cantidad', key: 'Quantity' },
+    { name: 'Usuario', key: 'UserId' },
   ];
 
   constructor(
