@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Product } from 'src/app/product/interfaces/product';
-import { Column } from 'src/app/product/interfaces/table';
+import { Column } from 'src/app/components/interfaces/table';
 
 @Component({
   selector: 'app-table',

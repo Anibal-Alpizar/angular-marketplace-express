@@ -3,7 +3,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GenericService } from 'src/app/share/generic.service';
 import { Product } from '../interfaces/product';
-import { Column } from '../interfaces/table';
+import { Column } from '../../components/interfaces/table';
 
 @Component({
   selector: 'app-product-by-vendor',
