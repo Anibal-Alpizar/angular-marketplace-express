@@ -9,7 +9,7 @@ import { Product } from '../interfaces/product';
   styleUrls: ['./product-by-user.component.css'],
 })
 export class ProductByUserComponent {
-  data: Product[] = [];
+  res: Product[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
   products: Product[] = [];
   userId: number | null = null;
@@ -26,8 +26,8 @@ export class ProductByUserComponent {
         .get('/products', this.userId)
         .pipe(takeUntil(this.destroy$))
         .subscribe(
-          (data: Product[]) => {
-            this.products = data;
+          (res: Product[]) => {
+            this.products = res;
           },
           (error: any) => {
             console.error('Error: ', error);
