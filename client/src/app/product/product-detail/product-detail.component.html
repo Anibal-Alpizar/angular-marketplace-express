@@ -1,1 +1,8 @@
-<p>product-detail works!</p>
+<h1>Product Detail</h1>
+
+<div *ngIf="data && data.length > 0">
+  <h2>{{ data[0].ProductName }}</h2>
+  <p>{{ data[0].Description }}</p>
+  <p>Price: {{ data[0].Price }}</p>
+  <p>Quantity: {{ data[0].Quantity }}</p>
+</div>
