@@ -20,4 +20,10 @@ export class GenericService {
   get<T>(endPoint: string, userId: number): Observable<T> {
     return this.http.get<T>(`${this.urlAPI}${endPoint}/${userId}`);
   }
+
+  getProductDetails(productId: string): Observable<Product> {
+    const endPoint = `productsdetails/${productId}`;
+    const url = `${this.urlAPI}/${endPoint}`;
+    return this.http.get<Product>(url);
+  }
 }
