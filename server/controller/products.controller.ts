@@ -74,11 +74,11 @@ export const getProductByUser = async (req: Request, res: Response) => {
 
 //Funtion about details to products
 export const detailsProducts = async (req: Request, res: Response) => {
-  let UserIdId = parseInt(req.params.id); // ID de cualquier Users
+  let ProductIdId = parseInt(req.params.id); // ID del producto
 
   try {
     const product = await prisma.product.findMany({
-      where: { UserId: UserIdId },
+      where: { ProductId: ProductIdId },
       include: {
         Category: true,
         User: {
