@@ -91,9 +91,11 @@ export const detailsProducts = async (req: Request, res: Response) => {
             Password: true,
             IsActive: true,
             Address: true,
-            Answers: true,
+            Questions: true,
+            Answers: true
           },
         },
+        
       },
     });
 
