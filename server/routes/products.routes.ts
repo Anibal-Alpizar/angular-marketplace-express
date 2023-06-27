@@ -14,7 +14,7 @@ router.get("/products", getProductsByVendor);
 
 router.get("/products/:id", getProductByUser);
 
-router.get('/productsDetails/:id', detailsProducts);
+router.get('/productsDetails', detailsProducts);
 
 // router.post("/products", createProduct);
 
