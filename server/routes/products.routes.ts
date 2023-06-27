@@ -16,10 +16,10 @@ router.get("/products/:id", getProductByUser);
 
 router.get('/productsDetails/:id', detailsProducts);
 
-router.post("/products", createProduct);
+// router.post("/products", createProduct);
 
-router.put("/products/:id", updateProduct);
+// router.put("/products/:id", updateProduct);
 
-router.delete("/products/:id", deleteProduct);
+// router.delete("/products/:id", deleteProduct);
 
 export default router;
