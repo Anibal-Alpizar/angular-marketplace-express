@@ -17,8 +17,8 @@ export class GenericService {
     return this.http.get<Product[]>(this.urlAPI + endPoint);
   }
 
-  get<T>(endPoint: string, userId: number): Observable<T> {
-    return this.http.get<T>(`${this.urlAPI}${endPoint}/${userId}`);
+  get<T>(endPoint: string): Observable<T> {
+    return this.http.get<T>(`${this.urlAPI}${endPoint}`);
   }
 
   getProductDetails(productId: string): Observable<Product> {

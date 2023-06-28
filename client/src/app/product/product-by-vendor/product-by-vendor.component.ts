@@ -46,7 +46,7 @@ export class ProductByVendorComponent implements AfterViewInit, OnDestroy {
 
   vendorProductsList() {
     this.gService
-      .list('/products')
+      .list('/productsbyvendor')
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: Product[]) => {
         this.products = res;
