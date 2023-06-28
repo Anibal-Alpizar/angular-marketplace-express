@@ -7,5 +7,5 @@ import { Product } from 'src/app/product/interfaces/product';
   styleUrls: ['./card.component.css'],
 })
 export class CardComponent {
-  @Input() products: Product[] = [];
+  @Input() filterProducts: Product[] = [];
 }

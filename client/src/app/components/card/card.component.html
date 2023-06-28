@@ -2,7 +2,7 @@
   class="card-container grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
 >
   <div
-    *ngFor="let product of products"
+    *ngFor="let product of filterProducts"
     class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
   >
     <!-- <a [routerLink]="['/productsDetails', product?.ProductId]">
@@ -26,6 +26,10 @@
         >
           {{ product?.ProductName }}
         </h5>
+        <span
+          class="text-sm font-medium tracking-tight text-gray-600 dark:text-gray-400"
+          >{{ product?.Status }}</span
+        >
       </a>
       <div class="flex items-center mt-2.5 mb-5">
         <svg
