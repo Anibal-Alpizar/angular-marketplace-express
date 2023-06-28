@@ -10,11 +10,11 @@ import {
 
 const router = Router();
 
-router.get("/products", getProductsByVendor);
+router.get("/productsByVendor", getProductsByVendor);
 
-router.get("/products/:id", getProductByUser);
+router.get("/productsByUsers", getProductByUser);
 
-router.get('/productsDetails', detailsProducts);
+router.get('/productsDetails/:id', detailsProducts);
 
 // router.post("/products", createProduct);
 

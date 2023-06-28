@@ -40,17 +40,17 @@ export const getProductsByVendor = async (req: Request, res: Response) => {
 
 //Funtion about get all products to anything user
 export const getProductByUser = async (req: Request, res: Response) => {
-  let roleId = parseInt(req.params.id); // ID de cualquier Rol
+  //let roleId = parseInt(req.params.id); // ID de cualquier Rol
 
   try {
     const users = await prisma.user.findMany({
-      where: {
-        Roles: {
-          some: {
-            RoleId: roleId,
-          },
-        },
-      },
+      // where: {
+      //   Roles: {
+      //     some: {
+      //       RoleId: roleId,
+      //     },
+      //   },
+      // },
       include: {
         Products: true,
       },
@@ -74,11 +74,11 @@ export const getProductByUser = async (req: Request, res: Response) => {
 
 //Funtion about details to products
 export const detailsProducts = async (req: Request, res: Response) => {
-//  let ProductIdId = parseInt(req.params.id); // ID del producto
+  let ProductIdId = parseInt(req.params.id); // ID del producto
 
   try {
     const product = await prisma.product.findMany({
-     // where: { ProductId: ProductIdId },
+      where: { ProductId: ProductIdId },
       include: {
         Category: true,
         User: {
@@ -91,11 +91,21 @@ export const detailsProducts = async (req: Request, res: Response) => {
             Password: true,
             IsActive: true,
             Address: true,
-            Questions: true,
             Answers: true
           },
         },
-        
+        Questions: {
+          select: {
+            QuestionText: true,
+            User: {
+              select: {
+                FullName: true,
+                Email: true
+
+              }
+            }
+          }
+        }
       },
     });
 
