@@ -285,7 +285,7 @@
               >
                 <img
                   class="mr-2 w-6 h-6 rounded-full"
-                  [src]="question.User.Avatar"
+                  src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
                   alt="{{ question.User.FullName }}"
                 />
                 {{ question.User.FullName }}
@@ -302,6 +302,36 @@
             {{ question.QuestionText }}
           </p>
         </article>
+        <ng-container *ngFor="let answer of question.Answers">
+          <article
+            class="p-6 mb-6 ml-6 lg:ml-12 text-base bg-white rounded-lg dark:bg-gray-900"
+          >
+            <footer class="flex justify-between items-center mb-2">
+              {{ data[0].User.FullName }}
+              <div class="flex items-center" *ngIf="answer.User">
+                <p
+                  class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white"
+                >
+                  <img
+                    class="mr-2 w-6 h-6 rounded-full"
+                    src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
+                    alt="{{ answer.User.FullName }}"
+                  />
+                  {{ answer.User.FullName }}
+                </p>
+              </div>
+            </footer>
+            <p class="text-gray-500 dark:text-gray-400">
+              {{ answer.AnswerText }}
+            </p>
+            <div class="flex items-center mt-4 space-x-4">
+              <button
+                type="button"
+                class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400"
+              ></button>
+            </div>
+          </article>
+        </ng-container>
       </ng-container>
     </div>
   </section>
