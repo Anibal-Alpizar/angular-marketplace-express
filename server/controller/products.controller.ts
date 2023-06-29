@@ -101,9 +101,9 @@ export const detailsProducts = async (req: Request, res: Response) => {
               select: {
                 FullName: true,
                 Email: true
-
               }
-            }
+            },
+            Answers: true 
           }
         }
       },
@@ -121,6 +121,7 @@ export const detailsProducts = async (req: Request, res: Response) => {
     res.json(error);
   }
 };
+
 
 export const createProduct = (req: Request, res: Response) => {
   res.send(`Server response: create product`);
