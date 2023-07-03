@@ -21,7 +21,11 @@ export const getPurchaseItemByUser = async (req: Request, res: Response) => {
                 }
             },
             include: {
-                Product: true,
+                Product: {
+                    select: {
+                        UserId: true
+                    }
+                }
                
             }
         });

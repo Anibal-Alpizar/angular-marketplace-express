@@ -5,11 +5,13 @@ import {getPurchaseItemByUser,
 
 const router = Router();
 
-router.get('/purchaseItem/:id', getPurchaseItemByUser);
+
+router.get('/purchaseItem/', getPurchaseItemByUser);
+
+router.get('/purchaseItemDetailsByCustomer/:id', detailsPurchaseItemByCustomer);
 
 router.get('/purchaseItemByVendor', getPurchaseItemByVendor);
 
-router.get('/purchaseItemDetailsByCustomer', detailsPurchaseItemByCustomer);
 
 export default router;
 
