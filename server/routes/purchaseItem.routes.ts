@@ -6,7 +6,7 @@ import {getPurchaseItemByUser,
 const router = Router();
 
 
-router.get('/purchaseItem/', getPurchaseItemByUser);
+router.get('/purchaseItem', getPurchaseItemByUser);
 
 router.get('/purchaseItemDetailsByCustomer/:id', detailsPurchaseItemByCustomer);
 

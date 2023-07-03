@@ -21,9 +21,20 @@ export const getPurchaseItemByUser = async (req: Request, res: Response) => {
                 }
             },
             include: {
-                Product: {
+                Product:{
                     select: {
-                        UserId: true
+                        ProductId: true,
+                        ProductName: true,
+                        Price:true,
+                        Description: true,
+                        User: {
+                            select: {
+                                UserId: true,
+                                FullName: true,
+                                Email: true,
+                                Addresses: true
+                            }
+                        }
                     }
                 }
                
@@ -77,21 +88,11 @@ export const getPurchaseItemByVendor = async (req: Request, res: Response) => {
 
 //Funtion about details to products by customer
 export const detailsPurchaseItemByCustomer = async (req: Request, res: Response) => {
-    let id = 2;
+    let id = parseInt(req.params.id);
 
     try {
         const purchaseItem = await prisma.purchaseItem.findMany({
-            where: {
-                Purchase: {
-                   User: {
-                    Roles: {
-                        some: {
-                            RoleId: id
-                        }
-                    }
-                   }
-                }
-            },
+            where: {PurchaseItemId: id },
             include: {
                 Product: true,
                 

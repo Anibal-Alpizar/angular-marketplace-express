@@ -19,7 +19,7 @@ export const paymentMethods: PaymentMethod[] = [
   },
   {
     PaymentMethodId: 3,
-    UserId: 1,
+    UserId: 3,
     PaymentType: "Transferencia bancaria",
     Provider: "Banco ABC",
     AccountNumber: "1234567890",
