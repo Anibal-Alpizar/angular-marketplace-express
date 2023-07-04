@@ -5,6 +5,7 @@ import { PageNotFoundComponent } from './core/page-not-found/page-not-found.comp
 import { ProductByVendorComponent } from './product/product-by-vendor/product-by-vendor.component';
 import { ProductByUserComponent } from './product/product-by-user/product-by-user.component';
 import { ProductDetailComponent } from './product/product-detail/product-detail.component';
+import { OrderByUserComponent } from './order/order-by-user/order-by-user.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'product-by-vendor', component: ProductByVendorComponent },
   { path: 'products/all', component: ProductByUserComponent },
   { path: 'product/:id', component: ProductDetailComponent },
+  { path: 'orders', component: OrderByUserComponent },
 ];
 
 @NgModule({
