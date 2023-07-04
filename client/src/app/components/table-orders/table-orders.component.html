@@ -9,7 +9,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let order of filterOrders" class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+      <tr *ngFor="let order of filterOrders"
+        class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600">
         <td *ngFor="let columna of columns" class="px-6 py-4">
           <ng-container *ngIf="columna.key === 'UserId'">
             {{ order.Product.User.FullName }}
