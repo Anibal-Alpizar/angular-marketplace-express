@@ -16,4 +16,10 @@ export class OrdersService {
   list(endPoint: string): Observable<Order[]> {
     return this.http.get<Order[]>(this.urlAPI + endPoint);
   }
+
+  getOrderDetails(OrderId: string): Observable<Order> {
+    const endPoint = `purchaseItemDetailsByCustomer/${OrderId}`;
+    const url = `${this.urlAPI}/${endPoint}`;
+    return this.http.get<Order>(url);
+  }
 }
