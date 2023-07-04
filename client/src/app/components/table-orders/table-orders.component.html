@@ -1,0 +1,41 @@
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th *ngFor="let column of columns" scope="col" class="px-6 py-3">
+          {{ column.name }}
+        </th>
+        <th scope="col" class="px-6 py-3"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of filterOrders" class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+        <td *ngFor="let columna of columns" class="px-6 py-4">
+          <ng-container *ngIf="columna.key === 'UserId'">
+            {{ order.Product.User.FullName }}
+          </ng-container>
+          <ng-container *ngIf="columna.key === 'ProductId'">
+            {{ order.Product.ProductName }}
+          </ng-container>
+          <ng-container *ngIf="columna.key === 'PurchaseStatus'">
+            <div class="flex items-center">
+              <div [ngClass]="{
+          'h-2.5 w-2.5 rounded-full mr-2': true,
+          'bg-green-500': order.PurchaseStatus === 'Completada',
+          'bg-yellow-500': order.PurchaseStatus === 'En progreso'
+        }"></div>
+              {{ order.PurchaseStatus }}
+            </div>
+          </ng-container>
+          <ng-container
+            *ngIf="columna.key !== 'UserId' && columna.key !== 'ProductId' && columna.key !== 'PurchaseStatus'">
+            {{ order[columna.key] }}
+          </ng-container>
+        </td>
+        <td class="px-6 py-4">
+          <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ver detalles</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
