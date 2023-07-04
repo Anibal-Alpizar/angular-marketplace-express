@@ -8,7 +8,7 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { GenericService } from 'src/app/share/generic.service';
 import { Product } from '../interfaces/product';
-import { Column } from '../../components/interfaces/table';
+import { Column } from '../../components/interfaces/tableUser';
 
 @Component({
   selector: 'app-product-by-vendor',
