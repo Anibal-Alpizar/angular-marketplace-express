@@ -1,4 +1,4 @@
-import { Product } from "../../product/interfaces/product";
+import { Product } from '../../product/interfaces/product';
 
 export interface Column {
   name: string;
