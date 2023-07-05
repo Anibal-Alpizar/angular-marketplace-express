@@ -91,7 +91,7 @@ export const detailsProducts = async (req: Request, res: Response) => {
             Password: true,
             IsActive: true,
             Address: true,
-            Answers: true
+            Answers: true,
           },
         },
         Questions: {
@@ -100,12 +100,12 @@ export const detailsProducts = async (req: Request, res: Response) => {
             User: {
               select: {
                 FullName: true,
-                Email: true
-              }
+                Email: true,
+              },
             },
-            Answers: true 
-          }
-        }
+            Answers: true,
+          },
+        },
       },
     });
 
@@ -121,7 +121,6 @@ export const detailsProducts = async (req: Request, res: Response) => {
     res.json(error);
   }
 };
-
 
 export const createProduct = (req: Request, res: Response) => {
   res.send(`Server response: create product`);
