@@ -11,21 +11,21 @@ export const getPurchaseItemByUser = async (req: Request, res: Response) => {
         const purchaseItem = await prisma.purchaseItem.findMany({
             where: {
                 Purchase: {
-                   User: {
-                    Roles: {
-                        some: {
-                            RoleId: id
+                    User: {
+                        Roles: {
+                            some: {
+                                RoleId: id
+                            }
                         }
                     }
-                   }
                 }
             },
             include: {
-                Product:{
+                Product: {
                     select: {
                         ProductId: true,
                         ProductName: true,
-                        Price:true,
+                        Price: true,
                         Description: true,
                         User: {
                             select: {
@@ -36,8 +36,27 @@ export const getPurchaseItemByUser = async (req: Request, res: Response) => {
                             }
                         }
                     }
+                },
+                Purchase: {
+                    select: {
+                        PurchaseId: true,
+                        UserId: true,
+                        PaymentMethodId: true,
+                        AddressId: true,
+                        TotalAmount: true,
+                        TaxAmount: true,
+                        PurchaseDate: true,
+                        PurchaseStatus: true,
+                        User: {
+                            select: {
+                                UserId: true,
+                                FullName: true,
+                                Email: true,
+                                Addresses: true
+                            }
+                        }
+                    }
                 }
-               
             }
         });
 

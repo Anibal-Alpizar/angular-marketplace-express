@@ -15,7 +15,7 @@ export class OrderByUserComponent implements AfterViewInit, OnDestroy {
   orders: Order[] = [];
 
   columns: Column[] = [
-    { name: 'Usuario', key: 'UserId' },
+    { name: 'Comprador', key: 'UserId' },
     { name: 'Producto', key: 'ProductId' },
     { name: 'Cantidad', key: 'Quantity' },
     { name: 'Estado', key: 'PurchaseStatus' },

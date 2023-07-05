@@ -6,6 +6,7 @@
           {{ column.name }}
         </th>
         <th scope="col" class="px-6 py-3"></th>
+        <th scope="col" class="px-6 py-3"></th>
       </tr>
     </thead>
     <tbody>
@@ -13,7 +14,7 @@
         class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600">
         <td *ngFor="let columna of columns" class="px-6 py-4">
           <ng-container *ngIf="columna.key === 'UserId'">
-            {{ order.Product.User.FullName }}
+            {{ order.Purchase.User.FullName }}
           </ng-container>
           <ng-container *ngIf="columna.key === 'ProductId'">
             {{ order.Product.ProductName }}
@@ -37,7 +38,18 @@
           <a [routerLink]="['/orders', order?.PurchaseItemId]"
             class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ver detalles</a>
         </td>
+        <td class="px-6 py-4">
+          <a [routerLink]="['/product', order.Product.ProductId]"
+            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+            <i class="fas fa-eye">
+            </i>
+          </a>
+        </td>
       </tr>
+
+
+
+
     </tbody>
   </table>
 </div>
