@@ -196,6 +196,8 @@ export const detailsPurchaseItemByCustomer = async (
         .json({ message: "No products found for the specified user role" });
     }
 
+    
+
     res.json(purchaseItem);
   } catch (error) {
     console.log(error);
