@@ -12,32 +12,35 @@
     <tbody>
       <tr *ngFor="let order of filterOrders"
         class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600">
-        <td *ngFor="let columna of columns" class="px-6 py-4">
+        <td *ngFor="let columna of columns" class="px-6 py-4 text-center align-middle">
           <ng-container *ngIf="columna.key === 'UserId'">
-            {{ order.Purchase.User.FullName }}
+            {{ order?.User?.FullName }}
           </ng-container>
           <ng-container *ngIf="columna.key === 'ProductId'">
-            {{ order.Product.ProductName }}
+            {{ getProductNames(order) }}
+          </ng-container>
+          <ng-container *ngIf="columna.key === 'Quantity'">
+            {{ getProductQuantities(order) }}
           </ng-container>
           <ng-container *ngIf="columna.key === 'PurchaseStatus'">
             <div class="flex items-center">
               <div [ngClass]="{
-          'h-2.5 w-2.5 rounded-full mr-2': true,
-          'bg-green-500': order.PurchaseStatus === 'Completada',
-          'bg-yellow-500': order.PurchaseStatus === 'En progreso'
-        }"></div>
-              {{ order.PurchaseStatus }}
+                  'h-2.5 w-2.5 rounded-full mr-2': true,
+                  'bg-green-500': order?.PurchaseStatus === 'Completada',
+                  'bg-yellow-500': order?.PurchaseStatus === 'En progreso'
+                }"></div>
+              {{ order?.PurchaseStatus }}
             </div>
           </ng-container>
           <ng-container
-            *ngIf="columna.key !== 'UserId' && columna.key !== 'ProductId' && columna.key !== 'PurchaseStatus'">
+            *ngIf="columna.key !== 'UserId' && columna.key !== 'ProductId' && columna.key !== 'Quantity' && columna.key !== 'PurchaseStatus'">
             {{ order[columna.key] }}
           </ng-container>
         </td>
         <td class="px-6 py-4">
-          <a [routerLink]="['/orders', order?.PurchaseItemId]"
-            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ver detalles</a>
-        </td>
+         <td class="px-6 py-4">
+    <a [routerLink]="getOrderDetailsLink(order)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ver detalles</a>
+  </td>
       </tr>
     </tbody>
   </table>

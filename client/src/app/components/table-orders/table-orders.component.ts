@@ -10,4 +10,21 @@ import { Column } from 'src/app/components/interfaces/tableOrder';
 export class TableOrdersComponent {
   @Input() columns!: Column[];
   @Input() filterOrders: Order[] = [];
+
+  getProductNames(order: Order): string {
+    const purchaseItems = order?.PurchaseItems || [];
+    const productNames = purchaseItems.map((item) => item.Product?.ProductName);
+    return productNames.join(' - ');
+  }
+
+  getProductQuantities(order: Order): string {
+    const purchaseItems = order?.PurchaseItems || [];
+    const quantities = purchaseItems.map((item) => item.Quantity);
+    return quantities.join(' - ');
+  }
+
+  getOrderDetailsLink(order: Order): any[] {
+    const purchaseItemId = order?.PurchaseItems?.[0]?.PurchaseItemId;
+    return ['/orders', purchaseItemId];
+  }
 }
