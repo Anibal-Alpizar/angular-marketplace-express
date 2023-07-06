@@ -31,4 +31,14 @@ export const addresses: Address[] = [
     Phone: "567891234",
     UserId: 3,
   },
+  {
+    AddressId: 4,
+    Province: "Cartago",
+    Canton: "Cartago",
+    District: "Oriental",
+    ExactAddress: "Calle 3, Casa 89",
+    PostalCode: "30101",
+    Phone: "432198765",
+    UserId: 1,
+  }
 ];

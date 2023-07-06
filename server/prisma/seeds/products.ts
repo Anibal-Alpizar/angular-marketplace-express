@@ -35,4 +35,15 @@ export const products: Product[] = [
     Status: "Disponible",
     Rating: 1,
   },
+  {
+    ProductId: 4,
+    ProductName: "Smartphone",
+    Description: "Un smartphone de alta gama para tus necesidades",
+    Price: 799.99,
+    Quantity: 15,
+    CategoryId: 3,
+    UserId: 2,
+    Status: "Disponible",
+    Rating: 5,
+  },
 ];

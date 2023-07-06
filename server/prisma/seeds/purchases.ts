@@ -31,4 +31,14 @@ export const purchases: Purchase[] = [
     PurchaseDate: "2023-05-15T11:20:00Z",
     PurchaseStatus: "Cancelada",
   },
+  {
+    PurchaseId: 4,
+    UserId: 1,
+    PaymentMethodId: 2,
+    AddressId: 4,
+    TotalAmount: 799.99,
+    TaxAmount: 80.0,
+    PurchaseDate: "2023-05-20T10:00:00Z",
+    PurchaseStatus: "En progreso",
+  }
 ];
