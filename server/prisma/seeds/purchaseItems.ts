@@ -21,7 +21,7 @@ export const purchaseItems: PurchaseItem[] = [
     PurchaseItemId: 3,
     PurchaseId: 2,
     ProductId: 2,
-    Quantity: 1,
+    Quantity: 2,
     Subtotal: 85.0,
     PurchaseStatus: "En progreso"
   },
