@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { OrdersService } from 'src/app/share/orders.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-order-detail',
@@ -11,6 +12,17 @@ import { OrdersService } from 'src/app/share/orders.service';
 export class OrderDetailComponent {
   data: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
+
+  formatDate(dateString: string): string {
+    if (!dateString) {
+      return 'No hay fecha registrada para esta orden';
+    }
+
+    const formattedDate = moment(dateString).format(
+      'Do MMM YYYY [a las] hh:mm A'
+    );
+    return formattedDate;
+  }
 
   constructor(private gService: OrdersService, private route: ActivatedRoute) {
     let id = this.route.snapshot.paramMap.get('id');
