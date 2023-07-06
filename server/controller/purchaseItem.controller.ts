@@ -4,11 +4,12 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 //Funtion about list purchaseItem for users
+
 export const getPurchaseItemByUser = async (req: Request, res: Response) => {
   let id = 2;
 
   try {
-    const purchaseItem = await prisma.purchaseItem.findMany({
+    const purchaseItems = await prisma.purchaseItem.findMany({
       where: {
         Purchase: {
           User: {
@@ -60,18 +61,33 @@ export const getPurchaseItemByUser = async (req: Request, res: Response) => {
       },
     });
 
-    if (purchaseItem.length === 0) {
+    if (purchaseItems.length === 0) {
       return res
         .status(404)
         .json({ message: "No products found for the specified user role" });
     }
 
-    res.json(purchaseItem);
+    // Agrupar los productos por la orden de compra (Purchase)
+    const purchaseOrders: { [key: number]: any } = purchaseItems.reduce((acc: { [key: number]: any }, purchaseItem) => {
+      const purchaseId = purchaseItem.Purchase.PurchaseId;
+      if (!acc[purchaseId]) {
+        acc[purchaseId] = {
+          ...(purchaseItem.Purchase as any),
+          PurchaseItems: [],
+        };
+      }
+      acc[purchaseId].PurchaseItems.push(purchaseItem);
+      return acc;
+    }, {});
+    
+
+    res.json(Object.values(purchaseOrders));
   } catch (error) {
     console.log(error);
     res.json(error);
   }
 };
+
 
 //Funtion about list purchaseItem for vendor
 export const getPurchaseItemByVendor = async (req: Request, res: Response) => {
