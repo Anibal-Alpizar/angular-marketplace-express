@@ -41,7 +41,7 @@
         <td class="px-6 py-4">
           <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
             *ngFor="let purchaseItem of order.PurchaseItems; let last = last"
-            [routerLink]="['/orders', purchaseItem.Purchase?.PurchaseId]">
+            [routerLink]="['/orders', purchaseItem.Purchase.PurchaseId]">
             <ng-container *ngIf="last">Ver detalles</ng-container>
           </a>
         </td>
