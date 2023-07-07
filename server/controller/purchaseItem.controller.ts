@@ -132,7 +132,9 @@ export const detailsPurchaseItemByCustomer = async (
 
   try {
     const purchaseItem = await prisma.purchaseItem.findMany({
-      where: { PurchaseItemId: id },
+      where: { 
+        PurchaseId: id
+      },
       include: {
         Product: {
           select: {
