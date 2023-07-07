@@ -22,9 +22,4 @@ export class TableOrdersComponent {
     const quantities = purchaseItems.map((item) => item.Quantity);
     return quantities.join(' - ');
   }
-
-  getOrderDetailsLink(order: Order): any[] {
-    const purchaseItemId = order?.PurchaseItems?.[0]?.PurchaseItemId;
-    return ['/orders', purchaseItemId];
-  }
 }

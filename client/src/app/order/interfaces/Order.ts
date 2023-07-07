@@ -120,7 +120,3 @@ export interface Order {
     }[];
   };
 }
-
-export interface TableOrderComponent {
-  orders: Order[];
-}
