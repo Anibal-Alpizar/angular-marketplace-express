@@ -12,6 +12,8 @@ import * as moment from 'moment';
 export class OrderDetailComponent {
   data: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  totalPrice: number = 0;
+  totalTaxes: number = 0;
 
   formatDate(dateString: string): string {
     if (!dateString) {
@@ -38,8 +40,17 @@ export class OrderDetailComponent {
       .subscribe((data: any) => {
         console.log(data);
         this.data = data;
+        this.totalPrice = this.data.reduce(
+          (sum: number, item: any) => sum + item.Product.Price * item.Quantity,
+          0
+        );
+        this.totalTaxes = this.data.reduce(
+          (sum: number, item: any) => sum + item.Purchase.TaxAmount,
+          0
+        );
       });
   }
+
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
