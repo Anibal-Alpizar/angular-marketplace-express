@@ -24,7 +24,7 @@ export class OrderByVendorComponent implements AfterViewInit, OnDestroy {
   @ViewChild('searchInput', { static: false })
   searchInput!: ElementRef<HTMLInputElement>;
 
-  columns: string[] = ['Vendedor','Producto', 'Cantidad', 'Precio'];
+  columns: string[] = ['Vendedor', 'Producto', 'Cantidad', 'Precio'];
 
   constructor(private gService: OrdersService) {}
 
@@ -49,7 +49,31 @@ export class OrderByVendorComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-  searchOrder() {}
+  searchOrder() {
+    this.filterOrders = this.orders.filter((order) => {
+      const matchesVendor = order.PurchaseItems.some((item) =>
+        item.Product.User.FullName.toLowerCase().includes(
+          this.searchText.toLowerCase()
+        )
+      );
+
+      const matchesProduct = order.PurchaseItems.some((item) =>
+        item.Product.ProductName.toLowerCase().includes(
+          this.searchText.toLowerCase()
+        )
+      );
+
+      const matchesQuantity = order.PurchaseItems.some((item) =>
+        item.Quantity.toString().includes(this.searchText)
+      );
+
+      const matchesPrice = order.PurchaseItems.some((item) =>
+        item.Product.Price.toString().includes(this.searchText)
+      );
+
+      return matchesVendor || matchesProduct || matchesQuantity || matchesPrice;
+    });
+  }
 
   focusSearchInput() {
     setTimeout(() => {
