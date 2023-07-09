@@ -7,6 +7,7 @@ import { ProductByUserComponent } from './product/product-by-user/product-by-use
 import { ProductDetailComponent } from './product/product-detail/product-detail.component';
 import { OrderByUserComponent } from './order/order-by-user/order-by-user.component';
 import { OrderDetailComponent } from './order/order-detail/order-detail.component';
+import { OrderByVendorComponent } from './order/order-by-vendor/order-by-vendor.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'product/:id', component: ProductDetailComponent },
   { path: 'orders', component: OrderByUserComponent },
   { path: 'orders/:id', component: OrderDetailComponent },
+  { path: 'orders-by-vendor', component: OrderByVendorComponent },
 ];
 
 @NgModule({
