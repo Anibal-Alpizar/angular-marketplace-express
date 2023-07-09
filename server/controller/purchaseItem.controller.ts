@@ -91,34 +91,54 @@ export const getPurchaseItemByUser = async (req: Request, res: Response) => {
 
 //Funtion about list purchaseItem for vendor
 export const getPurchaseItemByVendor = async (req: Request, res: Response) => {
-  let vendorId = 2; 
+  const vendorId = 2; 
 
   try {
-    const purchaseItem = await prisma.purchaseItem.findMany({
+    const orders = await prisma.purchase.findMany({
       where: {
-        Product: {
-          User: {
-            UserId: vendorId,
+        PurchaseItems: {
+          some: {
+            Product: {
+              User: {
+                UserId: vendorId,
+              },
+            },
           },
         },
       },
       include: {
-        Product: true,
+        PurchaseItems: {
+          include: {
+            Product: {
+              include: {
+                User: true,
+              },
+            },
+          },
+        },
       },
     });
 
-    if (purchaseItem.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No products found for the specified vendor" });
+    const filteredOrders = orders.map(order => {
+      const filteredPurchaseItems = order.PurchaseItems.filter(item => item.Product.User.UserId === vendorId);
+      return { ...order, PurchaseItems: filteredPurchaseItems };
+    });
+
+    if (filteredOrders.length === 0) {
+      return res.status(404).json({ message: "No orders found for the specified vendor" });
     }
 
-    res.json(purchaseItem);
+    res.json(filteredOrders);
   } catch (error) {
     console.log(error);
     res.json(error);
   }
 };
+
+
+
+
+
 
 export const detailsPurchaseItemByCustomer = async (
   req: Request,
