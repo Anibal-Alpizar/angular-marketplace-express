@@ -11,6 +11,7 @@ export const products: Product[] = [
     UserId: 2,
     Status: "Disponible",
     Rating: 4,
+    ImgURL: "https://m.media-amazon.com/images/I/61eJqo1S-LS._AC_SX679_.jpg",
   },
   {
     ProductId: 2,
@@ -22,6 +23,7 @@ export const products: Product[] = [
     UserId: 3,
     Status: "Disponible",
     Rating: 3,
+    ImgURL: "https://m.media-amazon.com/images/I/414GQ37yPiL._AC_.jpg",
   },
   {
     ProductId: 3,
@@ -34,6 +36,7 @@ export const products: Product[] = [
     UserId: 3,
     Status: "Disponible",
     Rating: 1,
+    ImgURL: "https://m.media-amazon.com/images/I/51VmaPtzeTL._AC_SX679_.jpg",
   },
   {
     ProductId: 4,
@@ -45,5 +48,7 @@ export const products: Product[] = [
     UserId: 2,
     Status: "Disponible",
     Rating: 5,
+    ImgURL: "https://m.media-amazon.com/images/I/6139eFMd4zL._AC_SX522_.jpg",
   },
 ];
+
