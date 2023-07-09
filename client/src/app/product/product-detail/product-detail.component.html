@@ -112,7 +112,9 @@
               >
                 {{ data[0].ProductName }}
               </h2>
-              <span class="text-sm text-gray-700 dark:text-gray-300">{{
+              <span class="text-sm text-gray-700 dark:text-gray-300">
+                ({{ data[0].User.UserId}})
+                {{
                 data[0].User.FullName
               }}</span>
               -

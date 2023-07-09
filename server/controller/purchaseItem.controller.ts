@@ -91,18 +91,14 @@ export const getPurchaseItemByUser = async (req: Request, res: Response) => {
 
 //Funtion about list purchaseItem for vendor
 export const getPurchaseItemByVendor = async (req: Request, res: Response) => {
-  let id = 3;
+  let vendorId = 2; 
 
   try {
     const purchaseItem = await prisma.purchaseItem.findMany({
       where: {
-        Purchase: {
+        Product: {
           User: {
-            Roles: {
-              some: {
-                RoleId: id,
-              },
-            },
+            UserId: vendorId,
           },
         },
       },
@@ -114,7 +110,7 @@ export const getPurchaseItemByVendor = async (req: Request, res: Response) => {
     if (purchaseItem.length === 0) {
       return res
         .status(404)
-        .json({ message: "No products found for the specified user role" });
+        .json({ message: "No products found for the specified vendor" });
     }
 
     res.json(purchaseItem);
