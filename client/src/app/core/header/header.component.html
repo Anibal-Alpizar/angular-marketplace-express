@@ -12,15 +12,10 @@
       </div>
       <div class="hidden xl:block">
         <div class="hidden xl:block">
-          <div
-            class="flex items-center p-2 border rounded-md bg-slate-100 dark:bg-gray-800 dark:text-white"
-          >
+          <div class="flex items-center p-2 border rounded-md bg-slate-100 dark:bg-gray-800 dark:text-white">
             <i class="icon-nav fas fa-search w-4 h-4 mr-2"></i>
-            <input
-              type="text"
-              placeholder="Search for products"
-              class="text-blue-900 outline-none w-72 bg-slate-100 placeholder:text-blue-900 placeholder:bg-slate-100 dark:bg-gray-800 dark:text-white dark:placeholder-text-gray-400"
-            />
+            <input type="text" placeholder="Search for products"
+              class="text-blue-900 outline-none w-72 bg-slate-100 placeholder:text-blue-900 placeholder:bg-slate-100 dark:bg-gray-800 dark:text-white dark:placeholder-text-gray-400" />
           </div>
         </div>
       </div>
@@ -29,74 +24,56 @@
       <div class="hidden lg:block">
         <ul class="flex items-center justify-center text-sm text-blue-900">
           <li
-            class="iconnav text-center pt-2 mr-6 iconChange hover:after:bg-blue-600 hover:after:w-[100%] after:transition-all after:duration-300 after:m-auto after:h-[3px] after:w-0 after:block"
-          >
+            class="iconnav text-center pt-2 mr-6 iconChange hover:after:bg-blue-600 hover:after:w-[100%] after:transition-all after:duration-300 after:m-auto after:h-[3px] after:w-0 after:block">
             <a routerLink="/product-by-vendor">
-              <i
-                class="navicon fas fa-store w-5 h-5 mx-2 transition-all duration-500 text-blue-900"
-              ></i>
+              <i class="navicon fas fa-store w-5 h-5 mx-2 transition-all duration-500 text-blue-900"></i>
               <div class="sub-title">Vendedor</div>
             </a>
           </li>
           <li
-            class="iconnav a mr-6 text-center pt-2 iconChange hover:after:bg-blue-600 hover:after:w-[100%] after:transition-all after:duration-300 after:m-auto after:h-[3px] after:w-0 after:block"
-          >
+            class="iconnav a mr-6 text-center pt-2 iconChange hover:after:bg-blue-600 hover:after:w-[100%] after:transition-all after:duration-300 after:m-auto after:h-[3px] after:w-0 after:block">
             <a routerLink="/products/all">
-              <i
-                class="navicon fas fa-gamepad w-5 h-5 mx-2 transition-all duration-500 text-blue-900"
-              ></i>
+              <i class="navicon fas fa-gamepad w-5 h-5 mx-2 transition-all duration-500 text-blue-900"></i>
               <div class="sub-title">Todos</div>
             </a>
           </li>
           <li
-            class="iconnav mr-6 text-center pt-2 iconChange hover:after:bg-blue-600 hover:after:w-[100%] after:transition-all after:duration-300 after:m-auto after:h-[3px] after:w-0 after:block"
-          >
+            class="iconnav mr-6 text-center pt-2 iconChange hover:after:bg-blue-600 hover:after:w-[100%] after:transition-all after:duration-300 after:m-auto after:h-[3px] after:w-0 after:block">
             <a routerLink="/orders">
-              <i
-                class="navicon fas fa-lightbulb w-5 h-5 mx-2 transition-all duration-500 text-blue-900"
-              ></i>
+              <i class="navicon fas fa-lightbulb w-5 h-5 mx-2 transition-all duration-500 text-blue-900"></i>
               <div class="sub-title">Pedidos</div>
             </a>
           </li>
 
           <li
-            class="iconnav mr-6 text-center pt-2 iconChange hover:after:bg-blue-600 hover:after:w-[100%] after:transition-all after:duration-300 after:m-auto after:h-[3px] after:w-0 after:block"
-          >
-            <i class="navicon fas fa-user w-5 h-5 mx-2 text-blue-900"></i>
-            <div class="sub-title">Pedidos Vendedor</div>
+            class="iconnav mr-6 text-center pt-2 iconChange hover:after:bg-blue-600 hover:after:w-[100%] after:transition-all after:duration-300 after:m-auto after:h-[3px] after:w-0 after:block">
+            <a routerLink="/orders-by-vendor">
+              <i class="navicon fas fa-user w-5 h-5 mx-2 text-blue-900"></i>
+              <div class="sub-title">Pedidos Vendedor</div>
+            </a>
           </li>
         </ul>
       </div>
 
       <div class="xl:hidden">
-        <div
-          class="flex items-center justify-center w-8 h-8 mr-4 rounded-full bg-slate-100"
-        >
+        <div class="flex items-center justify-center w-8 h-8 mr-4 rounded-full bg-slate-100">
           <i class="fas fa-search w-4 h-4"></i>
         </div>
       </div>
       <div class="flex items-center">
         <div class="hidden lg:inline-block">
-          <button
-            type="button"
-            class="flex items-center gap-2 px-4 py-1 mx-2 text-white transition-all duration-500 postbtn hover:bg-left rounded-3xl"
-          >
+          <button type="button"
+            class="flex items-center gap-2 px-4 py-1 mx-2 text-white transition-all duration-500 postbtn hover:bg-left rounded-3xl">
             <i class="fas fa-store hidden sm:block"></i>
             New Product
           </button>
         </div>
-        <button
-          type="button"
-          class="flex items-center gap-2 px-4 py-1 mr-2 text-white transition-all duration-500 loginbtn hover:bg-left rounded-3xl"
-        >
+        <button type="button"
+          class="flex items-center gap-2 px-4 py-1 mr-2 text-white transition-all duration-500 loginbtn hover:bg-left rounded-3xl">
           Login
           <i class="fas fa-sign-in-alt hidden sm:block"></i>
         </button>
-        <button
-          (click)="toggleDarkMode()"
-          class="text-blue-900 ml-2 mr-2 button-icon"
-          [ngClass]="{ dark: isDarkMode }"
-        >
+        <button (click)="toggleDarkMode()" class="text-blue-900 ml-2 mr-2 button-icon" [ngClass]="{ dark: isDarkMode }">
           <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
         </button>
       </div>
@@ -108,33 +85,25 @@
     <ul class="flex items-center justify-between">
       <li>
         <a routerLink="/product-by-vendor">
-          <i
-            class="navicon fas fa-store flex items-center w-5 h-5 mx-auto text-blue-900"
-          ></i>
+          <i class="navicon fas fa-store flex items-center w-5 h-5 mx-auto text-blue-900"></i>
           <div class="text-sm">Vendedor</div>
         </a>
       </li>
       <li>
         <a routerLink="/products/all">
-          <i
-            class="navicon fas fa-gamepad flex items-center w-5 h-5 mx-auto text-blue-900"
-          ></i>
+          <i class="navicon fas fa-gamepad flex items-center w-5 h-5 mx-auto text-blue-900"></i>
           <div class="text-sm">Todos</div>
         </a>
       </li>
       <li>
         <a routerLink="/orders">
-          <i
-            class="navicon fas fa-lightbulb flex items-center w-5 h-5 mx-auto text-blue-900"
-          ></i>
+          <i class="navicon fas fa-lightbulb flex items-center w-5 h-5 mx-auto text-blue-900"></i>
           <div class="text-sm">Pedidos</div>
         </a>
       </li>
       <li>
-        <a href="#">
-          <i
-            class="navicon fas fa-user flex items-center w-5 h-5 mx-auto text-blue-900"
-          ></i>
+        <a routerLink="/orders-by-vendor">
+          <i class="navicon fas fa-user flex items-center w-5 h-5 mx-auto text-blue-900"></i>
           <div class="text-sm">Pedidos Vendedor</div>
         </a>
       </li>

@@ -8,7 +8,6 @@ import {
 import { Order } from '../interfaces/OrderVendor';
 import { Subject, takeUntil } from 'rxjs';
 import { OrdersService } from 'src/app/share/orders.service';
-import { Column } from 'src/app/components/interfaces/tableOrderVendor';
 
 @Component({
   selector: 'app-order-by-vendor',
@@ -25,11 +24,7 @@ export class OrderByVendorComponent implements AfterViewInit, OnDestroy {
   @ViewChild('searchInput', { static: false })
   searchInput!: ElementRef<HTMLInputElement>;
 
-  columns: Column[] = [
-    // { name: 'Nombre del producto', key: 'ProductName' },
-    { name: 'Cantidad', key: 'UserId' },
-    // { name: 'Precio', key: 'Product.Price' },
-  ];
+  columns: string[] = ['Vendedor','Producto', 'Cantidad', 'Precio'];
 
   constructor(private gService: OrdersService) {}
 

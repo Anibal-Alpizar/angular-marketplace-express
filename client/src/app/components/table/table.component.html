@@ -1,8 +1,6 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-    <thead
-      class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-    >
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
       <tr>
         <th *ngFor="let column of columns" scope="col" class="px-6 py-3">
           {{ column.name }}
@@ -10,10 +8,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr
-        *ngFor="let product of filterProducts"
-        class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
-      >
+      <tr *ngFor="let product of filterProducts"
+        class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600">
         <td *ngFor="let columna of columns" class="px-6 py-4">
           {{ product[columna.key] }}
         </td>

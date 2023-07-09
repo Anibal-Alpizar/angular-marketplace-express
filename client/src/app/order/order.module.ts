@@ -5,9 +5,15 @@ import { OrderRoutingModule } from './order-routing.module';
 import { TableOrdersComponent } from '../components/table-orders/table-orders.component';
 import { FormsModule } from '@angular/forms';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
+import { OrderByVendorComponent } from './order-by-vendor/order-by-vendor.component';
 
 @NgModule({
-  declarations: [OrderByUserComponent, TableOrdersComponent, OrderDetailComponent],
+  declarations: [
+    OrderByUserComponent,
+    TableOrdersComponent,
+    OrderDetailComponent,
+    OrderByVendorComponent,
+  ],
   imports: [CommonModule, OrderRoutingModule, FormsModule],
 })
 export class OrderModule {}
