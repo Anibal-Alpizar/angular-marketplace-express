@@ -53,8 +53,7 @@ export const getProductByUser = async (req: Request, res: Response) => {
 
     if (users.length === 0) {
       return res.status(404).json({
-        message:
-          "No users found or the users do not have any products",
+        message: "No users found or the users do not have any products",
       });
     }
 
@@ -101,7 +100,7 @@ export const detailsProducts = async (req: Request, res: Response) => {
             Answers: true,
           },
         },
-        Photos: true, // Incluir las fotos en la respuesta
+        Photos: true,
       },
     });
 
@@ -117,7 +116,6 @@ export const detailsProducts = async (req: Request, res: Response) => {
     res.json(error);
   }
 };
-
 
 export const createProduct = (req: Request, res: Response) => {
   res.send(`Server response: create product`);
