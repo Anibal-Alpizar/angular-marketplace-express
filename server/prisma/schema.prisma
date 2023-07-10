@@ -19,7 +19,7 @@ model User {
   Password       String
   IsActive       Boolean
   Address        String
-  Roles          UserRole[] 
+  Roles          UserRole[]
   Addresses      Address[]
   Questions      Question[]
   Answers        Answer[]
@@ -32,7 +32,7 @@ model User {
 model Role {
   RoleId   Int        @id
   RoleName String
-  Users    UserRole[] 
+  Users    UserRole[]
 }
 
 model UserRole {
@@ -41,12 +41,12 @@ model UserRole {
   UserId Int
   RoleId Int
 
-  @@unique([UserId, RoleId]) 
+  @@unique([UserId, RoleId])
 }
 
 model PaymentMethod {
   PaymentMethodId Int        @id
-  UserId          Int 
+  UserId          Int
   PaymentType     String
   Provider        String
   AccountNumber   String
@@ -84,7 +84,6 @@ model Product {
   UserId       Int
   Status       String
   Rating       Int
-  ImgURL       String
   Category     Category       @relation(fields: [CategoryId], references: [CategoryId])
   User         User           @relation(fields: [UserId], references: [UserId])
   Photos       Photo[]
@@ -120,7 +119,7 @@ model Answer {
 
 model Purchase {
   PurchaseId      Int            @id
-  UserId          Int 
+  UserId          Int
   PaymentMethodId Int
   AddressId       Int
   TotalAmount     Float

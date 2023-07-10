@@ -8,5 +8,12 @@ export interface Product {
   UserId: number;
   Status: string;
   Rating: number;
-  ImgURL: string;
+  Photos?: Photo[]; 
+  Image: string[];
+}
+
+export interface Photo {
+  PhotoId: number;
+  ProductId: number;
+  PhotoURL: string;
 }

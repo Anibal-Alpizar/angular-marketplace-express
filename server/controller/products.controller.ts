@@ -40,26 +40,21 @@ export const getProductsByVendor = async (req: Request, res: Response) => {
 
 //Funtion about get all products to anything user
 export const getProductByUser = async (req: Request, res: Response) => {
-  //let roleId = parseInt(req.params.id); // ID de cualquier Rol
-
   try {
     const users = await prisma.user.findMany({
-      // where: {
-      //   Roles: {
-      //     some: {
-      //       RoleId: roleId,
-      //     },
-      //   },
-      // },
       include: {
-        Products: true,
+        Products: {
+          include: {
+            Photos: true,
+          },
+        },
       },
     });
 
     if (users.length === 0) {
       return res.status(404).json({
         message:
-          "No users found for the specified role or the users do not have any products",
+          "No users found or the users do not have any products",
       });
     }
 

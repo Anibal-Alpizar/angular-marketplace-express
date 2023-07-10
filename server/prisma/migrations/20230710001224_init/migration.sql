@@ -73,7 +73,6 @@ CREATE TABLE `Product` (
     `UserId` INTEGER NOT NULL,
     `Status` VARCHAR(191) NOT NULL,
     `Rating` INTEGER NOT NULL,
-    `ImgURL` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`ProductId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

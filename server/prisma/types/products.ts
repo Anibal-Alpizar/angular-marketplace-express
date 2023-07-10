@@ -8,5 +8,4 @@ export interface Product {
   UserId: number;
   Status: string;
   Rating: number;
-  ImgURL: string;
- }
+}
