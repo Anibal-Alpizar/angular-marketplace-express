@@ -101,6 +101,7 @@ export const detailsProducts = async (req: Request, res: Response) => {
             Answers: true,
           },
         },
+        Photos: true, // Incluir las fotos en la respuesta
       },
     });
 
@@ -116,6 +117,7 @@ export const detailsProducts = async (req: Request, res: Response) => {
     res.json(error);
   }
 };
+
 
 export const createProduct = (req: Request, res: Response) => {
   res.send(`Server response: create product`);
