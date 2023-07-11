@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 //Funtion about list purchaseItem for users
 
 export const getPurchaseItemByUser = async (req: Request, res: Response) => {
-  let id = 2;
+  let id = 3;
 
   try {
     const purchaseItems = await prisma.purchaseItem.findMany({
@@ -15,7 +15,7 @@ export const getPurchaseItemByUser = async (req: Request, res: Response) => {
           User: {
             Roles: {
               some: {
-                RoleId: id,
+                UserId: id,
               },
             },
           },
