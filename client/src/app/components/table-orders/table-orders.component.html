@@ -27,7 +27,8 @@
               <div [ngClass]="{
                   'h-2.5 w-2.5 rounded-full mr-2': true,
                   'bg-green-500': order?.PurchaseStatus === 'Completada',
-                  'bg-yellow-500': order?.PurchaseStatus === 'En progreso'
+                  'bg-yellow-500': order?.PurchaseStatus === 'En progreso',
+                  'bg-red-500': order?.PurchaseStatus === 'Cancelada'
                 }"></div>
               {{ order?.PurchaseStatus }}
             </div>
