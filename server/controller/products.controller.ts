@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { request } from "http";
 import { categories } from "../prisma/seeds/categories";
+import { users } from "../prisma/seeds/users";
 
 const prisma = new PrismaClient();
 
@@ -117,12 +118,79 @@ export const detailsProducts = async (req: Request, res: Response) => {
   }
 };
 
-export const createProduct = (req: Request, res: Response) => {
-  res.send(`Server response: create product`);
+//Funtion about to create a new product
+export const createProduct = async (req: Request, res: Response) => {
+  let products = req.body;
+
+  try {
+    const newProduct = await prisma.product.create({
+      data: {
+        ProductId: products.ProductId,
+        ProductName: products.ProductName,
+        Description: products.Description,
+        Price: products.Price,
+        Status: products.Status,
+        Rating: products.Rating,
+        Quantity: products.Quantity,
+        Category: { connect: products.Category, },
+        User: { connect: products.User, },
+      },
+    });
+
+    if (newProduct === null) {
+      return res
+        .status(404)
+        .json({ message: "No products found for the specified user role" });
+    }
+
+    res.json(newProduct);
+
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
 };
 
-export const updateProduct = (req: Request, res: Response) => {
-  res.send(`Server response: update product`);
+export const updateProduct = async (req: Request, res: Response) => {
+  let product = req.body;
+  let productId = parseInt(req.params.id);
+
+  try {
+
+    //This function is to bring an old product
+    const oldProduct = await prisma.product.findUnique({
+      where: {ProductId: productId},
+      include: {
+        Category: {select: {CategoryId: true}},
+        User: {select: {UserId: true},}
+      },
+    });
+
+    const newProduct = await prisma.product.update({
+      where: {ProductId: productId},
+      data: {
+        ProductId: product.ProductId,
+        ProductName: product.ProductName,
+        Description: product.Description,
+        Price: product.Price,
+        Status: product.Status,
+        Rating: product.Rating,
+        Quantity: product.Quantity,
+        Category: { 
+                  connect: product.Category, },
+        User: { connect: product.User, },
+      },
+    })
+
+
+
+
+
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+
 };
 
 export const deleteProduct = (req: Request, res: Response) => {
