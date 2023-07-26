@@ -30,7 +30,7 @@ model User {
 }
 
 model Role {
-  RoleId   Int        @id
+  RoleId   Int        @id 
   RoleName String
   Users    UserRole[]
 }
@@ -75,7 +75,7 @@ model Category {
 }
 
 model Product {
-  ProductId    Int            @id
+  ProductId    Int            @id @default(autoincrement())
   ProductName  String
   Description  String
   Price        Float
@@ -92,7 +92,7 @@ model Product {
 }
 
 model Photo {
-  PhotoId   Int     @id
+  PhotoId   Int     @id 
   ProductId Int
   PhotoURL  String
   Product   Product @relation(fields: [ProductId], references: [ProductId])

@@ -64,7 +64,7 @@ CREATE TABLE `Category` (
 
 -- CreateTable
 CREATE TABLE `Product` (
-    `ProductId` INTEGER NOT NULL,
+    `ProductId` INTEGER NOT NULL AUTO_INCREMENT,
     `ProductName` VARCHAR(191) NOT NULL,
     `Description` VARCHAR(191) NOT NULL,
     `Price` DOUBLE NOT NULL,
