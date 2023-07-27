@@ -1,7 +1,7 @@
 -- CreateTable
 CREATE TABLE `User` (
-    `UserId` INTEGER NOT NULL,
-    `FullName` VARCHAR(191) NOT NULL,
+    `UserId` INTEGER NOT NULL AUTO_INCREMENT,
+    `FullName` VARCHAR(191) NULL,
     `Identification` VARCHAR(191) NOT NULL,
     `PhoneNumber` VARCHAR(191) NOT NULL,
     `Email` VARCHAR(191) NOT NULL,
@@ -9,6 +9,7 @@ CREATE TABLE `User` (
     `IsActive` BOOLEAN NOT NULL,
     `Address` VARCHAR(191) NOT NULL,
 
+    UNIQUE INDEX `User_Email_key`(`Email`),
     PRIMARY KEY (`UserId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -22,10 +23,12 @@ CREATE TABLE `Role` (
 
 -- CreateTable
 CREATE TABLE `UserRole` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `UserId` INTEGER NOT NULL,
     `RoleId` INTEGER NOT NULL,
 
-    UNIQUE INDEX `UserRole_UserId_RoleId_key`(`UserId`, `RoleId`)
+    UNIQUE INDEX `UserRole_UserId_RoleId_key`(`UserId`, `RoleId`),
+    PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -42,7 +45,7 @@ CREATE TABLE `PaymentMethod` (
 
 -- CreateTable
 CREATE TABLE `Address` (
-    `AddressId` INTEGER NOT NULL,
+    `AddressId` INTEGER NOT NULL AUTO_INCREMENT,
     `Province` VARCHAR(191) NOT NULL,
     `Canton` VARCHAR(191) NOT NULL,
     `District` VARCHAR(191) NOT NULL,
