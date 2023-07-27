@@ -34,7 +34,7 @@ export const register = async (req: Request, res: Response) => {
     },
   });
 
-  res.status(201).json({
+  res.status(200).json({
     status: true,
     message: "User created successfully",
     data: user,
