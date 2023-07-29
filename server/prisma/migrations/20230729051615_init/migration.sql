@@ -82,7 +82,7 @@ CREATE TABLE `Product` (
 
 -- CreateTable
 CREATE TABLE `Photo` (
-    `PhotoId` INTEGER NOT NULL,
+    `PhotoId` INTEGER NOT NULL AUTO_INCREMENT,
     `ProductId` INTEGER NOT NULL,
     `PhotoURL` VARCHAR(191) NOT NULL,
 
@@ -91,7 +91,7 @@ CREATE TABLE `Photo` (
 
 -- CreateTable
 CREATE TABLE `Question` (
-    `QuestionId` INTEGER NOT NULL,
+    `QuestionId` INTEGER NOT NULL AUTO_INCREMENT,
     `ProductId` INTEGER NOT NULL,
     `UserId` INTEGER NOT NULL,
     `QuestionText` VARCHAR(191) NOT NULL,
@@ -101,7 +101,7 @@ CREATE TABLE `Question` (
 
 -- CreateTable
 CREATE TABLE `Answer` (
-    `AnswerId` INTEGER NOT NULL,
+    `AnswerId` INTEGER NOT NULL AUTO_INCREMENT,
     `QuestionId` INTEGER NOT NULL,
     `UserId` INTEGER NOT NULL,
     `AnswerText` VARCHAR(191) NOT NULL,

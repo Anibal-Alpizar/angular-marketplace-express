@@ -93,14 +93,14 @@ model Product {
 }
 
 model Photo {
-  PhotoId   Int     @id
+  PhotoId   Int     @id @default(autoincrement())
   ProductId Int
   PhotoURL  String
   Product   Product @relation(fields: [ProductId], references: [ProductId])
 }
 
 model Question {
-  QuestionId   Int      @id
+  QuestionId   Int      @id @default(autoincrement())
   ProductId    Int
   UserId       Int
   QuestionText String
@@ -110,7 +110,7 @@ model Question {
 }
 
 model Answer {
-  AnswerId   Int      @id
+  AnswerId   Int      @id @default(autoincrement())
   QuestionId Int
   UserId     Int
   AnswerText String
