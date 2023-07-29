@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { OrderModule } from './order/order.module';
 import { ProductModule } from './product/product.module';
+import { UserModule } from './user/user.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,6 +28,7 @@ import { ProductModule } from './product/product.module';
     HomeModule,
     ProductModule,
     OrderModule,
+    UserModule,
 
     // my routing
     AppRoutingModule,
