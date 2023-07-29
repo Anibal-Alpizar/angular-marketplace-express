@@ -11,7 +11,6 @@ export const register = async (req: Request, res: Response) => {
   let salt = bcrypt.genSaltSync(10);
   let hash = bcrypt.hashSync(userData.password, salt);
 
-  // Check if user with the same email already exists
   const existingUser = await prisma.user.findUnique({
     where: {
       Email: userData.email,
@@ -25,7 +24,6 @@ export const register = async (req: Request, res: Response) => {
     });
   }
 
-  // Create the user
   const user = await prisma.user.create({
     data: {
       FullName: userData.fullName,
@@ -38,14 +36,12 @@ export const register = async (req: Request, res: Response) => {
     },
   });
 
-  // Find the UserRole objects that match the provided role names
   const roles = await prisma.role.findMany({
     where: {
       RoleName: { in: userData.roles },
     },
   });
 
-  // Create the UserRole assignments for the user
   for (const role of roles) {
     await prisma.userRole.create({
       data: {
@@ -86,14 +82,12 @@ export const login = async (req: Request, res: Response) => {
   } else {
     const payload = {
       email: user.Email,
-      //role: user.Role[0].RoleName,
     };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
 
-    // Map the roles to an array of role names
     const roleNames = user.Roles.map((userRole) => userRole.Role.RoleName);
 
     res.status(200).send({
