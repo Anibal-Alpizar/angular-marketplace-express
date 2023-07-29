@@ -22,3 +22,11 @@
   transform: translateX(-180%);
   transition: transform 0.3s ease;
 }
+
+.navbar-container {
+  display: block;
+}
+
+.is-login-route .navbar-container {
+  display: none;
+}
