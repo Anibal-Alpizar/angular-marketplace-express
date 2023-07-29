@@ -1,3 +1,6 @@
-<app-header></app-header>
-<router-outlet></router-outlet>
-<app-footer></app-footer>
+<div [ngClass]="{ 'is-login-route': isLoginRoute }">
+    <app-header class="navbar-container" *ngIf="!isLoginRoute"></app-header>
+    <router-outlet></router-outlet>
+    <app-footer *ngIf="!isLoginRoute"></app-footer>
+    <router-outlet name="userOutlet"></router-outlet>
+</div>
