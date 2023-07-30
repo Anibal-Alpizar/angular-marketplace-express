@@ -11,6 +11,11 @@ import { UsersService } from 'src/app/share/users.service';
   styleUrls: ['./user-register.component.css'],
 })
 export class UserRegisterComponent implements OnInit {
+  selectRole(event: Event) {
+    const roleId = (event.target as HTMLSelectElement).value;
+    this.selectedRoleId = Number(roleId);
+  }
+
   isCustomerSelected: boolean = true;
   isVendorSelected: boolean = false;
   hide = true;
@@ -51,7 +56,7 @@ export class UserRegisterComponent implements OnInit {
       this.formCreate.patchValue({
         role: this.selectedRoleId,
       });
-      console.log('Form Data:', this.formCreate.value); 
+      console.log('Form Data:', this.formCreate.value);
       this.authService.register(this.formCreate.value).subscribe((res: any) => {
         this.user = res;
         this.router.navigate(['/login']);
@@ -79,7 +84,6 @@ export class UserRegisterComponent implements OnInit {
       (this.makeSubmit || this.formCreate.controls[control].touched)
     );
   };
-
 
   onReset() {
     this.formCreate.reset();

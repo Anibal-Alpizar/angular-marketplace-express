@@ -36,17 +36,12 @@ export const register = async (req: Request, res: Response) => {
     },
   });
 
-  const roles = await prisma.role.findMany({
-    where: {
-      RoleName: { in: userData.roles },
-    },
-  });
-
-  for (const role of roles) {
+  // Assign the selected role to the user
+  if (userData.role) {
     await prisma.userRole.create({
       data: {
         UserId: user.UserId,
-        RoleId: role.RoleId,
+        RoleId: userData.role,
       },
     });
   }
