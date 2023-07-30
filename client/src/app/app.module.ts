@@ -12,6 +12,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { OrderModule } from './order/order.module';
 import { ProductModule } from './product/product.module';
 import { UserModule } from './user/user.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,6 +23,8 @@ import { UserModule } from './user/user.module';
     HttpClientModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    FormsModule, 
+    ReactiveFormsModule,
 
     // my modules
     CoreModule,

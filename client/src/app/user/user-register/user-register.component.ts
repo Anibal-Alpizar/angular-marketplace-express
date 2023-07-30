@@ -15,6 +15,8 @@ export class UserRegisterComponent implements OnInit {
   isVendorSelected: boolean = false;
   hide = true;
   user: any;
+  selectedRoleId: number | null = null;
+
   roles: any;
   formCreate!: FormGroup;
   makeSubmit: boolean = false;
@@ -44,17 +46,21 @@ export class UserRegisterComponent implements OnInit {
   ngOnInit(): void {}
 
   submitForm() {
-  this.makeSubmit = true;
-  if (this.formCreate.valid) {
-    this.authService.register(this.formCreate.value).subscribe((res: any) => {
-      this.user = res;
-      this.router.navigate(['/login']);
-      queryParams: {
-        registered: 'true';
-      }
-    });
+    this.makeSubmit = true;
+    if (this.formCreate.valid) {
+      this.formCreate.patchValue({
+        role: this.selectedRoleId,
+      });
+      console.log('Form Data:', this.formCreate.value); 
+      this.authService.register(this.formCreate.value).subscribe((res: any) => {
+        this.user = res;
+        this.router.navigate(['/login']);
+        queryParams: {
+          registered: 'true';
+        }
+      });
+    }
   }
-}
 
   getRoles() {
     this.gService
@@ -74,9 +80,6 @@ export class UserRegisterComponent implements OnInit {
     );
   };
 
-  // getRoleName(roleId: number): string | undefined {
-  //   return this.roles?.find((role: any) => role.RoleId === roleId)?.RoleName;
-  // }
 
   onReset() {
     this.formCreate.reset();

@@ -19,18 +19,13 @@
                         <span *ngIf="errorHandling('role', 'required')" class="text-red-500 text-xs italic">
                             Please enter a role.
                         </span>
-
                         <div class="mt-3 md:flex md:items-center md:-mx-2">
-
-
                             <select formControlName="role">
-                                <option *ngFor="let r of roles" value="r.id">
+                                <option *ngFor="let r of roles" [value]="r.RolId">
                                     {{ r.RoleName }}
                                 </option>
                             </select>
-
                         </div>
-
                     </div>
                     <div class="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2">
                         <div>
@@ -92,10 +87,7 @@
 
                         <button type="submit" (click)="submitForm()"
                             class="flex items-center justify-between w-full px-6 py-3 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
-                            <span>
-                                Registrarse
-                            </span>
-
+                            <span>Registrarse</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 rtl:-scale-x-100" viewBox="0 0 20 20"
                                 fill="currentColor">
                                 <path fill-rule="evenodd"

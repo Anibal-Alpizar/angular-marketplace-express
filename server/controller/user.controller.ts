@@ -104,6 +104,8 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
+
+
 export const getRoles = async (req: Request, res: Response) => {
   try {
     const roles = await prisma.role.findMany();
@@ -112,4 +114,4 @@ export const getRoles = async (req: Request, res: Response) => {
     console.log(error);
     res.json(error);
   }
-};
+}
