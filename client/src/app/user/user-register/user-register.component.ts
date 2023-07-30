@@ -59,9 +59,7 @@ export class UserRegisterComponent implements OnInit {
     if (this.formCreate.valid) {
       const selectedRole = this.formCreate.get('role')?.value;
 
-      // Make sure to handle the role value based on its type (number or array)
       if (Array.isArray(selectedRole)) {
-        // If it's an array, we have "Customer & Vendor" selected, so we can display it as a string
         const roleString = selectedRole
           .map((roleId) => this.getRoleName(roleId))
           .join(' & ');
@@ -70,12 +68,8 @@ export class UserRegisterComponent implements OnInit {
           role: roleString,
         });
       } else {
-        // For other roles, we can simply log the selected role ID
         console.log('Form Data:', this.formCreate.value);
       }
-
-      // The rest of your form submission logic...
-      // For example, if you want to submit the form using your API, you can do something like this:
       this.authService.register(this.formCreate.value).subscribe((res: any) => {
         this.user = res;
         this.router.navigate(['/login']);
