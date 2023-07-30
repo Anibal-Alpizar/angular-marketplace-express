@@ -91,7 +91,7 @@ export class UserRegisterComponent implements OnInit {
       .list('/roles')
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
-        this.roles = data;
+        this.roles = data.filter((role: any) => role.RoleId !== 1);
         console.log(this.roles);
       });
   }
