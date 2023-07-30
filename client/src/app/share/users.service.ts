@@ -7,16 +7,13 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class UsersService {
-  urlAPI: string = environment.apiURL;
-  currentUser: any;
-
   constructor(private http: HttpClient) {}
 
   register(endpoint: string, objCreate: any | any): Observable<any | any[]> {
-    return this.http.post<any | any[]>(this.urlAPI + endpoint, objCreate);
+    return this.http.post<any | any[]>(environment.apiURL + endpoint, objCreate);
   }
 
   list(endpoint: string): Observable<any | any[]> {
-    return this.http.get<any | any[]>(this.urlAPI + endpoint);
+    return this.http.get<any | any[]>(environment.apiURL + endpoint);
   }
 }

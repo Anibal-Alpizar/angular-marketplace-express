@@ -33,6 +33,6 @@ export class AuthenticationService {
   }
 
   register(user: any): Observable<any> {
-    return this.http.post<any>(this.ServerUrl + 'register', user);
+    return this.http.post<any>(this.ServerUrl + '/register', user);
   }
 }

@@ -112,4 +112,4 @@ export const getRoles = async (req: Request, res: Response) => {
     console.log(error);
     res.json(error);
   }
-}
+};

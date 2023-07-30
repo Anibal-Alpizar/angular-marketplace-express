@@ -30,10 +30,11 @@ export class UserRegisterComponent implements OnInit {
 
   reactiveForm() {
     this.formCreate = this.fb.group({
-      username: ['', [Validators.required]],
+      fullName: ['', [Validators.required]],
+      identification: ['', [Validators.required]],
       password: ['', [Validators.required]],
       email: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
+      phoneNumber: ['', [Validators.required]],
       address: ['', [Validators.required]],
       role: ['', [Validators.required]],
     });
@@ -41,6 +42,19 @@ export class UserRegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  submitForm() {
+  this.makeSubmit = true;
+  if (this.formCreate.valid) {
+    this.authService.register(this.formCreate.value).subscribe((res: any) => {
+      this.user = res;
+      this.router.navigate(['/login']);
+      queryParams: {
+        registered: 'true';
+      }
+    });
+  }
+}
 
   getRoles() {
     this.gService
@@ -52,20 +66,6 @@ export class UserRegisterComponent implements OnInit {
       });
   }
 
-  submitForm() {
-    this.makeSubmit = true;
-    if (this.formCreate.invalid) {
-      return;
-    }
-    this.authService.register(this.formCreate.value).subscribe((res: any) => {
-      this.user = res;
-      this.router.navigate(['/login']);
-      queryParams: {
-        registered: 'true';
-      }
-    });
-  }
-
   public errorHandling = (control: string, error: string) => {
     return (
       this.formCreate.controls[control].hasError(error) &&
@@ -74,9 +74,9 @@ export class UserRegisterComponent implements OnInit {
     );
   };
 
-  getRoleName(roleId: number): string | undefined {
-    return this.roles?.find((role: any) => role.RoleId === roleId)?.RoleName;
-  }
+  // getRoleName(roleId: number): string | undefined {
+  //   return this.roles?.find((role: any) => role.RoleId === roleId)?.RoleName;
+  // }
 
   onReset() {
     this.formCreate.reset();
