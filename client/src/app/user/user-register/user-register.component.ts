@@ -12,8 +12,10 @@ import { UsersService } from 'src/app/share/users.service';
 })
 export class UserRegisterComponent implements OnInit {
   selectRole(event: Event) {
-    const roleId = (event.target as HTMLSelectElement).value;
-    this.selectedRoleId = Number(roleId);
+    const selectedValue = (event.target as HTMLSelectElement).value;
+    this.formCreate.patchValue({
+      role: selectedValue === '2,3' ? [2, 3] : Number(selectedValue),
+    });
   }
 
   isCustomerSelected: boolean = true;
@@ -48,15 +50,32 @@ export class UserRegisterComponent implements OnInit {
     this.getRoles();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.reactiveForm();
+  }
 
   submitForm() {
     this.makeSubmit = true;
     if (this.formCreate.valid) {
-      this.formCreate.patchValue({
-        role: this.selectedRoleId,
-      });
-      console.log('Form Data:', this.formCreate.value);
+      const selectedRole = this.formCreate.get('role')?.value;
+
+      // Make sure to handle the role value based on its type (number or array)
+      if (Array.isArray(selectedRole)) {
+        // If it's an array, we have "Customer & Vendor" selected, so we can display it as a string
+        const roleString = selectedRole
+          .map((roleId) => this.getRoleName(roleId))
+          .join(' & ');
+        console.log('Form Data:', {
+          ...this.formCreate.value,
+          role: roleString,
+        });
+      } else {
+        // For other roles, we can simply log the selected role ID
+        console.log('Form Data:', this.formCreate.value);
+      }
+
+      // The rest of your form submission logic...
+      // For example, if you want to submit the form using your API, you can do something like this:
       this.authService.register(this.formCreate.value).subscribe((res: any) => {
         this.user = res;
         this.router.navigate(['/login']);
@@ -75,6 +94,11 @@ export class UserRegisterComponent implements OnInit {
         this.roles = data;
         console.log(this.roles);
       });
+  }
+
+  getRoleName(roleId: number): string {
+    const role = this.roles.find((r: any) => r.RoleId === roleId);
+    return role ? role.RoleName : '';
   }
 
   public errorHandling = (control: string, error: string) => {

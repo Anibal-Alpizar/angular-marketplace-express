@@ -36,12 +36,13 @@ export const register = async (req: Request, res: Response) => {
     },
   });
 
-  // Assign the selected role to the user
-  if (userData.role) {
+  const roles = Array.isArray(userData.role) ? userData.role : [userData.role];
+
+  for (const roleId of roles as number[]) {
     await prisma.userRole.create({
       data: {
         UserId: user.UserId,
-        RoleId: userData.role,
+        RoleId: roleId,
       },
     });
   }
