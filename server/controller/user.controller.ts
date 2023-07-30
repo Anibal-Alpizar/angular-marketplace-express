@@ -103,3 +103,13 @@ export const login = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getRoles = async (req: Request, res: Response) => {
+  try {
+    const roles = await prisma.role.findMany();
+    res.json(roles);
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+}
