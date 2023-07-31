@@ -50,10 +50,6 @@ export class UserRegisterComponent implements OnInit {
       phoneNumber: ['', [Validators.required]],
       address: ['', [Validators.required]],
       role: ['', [Validators.required]],
-
-      
-      
-
     });
     this.getRoles();
   }
@@ -62,7 +58,7 @@ export class UserRegisterComponent implements OnInit {
     this.reactiveForm();
   }
 
-   submitForm() {
+  submitForm() {
     this.makeSubmit = true;
     if (this.formCreate.valid) {
       const selectedRole = this.formCreate.get('role')?.value;
@@ -84,7 +80,10 @@ export class UserRegisterComponent implements OnInit {
           this.user = res;
 
           // Save the email in a cookie
-          this.cookieService.set('email', encodeURIComponent(this.formCreate.value.email));
+          this.cookieService.set(
+            'email',
+            encodeURIComponent(this.formCreate.value.email)
+          );
 
           this.router.navigate(['/login'], {
             queryParams: {
