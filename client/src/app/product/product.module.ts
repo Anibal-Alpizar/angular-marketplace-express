@@ -6,6 +6,7 @@ import { TableComponent } from '../components/table/table.component';
 import { CardComponent } from '../components/card/card.component';
 import { ProductByUserComponent } from './product-by-user/product-by-user.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { ProductCreateComponent } from './product-create/product-create.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -13,6 +14,7 @@ import { FormsModule } from '@angular/forms';
     ProductByVendorComponent,
     ProductByUserComponent,
     ProductDetailComponent,
+    ProductCreateComponent,
     TableComponent,
     CardComponent,
   ],
