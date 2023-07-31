@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthenticationService } from 'src/app/share/authentication.service';
 import { UsersService } from 'src/app/share/users.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-user-register',
@@ -25,16 +26,17 @@ export class UserRegisterComponent implements OnInit {
   user: any;
   selectedRoleId: number | null = null;
   backendError: string | null = null;
-
   roles: any;
   formCreate!: FormGroup;
   makeSubmit: boolean = false;
   destroy$: Subject<boolean> = new Subject<boolean>();
+
   constructor(
     public fb: FormBuilder,
     private router: Router,
     private gService: UsersService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private cookieService: CookieService
   ) {
     this.reactiveForm();
   }
@@ -48,6 +50,10 @@ export class UserRegisterComponent implements OnInit {
       phoneNumber: ['', [Validators.required]],
       address: ['', [Validators.required]],
       role: ['', [Validators.required]],
+
+      
+      
+
     });
     this.getRoles();
   }
@@ -56,39 +62,42 @@ export class UserRegisterComponent implements OnInit {
     this.reactiveForm();
   }
 
-  submitForm() {
-  this.makeSubmit = true;
-  if (this.formCreate.valid) {
-    const selectedRole = this.formCreate.get('role')?.value;
+   submitForm() {
+    this.makeSubmit = true;
+    if (this.formCreate.valid) {
+      const selectedRole = this.formCreate.get('role')?.value;
 
-    if (Array.isArray(selectedRole)) {
-      const roleString = selectedRole
-        .map((roleId) => this.getRoleName(roleId))
-        .join(' & ');
-      console.log('Form Data:', {
-        ...this.formCreate.value,
-        role: roleString,
-      });
-    } else {
-      console.log('Form Data:', this.formCreate.value);
-    }
-
-    this.authService.register(this.formCreate.value).subscribe(
-      (res: any) => {
-        this.user = res;
-        this.router.navigate(['/login'], {
-          queryParams: {
-            registered: 'true',
-          },
+      if (Array.isArray(selectedRole)) {
+        const roleString = selectedRole
+          .map((roleId) => this.getRoleName(roleId))
+          .join(' & ');
+        console.log('Form Data:', {
+          ...this.formCreate.value,
+          role: roleString,
         });
-      },
-      (error: HttpErrorResponse) => {
-        this.backendError = error.error.message;
+      } else {
+        console.log('Form Data:', this.formCreate.value);
       }
-    );
-  }
-}
 
+      this.authService.register(this.formCreate.value).subscribe(
+        (res: any) => {
+          this.user = res;
+
+          // Save the email in a cookie
+          this.cookieService.set('email', encodeURIComponent(this.formCreate.value.email));
+
+          this.router.navigate(['/login'], {
+            queryParams: {
+              registered: 'true',
+            },
+          });
+        },
+        (error: HttpErrorResponse) => {
+          this.backendError = error.error.message;
+        }
+      );
+    }
+  }
 
   getRoles() {
     this.gService

@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import { AuthenticationService } from 'src/app/share/authentication.service';
 import {
   NotificacionService,
@@ -25,7 +26,8 @@ export class UserLoginComponent implements OnInit {
     private authService: AuthenticationService,
     private notification: NotificacionService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cookieService: CookieService
   ) {
     this.reactiveForm();
   }
@@ -38,7 +40,18 @@ export class UserLoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const now = new Date();
     this.mensajes();
+    const expirationDate = new Date(now.getTime() + 3600000);
+
+    const savedEmail = this.cookieService.get('email');
+    console.log('Saved Email:', savedEmail);
+
+    if (savedEmail) {
+      this.form
+        .get('email')
+        ?.setValue(decodeURIComponent(savedEmail), expirationDate);
+    }
   }
 
   mensajes() {
