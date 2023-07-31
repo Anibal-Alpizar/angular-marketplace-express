@@ -68,11 +68,30 @@
             New Product
           </button>
         </div>
-        <button type="button"
+
+        <!-- <button *ngIf="!isAuthenticated" type="button" (click)="login()"
           class="flex items-center gap-2 px-4 py-1 mr-2 text-white transition-all duration-500 loginbtn hover:bg-left rounded-3xl">
           Login
           <i class="fas fa-sign-in-alt hidden sm:block"></i>
         </button>
+
+        <button *ngIf="isAuthenticated" type="button" (click)="logout()"
+          class="flex items-center gap-2 px-4 py-1 mr-2 text-white transition-all duration-500 loginbtn hover:bg-left rounded-3xl">
+          Logout
+          <i class="fas fa-sign-out-alt hidden sm:block"></i>
+        </button> -->
+
+
+
+        <button routerLink="/login"
+        type="button"
+          class="flex items-center gap-2 px-4 py-1 mr-2 text-white transition-all duration-500 loginbtn hover:bg-left rounded-3xl">
+          Login
+          <i class="fas fa-sign-in-alt hidden sm:block"></i>
+        </button>
+
+
+
         <button (click)="toggleDarkMode()" class="text-blue-900 ml-2 mr-2 button-icon" [ngClass]="{ dark: isDarkMode }">
           <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
         </button>

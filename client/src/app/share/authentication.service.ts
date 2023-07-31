@@ -20,7 +20,6 @@ export class AuthenticationService {
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  
   public get currentUserValue(): any {
     return this.currentUserSubject.value;
   }
@@ -41,11 +40,23 @@ export class AuthenticationService {
   login(user: any): Observable<any> {
     return this.http.post<any>(this.ServerUrl + '/login', user).pipe(
       map((user: any) => {
+        console.log('Datos del usuario:', user.data);
         localStorage.setItem('currentUser', JSON.stringify(user.data));
         this.authenticated.next(true);
         this.currentUserSubject.next(user.data);
         return user;
       })
     );
+  }
+
+  logout() {
+    let user = this.currentUserSubject.value;
+    if (user) {
+      localStorage.removeItem('currentUser');
+      this.currentUserSubject.next(null);
+      this.authenticated.next(false);
+      return true;
+    }
+    return false;
   }
 }
