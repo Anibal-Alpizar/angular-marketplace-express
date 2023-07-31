@@ -26,6 +26,7 @@
                                     <option *ngFor="let r of roles" [value]="r.RoleId">{{ r.RoleName }}</option>
                                     <option [value]="'2,3'">Customer & Vendor</option>
                                 </select>
+                                <div *ngIf="backendError" class="text-red-500 mt-2">{{ backendError }}</div>
                                 <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

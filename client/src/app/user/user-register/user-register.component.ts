@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -23,6 +24,7 @@ export class UserRegisterComponent implements OnInit {
   hide = true;
   user: any;
   selectedRoleId: number | null = null;
+  backendError: string | null = null;
 
   roles: any;
   formCreate!: FormGroup;
@@ -55,30 +57,38 @@ export class UserRegisterComponent implements OnInit {
   }
 
   submitForm() {
-    this.makeSubmit = true;
-    if (this.formCreate.valid) {
-      const selectedRole = this.formCreate.get('role')?.value;
+  this.makeSubmit = true;
+  if (this.formCreate.valid) {
+    const selectedRole = this.formCreate.get('role')?.value;
 
-      if (Array.isArray(selectedRole)) {
-        const roleString = selectedRole
-          .map((roleId) => this.getRoleName(roleId))
-          .join(' & ');
-        console.log('Form Data:', {
-          ...this.formCreate.value,
-          role: roleString,
-        });
-      } else {
-        console.log('Form Data:', this.formCreate.value);
-      }
-      this.authService.register(this.formCreate.value).subscribe((res: any) => {
-        this.user = res;
-        this.router.navigate(['/login']);
-        queryParams: {
-          registered: 'true';
-        }
+    if (Array.isArray(selectedRole)) {
+      const roleString = selectedRole
+        .map((roleId) => this.getRoleName(roleId))
+        .join(' & ');
+      console.log('Form Data:', {
+        ...this.formCreate.value,
+        role: roleString,
       });
+    } else {
+      console.log('Form Data:', this.formCreate.value);
     }
+
+    this.authService.register(this.formCreate.value).subscribe(
+      (res: any) => {
+        this.user = res;
+        this.router.navigate(['/login'], {
+          queryParams: {
+            registered: 'true',
+          },
+        });
+      },
+      (error: HttpErrorResponse) => {
+        this.backendError = error.error.message;
+      }
+    );
   }
+}
+
 
   getRoles() {
     this.gService
