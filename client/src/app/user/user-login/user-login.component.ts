@@ -1,8 +1,12 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/share/authentication.service';
-import { NotificacionService, MessageType } from 'src/app/share/notification.service';
+import {
+  NotificacionService,
+  TipoMessage,
+} from 'src/app/share/notification.service';
 
 @Component({
   selector: 'app-user-login',
@@ -14,6 +18,7 @@ export class UserLoginComponent implements OnInit {
   form!: FormGroup;
   makeSubmit: boolean = false;
   infoUser: any;
+  backendError: string | null = null;
 
   constructor(
     public fb: FormBuilder,
@@ -33,25 +38,27 @@ export class UserLoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.message();
+    this.mensajes();
   }
 
-  message() {
+  mensajes() {
     let register = false;
     let auth = '';
     this.route.queryParams.subscribe((params) => {
       register = params['register'] === 'true' || false;
       auth = params['auth'] || '';
       if (register) {
-        this.notification.messageSuccess(
-          'User',
-          'Register successfully, please login!'
+        this.notification.mensaje(
+          'Usuario',
+          'Usuaio registrado! Especifique sus credenciales',
+          TipoMessage.success
         );
       }
       if (auth) {
-        this.notification.messageWarning(
-          'User',
-          'Please login to access this page!'
+        this.notification.mensaje(
+          'Usuario',
+          'Debe autenticarse para acceder a esta página',
+          TipoMessage.warning
         );
       }
     });
@@ -67,11 +74,21 @@ export class UserLoginComponent implements OnInit {
       return;
     }
 
-    console.log(this.form.value)
+    console.log(this.form.value);
 
-    this.authService.login(this.form.value).subscribe((res: any) => {
-      this.router.navigate(['/home']);
-    });
+    this.authService.login(this.form.value).subscribe(
+      (res: any) => {
+        this.router.navigate(['/home']);
+      },
+      (error: HttpErrorResponse) => {
+        this.backendError = error.error.message;
+        this.notification.mensaje(
+          'Usuario',
+          'Bienvenido usuario',
+          TipoMessage.success
+        );
+      }
+    );
   }
 
   public errorHandling = (control: string, error: string) => {
