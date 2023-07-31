@@ -62,7 +62,20 @@ export const getProductByUser = async (req: Request, res: Response) => {
 
     const products = users.flatMap((user) => user.Products);
 
-    res.json(products);
+    const productsWithFullPhotoURL = products.map((product) => {
+      if (product.Photos) {
+        return {
+          ...product,
+          Photos: product.Photos.map((photo) => ({
+            ...photo,
+            PhotoURL: `http://localhost:3000/uploads/${photo.PhotoURL}`,
+          })),
+        };
+      }
+      return product;
+    });
+
+    res.json(productsWithFullPhotoURL);
   } catch (error) {
     console.log(error);
     res.json(error);
@@ -113,7 +126,21 @@ export const detailsProducts = async (req: Request, res: Response) => {
         .json({ message: "No products found for the specified user role" });
     }
 
-    res.json(product);
+    const productsWithFullPhotoURL = product.map((product) => {
+      if (product.Photos) {
+        return {
+          ...product,
+          Photos: product.Photos.map((photo) => ({
+            ...photo,
+            PhotoURL: `http://localhost:3000/uploads/${photo.PhotoURL}`,
+          })),
+        };
+      }
+      return product;
+    });
+
+    
+    res.json(productsWithFullPhotoURL);
   } catch (error) {
     console.log(error);
     res.json(error);
