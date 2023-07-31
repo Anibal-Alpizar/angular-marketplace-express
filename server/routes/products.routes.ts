@@ -18,7 +18,7 @@ router.get("/productsDetails/:id", detailsProducts);
 
  router.post("/createProducts", createProduct);
 
-// router.put("/products/:id", updateProduct);
+ router.put("/products/:id", updateProduct);
 
 // router.delete("/products/:id", deleteProduct);
 
