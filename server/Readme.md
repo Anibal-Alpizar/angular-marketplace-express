@@ -10,11 +10,11 @@
 
 Pero lo envia de la siguiente manera:
 Key                     Value
-ProductName             Hola Prueba Imagen
-Description             Hola
-Price                   45.5
-Quantity                10
-Status                  Nuevo
+ProductName             Hola Prueba Imagen  ..
+Description             Hola                ..
+Price                   45.5                ..
+Quantity                10                  .. 
+Status                  Nuevo               ..
 CategoryId              1
 UserId                  2
 sampleFile              Selecciona una imagen
@@ -22,3 +22,20 @@ sampleFile2             Selecciona una imagen
 
 
 La ruta es la siguiente: /createProducts
+
+
+
+
+crear pregunta
+{
+  "QuestionText": "Is this product available in different colors?",
+  "Product": {
+    "ProductId": 1
+  },
+  "User": {
+    "UserId": 3
+  }
+}
+
+
+
