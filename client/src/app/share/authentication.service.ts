@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CartService } from './cart.service';
 
@@ -19,6 +19,8 @@ export class AuthenticationService {
     );
     this.currentUser = this.currentUserSubject.asObservable();
   }
+
+  
   public get currentUserValue(): any {
     return this.currentUserSubject.value;
   }
@@ -34,5 +36,16 @@ export class AuthenticationService {
 
   register(user: any): Observable<any> {
     return this.http.post<any>(this.ServerUrl + '/register', user);
+  }
+
+  login(user: any): Observable<any> {
+    return this.http.post<any>(this.ServerUrl + '/login', user).pipe(
+      map((user: any) => {
+        localStorage.setItem('currentUser', JSON.stringify(user.data));
+        this.authenticated.next(true);
+        this.currentUserSubject.next(user.data);
+        return user;
+      })
+    );
   }
 }

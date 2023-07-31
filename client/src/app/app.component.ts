@@ -16,8 +16,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.isLoginRoute =
-          this.route.snapshot.firstChild?.routeConfig?.path === 'register';
+        const currentPath = this.route.snapshot.firstChild?.routeConfig?.path;
+        this.isLoginRoute = currentPath === 'login' || currentPath === 'register';
       }
     });
   }

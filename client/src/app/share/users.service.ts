@@ -10,7 +10,17 @@ export class UsersService {
   constructor(private http: HttpClient) {}
 
   register(endpoint: string, objCreate: any | any): Observable<any | any[]> {
-    return this.http.post<any | any[]>(environment.apiURL + endpoint, objCreate);
+    return this.http.post<any | any[]>(
+      environment.apiURL + endpoint,
+      objCreate
+    );
+  }
+
+  login(endpoint: string, objCreate: any | any): Observable<any | any[]> {
+    return this.http.post<any | any[]>(
+      environment.apiURL + endpoint,
+      objCreate
+    );
   }
 
   list(endpoint: string): Observable<any | any[]> {

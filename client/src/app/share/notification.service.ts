@@ -1,36 +1,49 @@
 import { Injectable } from '@angular/core';
 import { IndividualConfig, ToastrService } from 'ngx-toastr';
 
-export enum TypeMessage {
-  Success,
-  Error,
-  Info,
-  Warning,
-  Question,
+export enum MessageType {
+  success,
+  error,
+  info,
+  warning,
+  question,
 }
 
 @Injectable({
   providedIn: 'root',
 })
-export class NotificationService {
+export class NotificacionService {
   options: IndividualConfig;
+
   constructor(private toastr: ToastrService) {
     this.options = this.toastr.toastrConfig;
     this.options.enableHtml = true;
-    this.options.positionClass = 'toast-top-right';
-    this.options.disableTimeOut = false;
+    this.options.positionClass = 'toast-top-center';
+    this.options.disableTimeOut = true;
     this.options.closeButton = true;
   }
-  public messageSuccess(
-    title: string,
-    message: string,
-    typeMessage: TypeMessage
-  ) {
-    this.toastr.show(
-      message,
-      title,
-      this.options,
-      'toast-' + TypeMessage[typeMessage]
-    );
+
+  private showMessage(titulo: string, mensaje: string, tipo: keyof typeof MessageType) {
+    this.toastr.show(mensaje, titulo, this.options, 'toast-' + MessageType[tipo]);
+  }
+
+  public messageSuccess(titulo: string, mensaje: string) {
+    this.showMessage(titulo, mensaje, 'success');
+  }
+
+  public messageError(titulo: string, mensaje: string) {
+    this.showMessage(titulo, mensaje, 'error');
+  }
+
+  public messageInfo(titulo: string, mensaje: string) {
+    this.showMessage(titulo, mensaje, 'info');
+  }
+
+  public messageWarning(titulo: string, mensaje: string) {
+    this.showMessage(titulo, mensaje, 'warning');
+  }
+
+  public messageQuestion(titulo: string, mensaje: string) {
+    this.showMessage(titulo, mensaje, 'question');
   }
 }
