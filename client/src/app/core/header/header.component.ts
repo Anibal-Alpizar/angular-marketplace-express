@@ -24,8 +24,14 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const currentUserString = localStorage.getItem('currentUser');
+    if (currentUserString) {
+      this.currentUser = JSON.parse(currentUserString);
+    } else {
+      this.currentUser = null;
+    }
+
     this.authService.isAuthenticated.subscribe((valor) => {
-      console.log('¿Autenticado?:', valor);
       this.isAuthenticated = valor;
     });
   }
@@ -33,6 +39,7 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
+    this.currentUser = null;
   }
 
   login() {

@@ -21,7 +21,8 @@
       </div>
     </div>
     <div class="flex items-center">
-      <div class="hidden lg:block">
+
+      <div class="hidden lg:block" *ngIf="currentUser">
         <ul class="flex items-center justify-center text-sm text-blue-900">
           <li
             class="iconnav text-center pt-2 mr-6 iconChange hover:after:bg-blue-600 hover:after:w-[100%] after:transition-all after:duration-300 after:m-auto after:h-[3px] after:w-0 after:block">
@@ -61,45 +62,37 @@
         </div>
       </div>
       <div class="flex items-center">
-        <div class="hidden lg:inline-block">
-          <button type="button"
+        <div class="hidden lg:inline-block" *ngIf="currentUser">
+          <button type="button" routerLink="/create"
             class="flex items-center gap-2 px-4 py-1 mx-2 text-white transition-all duration-500 postbtn hover:bg-left rounded-3xl">
             <i class="fas fa-store hidden sm:block"></i>
-            New Product
+            Nuevo Producto
           </button>
         </div>
-
-        <!-- <button *ngIf="!isAuthenticated" type="button" (click)="login()"
-          class="flex items-center gap-2 px-4 py-1 mr-2 text-white transition-all duration-500 loginbtn hover:bg-left rounded-3xl">
-          Login
-          <i class="fas fa-sign-in-alt hidden sm:block"></i>
-        </button>
-
-        <button *ngIf="isAuthenticated" type="button" (click)="logout()"
+        <button *ngIf="currentUser" (click)="logout()" type="button"
           class="flex items-center gap-2 px-4 py-1 mr-2 text-white transition-all duration-500 loginbtn hover:bg-left rounded-3xl">
           Logout
           <i class="fas fa-sign-out-alt hidden sm:block"></i>
-        </button> -->
+        </button>
 
-
-
-        <button routerLink="/login"
-        type="button"
+        <button *ngIf="!currentUser" routerLink="/login" type="button"
           class="flex items-center gap-2 px-4 py-1 mr-2 text-white transition-all duration-500 loginbtn hover:bg-left rounded-3xl">
           Login
           <i class="fas fa-sign-in-alt hidden sm:block"></i>
         </button>
-
-
-
         <button (click)="toggleDarkMode()" class="text-blue-900 ml-2 mr-2 button-icon" [ngClass]="{ dark: isDarkMode }">
           <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
         </button>
+        <!-- boton for about me, only the icon -->
+        <a routerLink="/about" type="button" class="text-blue-900 ml-2 mr-2 button-icon ">
+          <i class="fas fa-user"></i>
+        </a>
+
       </div>
     </div>
   </div>
 </nav>
-<nav class="text-blue-900 lg:hidden">
+<nav class="text-blue-900 lg:hidden" *ngIf="currentUser">
   <div class="fixed bottom-0 left-0 right-0 p-2 shadow mr-3 ml-3">
     <ul class="flex items-center justify-between">
       <li>
