@@ -207,6 +207,7 @@ export const createProduct = async (req: any, res: Response) => {
         .json({ message: "No products found for the specified user role" });
     }
 
+    //Agregar las variables, donde se encuentran la img en el array de Photos de la DB
     products.Photos = [fileName, fileName2];
 
     // Parseo de los valores de Price, Rating y Quantity a números
@@ -215,7 +216,7 @@ export const createProduct = async (req: any, res: Response) => {
     products.Quantity = parseInt(products.Quantity);
     products.CategoryId = parseInt(products.CategoryId);
     products.UserId = parseInt(products.UserId);
-
+      //Creamos el producto
     const newProduct = await prisma.product.create({
       data: {
         ProductName: products.ProductName,
