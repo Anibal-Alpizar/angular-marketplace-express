@@ -45,7 +45,10 @@ export class HeaderComponent implements OnInit {
   }
 
   isVendor(): boolean {
-    return this.currentUser?.Roles?.includes('Vendor') || this.currentUser?.Roles?.includes('Admin');
+    return (
+      this.currentUser?.Roles?.includes('Vendor') ||
+      this.currentUser?.Roles?.includes('Admin')
+    );
   }
 
   logout() {
