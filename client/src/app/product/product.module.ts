@@ -9,6 +9,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { ProductCreateComponent } from './product-create/product-create.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProductEditComponent } from './product-edit/product-edit.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ProductCreateComponent,
     TableComponent,
     CardComponent,
+    ProductEditComponent,
   ],
 
   imports: [CommonModule, ProductRoutingModule, FormsModule, ReactiveFormsModule],

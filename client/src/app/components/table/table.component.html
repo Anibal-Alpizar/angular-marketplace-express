@@ -5,6 +5,7 @@
         <th *ngFor="let column of columns" scope="col" class="px-6 py-3">
           {{ column.name }}
         </th>
+        <th scope="col" class="px-6 py-3 text-center">Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -12,6 +13,11 @@
         class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600">
         <td *ngFor="let columna of columns" class="px-6 py-4">
           {{ product[columna.key] }}
+        </td>
+        <td class="px-6 py-4">
+          <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+            [routerLink]="['/edit', product?.ProductId]">Editar
+          </button>
         </td>
       </tr>
     </tbody>

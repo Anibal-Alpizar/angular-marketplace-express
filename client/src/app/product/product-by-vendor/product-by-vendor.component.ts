@@ -34,6 +34,7 @@ export class ProductByVendorComponent implements AfterViewInit, OnDestroy {
   ];
 
   constructor(private gService: GenericService) {}
+  
 
   ngAfterViewInit(): void {
     this.vendorProductsList();
