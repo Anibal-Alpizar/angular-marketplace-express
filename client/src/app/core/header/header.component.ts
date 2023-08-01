@@ -26,7 +26,15 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     const currentUserString = localStorage.getItem('currentUser');
     if (currentUserString) {
-      this.currentUser = JSON.parse(currentUserString);
+      try {
+        const currentUserData = JSON.parse(currentUserString);
+        this.currentUser = currentUserData.user;
+        const roles = this.currentUser.Roles;
+        console.log('User Roles:', roles);
+      } catch (error) {
+        console.error('Error parsing currentUser data:', error);
+        this.currentUser = null;
+      }
     } else {
       this.currentUser = null;
     }
@@ -34,6 +42,10 @@ export class HeaderComponent implements OnInit {
     this.authService.isAuthenticated.subscribe((valor) => {
       this.isAuthenticated = valor;
     });
+  }
+
+  isVendor(): boolean {
+    return this.currentUser?.Roles?.includes('Vendor') || this.currentUser?.Roles?.includes('Admin');
   }
 
   logout() {

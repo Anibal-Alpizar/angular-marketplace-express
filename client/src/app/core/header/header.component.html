@@ -63,11 +63,15 @@
       </div>
       <div class="flex items-center">
         <div class="hidden lg:inline-block" *ngIf="currentUser">
-          <button type="button" routerLink="/create"
-            class="flex items-center gap-2 px-4 py-1 mx-2 text-white transition-all duration-500 postbtn hover:bg-left rounded-3xl">
-            <i class="fas fa-store hidden sm:block"></i>
-            Nuevo Producto
-          </button>
+          
+
+          <button *ngIf="isVendor()" type="button" routerLink="/create"
+  class="flex items-center gap-2 px-4 py-1 mx-2 text-white transition-all duration-500 postbtn hover:bg-left rounded-3xl">
+  <i class="fas fa-store hidden sm:block"></i>
+  Nuevo Producto
+</button>
+
+
         </div>
         <button *ngIf="currentUser" (click)="logout()" type="button"
           class="flex items-center gap-2 px-4 py-1 mr-2 text-white transition-all duration-500 loginbtn hover:bg-left rounded-3xl">
@@ -83,11 +87,9 @@
         <button (click)="toggleDarkMode()" class="text-blue-900 ml-2 mr-2 button-icon" [ngClass]="{ dark: isDarkMode }">
           <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
         </button>
-        <!-- boton for about me, only the icon -->
         <a routerLink="/about" type="button" class="text-blue-900 ml-2 mr-2 button-icon ">
           <i class="fas fa-user"></i>
         </a>
-
       </div>
     </div>
   </div>
