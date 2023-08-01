@@ -1,32 +1,28 @@
-import {Request, Response} from 'express';
-import {PrismaClient} from '@prisma/client';
-import {request} from 'http';
+import { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
+import { request } from "http";
 
 const prisma = new PrismaClient();
 
 //Funtion about to create a new Questions
 export const createQuestions = async (req: Request, res: Response) => {
-    let pregunta = req.body;
-  
-    try {
-      const newQuestion = await prisma.question.create({
-        data: {
-          QuestionText: pregunta.QuestionText,
-          Product: { connect: pregunta.Product, },
-          User: { connect: pregunta.User, },
-        },
-      });
-  
-      if (newQuestion === null) {
-        return res
-          .status(404)
-          .json({ message: "No products found for the specified user role" });
-      }
-  
-      res.json(newQuestion);
-  
-    } catch (error) {
-      console.log(error);
-      res.json(error);
-    }
-  };
+  let questionData = req.body;
+
+  questionData.ProductId = Number(questionData.ProductId);
+  questionData.UserId = Number(questionData.UserId);
+
+  try {
+    const newQuestion = await prisma.question.create({
+      data: {
+        QuestionText: questionData.QuestionText,
+        Product: { connect: { ProductId: questionData.ProductId } },
+        User: { connect: { UserId: questionData.UserId } },
+      },
+    });
+
+    res.json(newQuestion);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
