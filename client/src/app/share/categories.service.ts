@@ -13,4 +13,7 @@ export class CategoriesService {
   list(endpoing: string): Observable<any> {
     return this.http.get<any>(this.urlAPI + endpoing);
   }
+  create(endPoint: string, objCreate: any | any): Observable<any | any> {
+    return this.http.post<any>(this.urlAPI + endPoint, objCreate);
+  }
 }
