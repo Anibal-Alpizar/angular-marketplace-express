@@ -8,6 +8,7 @@ import { ProductByUserComponent } from './product-by-user/product-by-user.compon
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductCreateComponent } from './product-create/product-create.component';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,6 @@ import { FormsModule } from '@angular/forms';
     CardComponent,
   ],
 
-  imports: [CommonModule, ProductRoutingModule, FormsModule],
+  imports: [CommonModule, ProductRoutingModule, FormsModule, ReactiveFormsModule],
 })
 export class ProductModule {}
