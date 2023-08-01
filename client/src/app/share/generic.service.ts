@@ -26,4 +26,8 @@ export class GenericService {
     const url = `${this.urlAPI}/${endPoint}`;
     return this.http.get<Product>(url);
   }
+
+  getProduct(endopoint: string, filtro: any): Observable<any | any[]> {
+    return this.http.get<any | any[]>(this.urlAPI + endopoint + `/${filtro}`);
+  }
 }
