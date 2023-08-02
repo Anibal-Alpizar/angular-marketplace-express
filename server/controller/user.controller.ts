@@ -76,6 +76,19 @@ export const login = async (req: Request, res: Response) => {
       message: "The email doesn't exist",
     });
   } else {
+    const isPasswordValid = await bcrypt.compare(
+      userData.password,
+      user.Password
+    );
+
+    if (!isPasswordValid) {
+      res.status(401).send({
+        status: false,
+        message: "Invalid password",
+      });
+      return;
+    }
+
     const payload = {
       email: user.Email,
     };
@@ -100,8 +113,6 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
-
-
 export const getRoles = async (req: Request, res: Response) => {
   try {
     const roles = await prisma.role.findMany();
@@ -110,4 +121,4 @@ export const getRoles = async (req: Request, res: Response) => {
     console.log(error);
     res.json(error);
   }
-}
+};
