@@ -8,6 +8,8 @@ CREATE TABLE `User` (
     `Password` VARCHAR(191) NOT NULL,
     `IsActive` BOOLEAN NOT NULL,
     `Address` VARCHAR(191) NOT NULL,
+    `VerificationCode` VARCHAR(191) NOT NULL,
+    `VerificationToken` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `User_Email_key`(`Email`),
     PRIMARY KEY (`UserId`)

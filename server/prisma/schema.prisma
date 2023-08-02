@@ -11,22 +11,24 @@ datasource db {
 }
 
 model User {
-  UserId         Int             @id @default(autoincrement())
-  FullName       String?
-  Identification String
-  PhoneNumber    String
-  Email          String          @unique
-  Password       String
-  IsActive       Boolean
-  Address        String
-  Roles          UserRole[]
-  Addresses      Address[]
-  Questions      Question[]
-  Answers        Answer[]
-  Evaluations    Evaluation[]
-  PaymentMethod  PaymentMethod[]
-  Purchase       Purchase[]
-  Products       Product[]
+  UserId            Int     @id @default(autoincrement())
+  FullName          String?
+  Identification    String
+  PhoneNumber       String
+  Email             String  @unique
+  Password          String
+  IsActive          Boolean
+  Address           String
+  VerificationCode  String
+  VerificationToken String 
+  Roles         UserRole[]
+  Addresses     Address[]
+  Questions     Question[]
+  Answers       Answer[]
+  Evaluations   Evaluation[]
+  PaymentMethod PaymentMethod[]
+  Purchase      Purchase[]
+  Products      Product[]
 }
 
 model Role {

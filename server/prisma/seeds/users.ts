@@ -10,6 +10,8 @@ export const users: User[] = [
     Password: "password123",
     IsActive: true,
     Address: "123 Main Street",
+    VerificationCode: "123456",
+    VerificationToken: "123456",
   },
   {
     UserId: 2,
@@ -20,6 +22,8 @@ export const users: User[] = [
     Password: "password456",
     IsActive: true,
     Address: "456 Elm Street",
+    VerificationCode: "654321",
+    VerificationToken: "654321",
   },
   {
     UserId: 3,
@@ -30,6 +34,7 @@ export const users: User[] = [
     Password: "password789",
     IsActive: true,
     Address: "789 Oak Street",
+    VerificationCode: "789012",
+    VerificationToken: "789012",
   },
-  
 ];

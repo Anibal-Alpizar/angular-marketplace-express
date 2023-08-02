@@ -35,53 +35,53 @@ async function main() {
     data: roles as Role[],
   });
 
-  await prisma.user.createMany({
-    data: users as User[],
-  });
+  // // await prisma.user.createMany({
+  // //   data: users as User[],
+  // // });
 
-  await prisma.userRole.createMany({
-    data: userRoles as UserRole[],
-  });
+  // // await prisma.userRole.createMany({
+  // //   data: userRoles as UserRole[],
+  // // });
 
-  await prisma.category.createMany({
-    data: categories as Category[],
-  });
+  // await prisma.category.createMany({
+  //   data: categories as Category[],
+  // });
 
-  await prisma.product.createMany({
-    data: products as Product[],
-  });
+  // await prisma.product.createMany({
+  //   data: products as Product[],
+  // });
 
-  await prisma.photo.createMany({
-    data: photos as Photo[],
-  });
+  // await prisma.photo.createMany({
+  //   data: photos as Photo[],
+  // });
 
-  await prisma.question.createMany({
-    data: questions as Question[],
-  });
+  // await prisma.question.createMany({
+  //   data: questions as Question[],
+  // });
 
-  await prisma.answer.createMany({
-    data: answers as Answer[],
-  });
+  // await prisma.answer.createMany({
+  //   data: answers as Answer[],
+  // });
 
-  await prisma.address.createMany({
-    data: addresses as Address[],
-  });
+  // await prisma.address.createMany({
+  //   data: addresses as Address[],
+  // });
 
-  await prisma.paymentMethod.createMany({
-    data: paymentMethods as PaymentMethod[],
-  });
+  // await prisma.paymentMethod.createMany({
+  //   data: paymentMethods as PaymentMethod[],
+  // });
 
-  await prisma.purchase.createMany({
-    data: purchases as Purchase[],
-  });
+  // await prisma.purchase.createMany({
+  //   data: purchases as Purchase[],
+  // });
 
-  await prisma.purchaseItem.createMany({
-    data: purchaseItems as PurchaseItem[],
-  });
+  // await prisma.purchaseItem.createMany({
+  //   data: purchaseItems as PurchaseItem[],
+  // });
 
-  await prisma.evaluation.createMany({
-    data: evaluations as Evaluation[],
-  });
+  // await prisma.evaluation.createMany({
+  //   data: evaluations as Evaluation[],
+  // });
 }
 
 main()

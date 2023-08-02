@@ -10,6 +10,7 @@ import userRoutes from "./routes/user.routes";
 import categoriesRoutes from "./routes/category.routes";
 import fileUpload from "express-fileupload";
 import path from "path";
+import { errorHandler } from "./middleware/errorHandler.middleware";
 
 const app = express();
 
@@ -23,6 +24,8 @@ app.use(express.json());
 app.use(fileUpload());
 
 app.use("/uploads", express.static(path.resolve("uploads")));
+
+app.use(errorHandler);
 
 // Routes
 app.use(indexRoutes);
