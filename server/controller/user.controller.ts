@@ -2,51 +2,21 @@ import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { createTransport } from "nodemailer";
 import dotenv from "dotenv";
+import {
+  ExtendedUserData,
+  createUser,
+  generateVerificationCode,
+} from "./user/userLogic";
+import { sendVerificationEmail } from "./user/emailService";
+import { sendResponse } from "../utils/sendResponse";
 
 const prisma = new PrismaClient();
 dotenv.config();
 
-const transporter = createTransport({
-  service: "gmail",
-  auth: {
-    user: "riosurporpista@gmail.com",
-    pass: "vfotibpjmvldwars",
-  },
-});
-
-function generateVerificationCode(): string {
-  const length = 6;
-  const characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  let verificationCode = "";
-
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    verificationCode += characters.charAt(randomIndex);
-  }
-
-  return verificationCode;
-}
-
-function sendResponse(
-  res: Response,
-  status: number,
-  success: boolean,
-  message: string,
-  data?: any
-) {
-  return res.status(status).json({
-    status: success,
-    message: message,
-    data: data,
-  });
-}
-
 export const register = async (req: Request, res: Response) => {
-  const userData = req.body;
+  const userData: ExtendedUserData = req.body;
 
-  // Validación de campos requeridos
   if (
     !userData.fullName ||
     !userData.identification ||
@@ -58,96 +28,71 @@ export const register = async (req: Request, res: Response) => {
     return sendResponse(res, 400, false, "All fields are required.");
   }
 
-  // Validación de formato de email
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(userData.email)) {
     return sendResponse(res, 400, false, "Invalid email address.");
   }
 
-  // Genera un código de verificación (puedes usar una librería para esto)
-  const verificationCode = generateVerificationCode();
+  try {
+    const verificationCode = generateVerificationCode();
 
-  const token = jwt.sign(
-    { email: userData.email },
-    process.env.JWT_SECRET || "",
-    {
-      expiresIn: "1d",
+    const token = jwt.sign(
+      { email: userData.email },
+      process.env.JWT_SECRET || "",
+      {
+        expiresIn: "1d",
+      }
+    );
+
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(userData.password, salt);
+
+    const user = await createUser({
+      ...userData,
+      password: hash,
+      verificationCode,
+      verificationToken: token,
+      isActive: false,
+    });
+
+    const roles = Array.isArray(userData.role)
+      ? userData.role
+      : [userData.role];
+
+    for (const roleId of roles as number[]) {
+      await prisma.userRole.create({
+        data: {
+          UserId: user.UserId,
+          RoleId: roleId,
+        },
+      });
     }
-  );
 
-  const salt = bcrypt.genSaltSync(10);
-  const hash = bcrypt.hashSync(userData.password, salt);
-
-  const user = await prisma.user.create({
-    data: {
+    const selectedData = {
       FullName: userData.fullName,
       Identification: userData.identification,
       PhoneNumber: userData.phoneNumber,
       Email: userData.email,
-      Password: hash,
-      IsActive: false,
       Address: userData.address,
-      VerificationCode: verificationCode,
-      VerificationToken: token,
-    },
-  });
+    };
 
-  const roles = Array.isArray(userData.role) ? userData.role : [userData.role];
+    await sendVerificationEmail(userData.email, verificationCode, selectedData);
 
-  for (const roleId of roles as number[]) {
-    await prisma.userRole.create({
-      data: {
-        UserId: user.UserId,
-        RoleId: roleId,
-      },
-    });
+    return sendResponse(
+      res,
+      200,
+      true,
+      "Verification email sent. Please check your inbox and confirm your email address.",
+      user
+    );
+  } catch (error: any) {
+    return sendResponse(
+      res,
+      500,
+      false,
+      "Error creating user: " + error.message
+    );
   }
-
-  const selectedData = {
-    FullName: userData.fullName,
-    Identification: userData.identification,
-    PhoneNumber: userData.phoneNumber,
-    Email: userData.email,
-    Address: userData.address,
-  };
-
-  const message = `
-    <p>Gracias por registrarte en nuestro sitio. A continuación, te mostramos los datos que seleccionaste:</p>
-    <ul>
-      <li>Nombre completo: ${selectedData.FullName}</li>
-      <li>Identificación: ${selectedData.Identification}</li>
-      <li>Número de teléfono: ${selectedData.PhoneNumber}</li>
-      <li>Email: ${selectedData.Email}</li>
-      <li>Dirección: ${selectedData.Address}</li>
-    </ul>
-  `;
-
-  // Envía el correo de confirmación al usuario
-  const mailOptions = {
-    from: "riosurporpista@gmail.com",
-    to: userData.email,
-    subject: "Confirm your email address",
-    html: message,
-  };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return sendResponse(
-        res,
-        500,
-        false,
-        "Error sending verification email: " + error.message
-      );
-    } else {
-      return sendResponse(
-        res,
-        200,
-        true,
-        "Verification email sent. Please check your inbox and confirm your email address.",
-        user
-      );
-    }
-  });
 };
 
 export const login = async (req: Request, res: Response) => {
