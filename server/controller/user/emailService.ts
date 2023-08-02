@@ -1,19 +1,22 @@
 // emailService.ts
 
 import { createTransport } from "nodemailer";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const transporter = createTransport({
   service: "gmail",
   auth: {
-    user: "riosurporpista@gmail.com",
-    pass: "vfotibpjmvldwars",
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_PASS,
   },
 });
 
 export function sendVerificationEmail(
   to: string,
   verificationCode: string,
-  selectedData: any // Datos del usuario que deseas mostrar en el correo
+  selectedData: any
 ): Promise<void> {
   const message = `
     <p>Gracias por registrarte en nuestro sitio. A continuación, te mostramos los datos que seleccionaste:</p>
@@ -23,6 +26,7 @@ export function sendVerificationEmail(
       <li>Número de teléfono: ${selectedData.PhoneNumber}</li>
       <li>Email: ${selectedData.Email}</li>
       <li>Dirección: ${selectedData.Address}</li>
+      <li>Código de verificación: ${verificationCode}</li>
     </ul>
   `;
 
