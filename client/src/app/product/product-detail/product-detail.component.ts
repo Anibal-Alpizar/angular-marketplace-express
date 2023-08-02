@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { GenericService } from 'src/app/share/generic.service';
@@ -12,15 +12,18 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.css'],
 })
-export class ProductDetailComponent {
+export class ProductDetailComponent implements OnInit {
   data: any;
   isFormVisible = false;
-  formCreate!: FormGroup; // Declare the formCreate variable as FormGroup
+  formCreate!: FormGroup;
   destroy$: Subject<boolean> = new Subject<boolean>();
   showNewQuestion: boolean = false;
   showNewAnswer: boolean = false;
-  newQuestion: any; 
-  newAnswer: any;
+  currentUser: any;
+  answerText: { [questionId: number]: string } = {};
+  newQuestion: any;
+  newAnswer: { [questionId: number]: string } = {};
+
   questionFormVisibility: { [questionId: number]: boolean } = {};
 
   constructor(
@@ -32,20 +35,63 @@ export class ProductDetailComponent {
     let id = this.route.snapshot.paramMap.get('id');
     if (!isNaN(Number(id))) {
       this.getProduct(Number(id));
-
     }
-    this.createForm(); // Call the method to create the form
+    this.createForm();
   }
 
-   // Método para alternar la visibilidad del formulario de respuesta para cada pregunta.
-   toggleFormVisibility(question: any) {
-    this.questionFormVisibility[question.QuestionId] = !this.questionFormVisibility[question.QuestionId];
+  ngOnInit() {
+    const currentUserString = localStorage.getItem('currentUser');
+    if (currentUserString) {
+      this.currentUser = JSON.parse(currentUserString);
+    }
   }
-   
+
+  toggleFormVisibility(questionId: number) {
+    console.log('ID de la pregunta:', questionId);
+    this.questionFormVisibility[questionId] =
+      !this.questionFormVisibility[questionId];
+  }
+
+  submitAnswer(questionId: number) {
+    const currentUserString = localStorage.getItem('currentUser');
+    if (currentUserString) {
+      const currentUser = JSON.parse(currentUserString);
+      const productId = this.route.snapshot.paramMap.get('id');
+      const userId = currentUser.user.UserId;
+
+      if (productId !== null) {
+        const url = 'http://localhost:3000/createAnswers';
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+        const answerData = {
+          AnswerText: this.answerText[questionId],
+          QuestionId: questionId,
+          UserId: userId,
+        };
+
+        this.http
+          .post(url, answerData, { headers })
+          .pipe(catchError(this.handleError))
+          .subscribe(
+            (response: any) => {
+              console.log('Respuesta enviada con éxito:', response);
+              this.newAnswer[questionId] = '';
+            },
+            (error) => {
+              console.error('Error al enviar la respuesta:', error);
+            }
+          );
+      } else {
+        console.log(
+          'El ID del producto es nulo. No se puede crear una respuesta.'
+        );
+      }
+    }
+  }
 
   createForm() {
     this.formCreate = this.formBuilder.group({
-      comment: '', // Add any other form fields you need here
+      comment: '',
     });
   }
 
@@ -64,84 +110,39 @@ export class ProductDetailComponent {
       const currentUser = JSON.parse(currentUserString);
       const productId = this.route.snapshot.paramMap.get('id');
       const userId = currentUser.user.UserId;
-  
+
       if (productId !== null) {
         const formData = new FormData();
         formData.append('QuestionText', this.formCreate.get('comment')?.value);
         formData.append('ProductId', productId);
         formData.append('UserId', userId);
-  
+
         const url = 'http://localhost:3000/createQuestions';
         const headers = new HttpHeaders();
-  
+
         this.http
           .post(url, formData, { headers })
           .pipe(catchError(this.handleError))
           .subscribe(
             (response: any) => {
               console.log('Pregunta enviada con éxito:', response);
-              this.data[0].Questions.push(response); // Agregamos la nueva pregunta a data
-              this.newQuestion = response; // Almacenamos la nueva pregunta en la variable newQuestion
+              this.data[0].Questions.push(response);
+              this.newQuestion = response;
               this.formCreate.get('comment')?.setValue('');
-              this.showNewQuestion = true; // Mostramos el div simulado temporalmente
-  
-              // Después de un tiempo (por ejemplo, 5 segundos), ocultamos el div simulado
+              this.showNewQuestion = true;
+
               setTimeout(() => {
                 this.showNewQuestion = false;
-              }, 5000); 
+              }, 5000);
             },
             (error) => {
               console.error('Error al enviar la pregunta:', error);
             }
           );
       } else {
-        console.log('El ID del producto es nulo. No se puede crear una pregunta.'); 
-      }
-    }
-  }
-  
-  submitAnswer(questionId: number) {
-    const currentUserString = localStorage.getItem('currentUser');
-    if (currentUserString) {
-      const currentUser = JSON.parse(currentUserString);
-      const QuestionId = this.route.snapshot.paramMap.get('id');
-      const userId = currentUser.user.UserId;
-  
-      if (questionId !== null) {
-        const formData = new FormData();
-        formData.append('AnswerText', this.formCreate.get('comment')?.value);
-        formData.append('QuestionId', questionId.valueOf.toString());
-        formData.append('UserId', userId);
-  
-        const url = 'http://localhost:3000/createAnswers';
-        const headers = new HttpHeaders();
-  
-        this.http
-          .post(url, formData, { headers })
-          .pipe(catchError(this.handleError))
-          .subscribe(
-            (response: any) => {
-              console.log('Respuesta enviada con éxito', response);
-         
-              const question = this.data[0].Questions.find((q: any) => q.QuestionId === questionId);
-              if (question) {
-                question.Answers.push(response);
-              }
-  
-              this.newAnswer = response;
-              this.formCreate.get('comment')?.setValue('');
-              this.showNewAnswer = true;
-  
-              setTimeout(() => {
-                this.showNewAnswer = false;
-              }, 5000);
-            },
-            (error) => {
-              console.error('Error al enviar la respuesta:', error);
-            }
-          );
-      } else {
-        console.log('El ID de la Pregunta es nulo. No se puede crear una Respuesta.'); 
+        console.log(
+          'El ID del producto es nulo. No se puede crear una pregunta.'
+        );
       }
     }
   }

@@ -224,30 +224,18 @@
           <p class="text-gray-500 dark:text-gray-400">
             {{ question.QuestionText }}
           </p>
-          <p class="inline-flex items-center mr-3 text-sm text-blue-700 dark:text-white" (click)="toggleFormVisibility(question)">
-            Responder
-          </p>
-          <form [formGroup]="formCreate" (ngSubmit)="submitAnswer(question.QuestionId)" *ngIf="questionFormVisibility[question.QuestionId]">
-            <div
-              class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-              <label for="comment" class="sr-only">Enter your Answers:</label>
-              <textarea
-                class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
-                id="comment" formControlName="comment" rows="4"></textarea>
-              <button
-                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center border border-black text-black bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
-                type="submit">Submit</button>
-            </div>
-          </form>
+          <button (click)="toggleFormVisibility(question.QuestionId)">Responder</button>
+          <div *ngIf="questionFormVisibility[question.QuestionId]" class="response-area">
+            <textarea
+              class="px-0 w-full text-sm text-gray-900 border border-black focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
+              [(ngModel)]="answerText[question.QuestionId]" rows="4"></textarea>
+            <button (click)="submitAnswer(question.QuestionId)">Enviar</button>
+          </div>
         </article>
-          
         <ng-container *ngFor="let answer of question.Answers">
-          <article class="p-6 mb-6 ml-6 lg:ml-12 text-base bg-white rounded-lg dark:bg-gray-900">
-            
-
-  
+          <article class="p-6 mb-6 ml-6 lg:ml-12 text-base border border-black bg-white rounded-lg dark:bg-gray-900">
             <footer class="flex justify-between items-center mb-2">
-              {{ data[0].User.FullName }}
+              {{ currentUser.user.FullName }}
               <div class="flex items-center" *ngIf="answer.User">
                 <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
                   <img class="mr-2 w-6 h-6 rounded-full"
@@ -264,9 +252,10 @@
               <button type="button"
                 class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400"></button>
             </div>
-          
           </article>
         </ng-container>
+
+
       </ng-container>
     </div>
   </section>

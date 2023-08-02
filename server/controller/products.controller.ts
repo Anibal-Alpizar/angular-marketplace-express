@@ -106,6 +106,7 @@ export const detailsProducts = async (req: Request, res: Response) => {
         },
         Questions: {
           select: {
+            QuestionId: true,
             QuestionText: true,
             User: {
               select: {
@@ -216,7 +217,7 @@ export const createProduct = async (req: any, res: Response) => {
     products.Quantity = parseInt(products.Quantity);
     products.CategoryId = parseInt(products.CategoryId);
     products.UserId = parseInt(products.UserId);
-      //Creamos el producto
+    //Creamos el producto
     const newProduct = await prisma.product.create({
       data: {
         ProductName: products.ProductName,
