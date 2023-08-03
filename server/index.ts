@@ -10,7 +10,7 @@ import userRoutes from "./routes/user.routes";
 import categoriesRoutes from "./routes/category.routes";
 import fileUpload from "express-fileupload";
 import path from "path";
-import { errorHandler } from "./middleware/errorHandler.middleware";
+import { errorHandler } from "./middlewares/errorHandler.middleware";
 
 const app = express();
 
