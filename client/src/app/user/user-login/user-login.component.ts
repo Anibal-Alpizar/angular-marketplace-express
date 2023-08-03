@@ -17,8 +17,7 @@ import {
 export class UserLoginComponent implements OnInit {
   hide = true;
   form!: FormGroup;
-  makeSubmit: boolean = false;
-  infoUser: any;
+  isFormSubmitted: boolean = false;
   backendError: string | null = null;
 
   constructor(
@@ -34,24 +33,14 @@ export class UserLoginComponent implements OnInit {
 
   reactiveForm() {
     this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
+      email: ['', { validators: [Validators.required, Validators.email] }],
+      password: ['', { validators: [Validators.required] }],
     });
   }
 
   ngOnInit(): void {
-    const now = new Date();
     this.mensajes();
-    const expirationDate = new Date(now.getTime() + 3600000);
-
-    const savedEmail = this.cookieService.get('email');
-    console.log('Saved Email:', savedEmail);
-
-    if (savedEmail) {
-      this.form
-        .get('email')
-        ?.setValue(decodeURIComponent(savedEmail), expirationDate);
-    }
+    this.populateSavedEmail();
   }
 
   mensajes() {
@@ -63,7 +52,7 @@ export class UserLoginComponent implements OnInit {
       if (register) {
         this.notification.mensaje(
           'Usuario',
-          'Usuaio registrado! Especifique sus credenciales',
+          'Usuario registrado! Especifique sus credenciales',
           TipoMessage.success
         );
       }
@@ -77,17 +66,22 @@ export class UserLoginComponent implements OnInit {
     });
   }
 
+  populateSavedEmail() {
+    const savedEmail = this.cookieService.get('email');
+    if (savedEmail) {
+      this.form.get('email')?.setValue(decodeURIComponent(savedEmail));
+    }
+  }
+
   onReset() {
     this.form.reset();
   }
 
   submitForm() {
-    this.makeSubmit = true;
+    this.isFormSubmitted = true;
     if (this.form.invalid) {
       return;
     }
-
-    console.log(this.form.value);
 
     this.authService.login(this.form.value).subscribe(
       (res: any) => {
@@ -96,9 +90,9 @@ export class UserLoginComponent implements OnInit {
       (error: HttpErrorResponse) => {
         this.backendError = error.error.message;
         this.notification.mensaje(
-          'Usuario',
-          'Bienvenido usuario',
-          TipoMessage.success
+          'Error de autenticación',
+          'Las credenciales proporcionadas son incorrectas',
+          TipoMessage.error
         );
       }
     );
@@ -108,7 +102,7 @@ export class UserLoginComponent implements OnInit {
     return (
       this.form.controls[control].hasError(error) &&
       this.form.controls[control].invalid &&
-      (this.makeSubmit || this.form.controls[control].touched)
+      (this.isFormSubmitted || this.form.controls[control].touched)
     );
   };
 }

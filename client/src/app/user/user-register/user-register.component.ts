@@ -1,11 +1,47 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthenticationService } from 'src/app/share/authentication.service';
 import { UsersService } from 'src/app/share/users.service';
 import { CookieService } from 'ngx-cookie-service';
+
+interface Role {
+  RoleId: number;
+  RoleName: string;
+}
+
+interface User {
+  id: number;
+  username: string;
+}
+
+interface BackendError {
+  message: string;
+}
+
+interface RegisterResponse extends User {
+  userId: number;
+  message: string;
+  someOtherProperty: string;
+  anotherProperty: boolean;
+}
+
+interface FormControls {
+  fullName: FormControl;
+  identification: FormControl;
+  password: FormControl;
+  email: FormControl;
+  phoneNumber: FormControl;
+  address: FormControl;
+  role: FormControl;
+}
 
 @Component({
   selector: 'app-user-register',
@@ -23,10 +59,10 @@ export class UserRegisterComponent implements OnInit {
   isCustomerSelected: boolean = true;
   isVendorSelected: boolean = false;
   hide = true;
-  user: any;
+  user: User | null = null;
   selectedRoleId: number | null = null;
-  backendError: string | null = null;
-  roles: any;
+  backendError: BackendError | null = null;
+  roles: Role[] = [];
   formCreate!: FormGroup;
   makeSubmit: boolean = false;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -50,7 +86,7 @@ export class UserRegisterComponent implements OnInit {
       phoneNumber: ['', [Validators.required]],
       address: ['', [Validators.required]],
       role: ['', [Validators.required]],
-    });
+    }) as FormGroup & FormControls;
     this.getRoles();
   }
 
@@ -76,10 +112,9 @@ export class UserRegisterComponent implements OnInit {
       }
 
       this.authService.register(this.formCreate.value).subscribe(
-        (res: any) => {
+        (res: RegisterResponse) => {
           this.user = res;
 
-          // Save the email in a cookie
           this.cookieService.set(
             'email',
             encodeURIComponent(this.formCreate.value.email)
@@ -102,14 +137,14 @@ export class UserRegisterComponent implements OnInit {
     this.gService
       .list('/roles')
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data: any) => {
-        this.roles = data.filter((role: any) => role.RoleId !== 1);
+      .subscribe((data: Role[]) => {
+        this.roles = data.filter((role: Role) => role.RoleId !== 1);
         console.log(this.roles);
       });
   }
 
   getRoleName(roleId: number): string {
-    const role = this.roles.find((r: any) => r.RoleId === roleId);
+    const role = this.roles.find((r: Role) => r.RoleId === roleId);
     return role ? role.RoleName : '';
   }
 
@@ -120,6 +155,11 @@ export class UserRegisterComponent implements OnInit {
       (this.makeSubmit || this.formCreate.controls[control].touched)
     );
   };
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
 
   onReset() {
     this.formCreate.reset();
