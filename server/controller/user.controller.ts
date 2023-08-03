@@ -167,7 +167,7 @@ export const register = async (req: Request, res: Response) => {
       user
     );
   } catch (error: any) {
-    console.error("Error creating user:", error.message); 
+    console.error("Error creating user:", error.message);
     return sendResponse(
       res,
       500,
