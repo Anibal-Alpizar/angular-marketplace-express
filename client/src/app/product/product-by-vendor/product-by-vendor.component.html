@@ -8,6 +8,9 @@
           placeholder="Buscar producto por nombre, descripción, precio, cantidad" />
       </div>
     </ng-container>
+    <div *ngIf="errorText" class="error-message">
+      <span class="text-red-500 dark:text-red-500 text-sm italic block">{{ errorText }}</span>
+    </div>
     <ng-template #noResults>
       <div class="input-container">
         <input #searchInput type="text"

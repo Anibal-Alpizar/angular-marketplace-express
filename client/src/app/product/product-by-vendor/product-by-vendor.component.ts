@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   OnDestroy,
-  OnInit,
   ViewChild,
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
@@ -22,6 +21,7 @@ export class ProductByVendorComponent implements AfterViewInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   products: Product[] = [];
   filterProducts: Product[] = [];
+  errorText: string | null = null;
   searchText: string = '';
 
   @ViewChild('searchInput', { static: false })
@@ -51,19 +51,26 @@ export class ProductByVendorComponent implements AfterViewInit, OnDestroy {
     if (userString) {
       const user = JSON.parse(userString);
       const userId = user.user.UserId;
-
-      console.log('ID del usuario:', userId);
-
       this.gService
         .list(`${PRODUCTSBYVENDOR_ROUTE}/${userId}`)
         .pipe(takeUntil(this.destroy$))
-        .subscribe((res: Product[]) => {
-          this.products = res;
-          this.filterProducts = res;
-          this.focusSearchInput();
-        });
+        .subscribe(
+          (res: Product[]) => {
+            this.products = res;
+            this.filterProducts = res;
+            this.focusSearchInput();
+            this.errorText = null;
+          },
+          (error) => {
+            console.error('Error al obtener los productos:', error);
+            this.errorText =
+              'Hubo un error al obtener los productos. Por favor, inténtelo nuevamente más tarde.';
+          }
+        );
     } else {
       console.error('No se encontró el usuario en el localStorage');
+      this.errorText =
+        'No se encontró el usuario en el localStorage. Por favor, inicie sesión nuevamente.';
     }
   }
 
