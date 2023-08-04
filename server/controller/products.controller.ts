@@ -9,30 +9,57 @@ import fs from "fs-extra";
 const prisma = new PrismaClient();
 
 //Funtion about get all products to only vendor
+// export const getProductsByVendor = async (req: Request, res: Response) => {
+//   let roleId = 3; // ID del Role específico para el vendedor
+
+//   try {
+//     const users = await prisma.user.findMany({
+//       where: {
+//         Roles: {
+//           some: {
+//             RoleId: roleId,
+//           },
+//         },
+//       },
+//       include: {
+//         Products: true,
+//       },
+//     });
+
+//     if (users.length === 0) {
+//       return res
+//         .status(404)
+//         .json({ message: "No products found for the specified user role" });
+//     }
+
+//     const products = users.flatMap((user) => user.Products);
+
+//     res.json(products);
+//   } catch (error) {
+//     console.log(error);
+//     res.json(error);
+//   }
+// };
 export const getProductsByVendor = async (req: Request, res: Response) => {
-  let roleId = 3; // ID del Role específico para el vendedor
+  const userId = parseInt(req.params.id);
 
   try {
-    const users = await prisma.user.findMany({
+    const user = await prisma.user.findUnique({
       where: {
-        Roles: {
-          some: {
-            RoleId: roleId,
-          },
-        },
+        UserId: userId,
       },
       include: {
         Products: true,
       },
     });
 
-    if (users.length === 0) {
+    if (!user || !user.Products || user.Products.length === 0) {
       return res
         .status(404)
-        .json({ message: "No products found for the specified user role" });
+        .json({ message: "No products found for the specified vendor" });
     }
 
-    const products = users.flatMap((user) => user.Products);
+    const products = user.Products;
 
     res.json(products);
   } catch (error) {

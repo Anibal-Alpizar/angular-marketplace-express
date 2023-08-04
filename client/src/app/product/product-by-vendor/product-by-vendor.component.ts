@@ -3,12 +3,14 @@ import {
   Component,
   ElementRef,
   OnDestroy,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { GenericService } from 'src/app/share/generic.service';
 import { Product } from '../interfaces/product';
 import { Column } from '../../components/interfaces/tableUser';
+import { PRODUCTSBYVENDOR_ROUTE } from 'src/app/constants/routes.constants';
 
 @Component({
   selector: 'app-product-by-vendor',
@@ -34,7 +36,6 @@ export class ProductByVendorComponent implements AfterViewInit, OnDestroy {
   ];
 
   constructor(private gService: GenericService) {}
-  
 
   ngAfterViewInit(): void {
     this.vendorProductsList();
@@ -46,14 +47,24 @@ export class ProductByVendorComponent implements AfterViewInit, OnDestroy {
   }
 
   vendorProductsList() {
-    this.gService
-      .list('/productsbyvendor')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((res: Product[]) => {
-        this.products = res;
-        this.filterProducts = res;
-        this.focusSearchInput();
-      });
+    const userString = localStorage.getItem('currentUser');
+    if (userString) {
+      const user = JSON.parse(userString);
+      const userId = user.user.UserId;
+
+      console.log('ID del usuario:', userId);
+
+      this.gService
+        .list(`${PRODUCTSBYVENDOR_ROUTE}/${userId}`)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((res: Product[]) => {
+          this.products = res;
+          this.filterProducts = res;
+          this.focusSearchInput();
+        });
+    } else {
+      console.error('No se encontró el usuario en el localStorage');
+    }
   }
 
   searchProduct() {

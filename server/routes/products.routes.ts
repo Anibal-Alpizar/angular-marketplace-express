@@ -10,15 +10,15 @@ import {
 
 const router = Router();
 
-router.get("/productsByVendor", getProductsByVendor);
+router.get("/productsByVendor/:id", getProductsByVendor);
 
 router.get("/productsByUsers", getProductByUser);
 
 router.get("/productsDetails/:id", detailsProducts);
 
- router.post("/createProducts", createProduct);
+router.post("/createProducts", createProduct);
 
- router.put("/products/:id", updateProduct);
+router.put("/products/:id", updateProduct);
 
 // router.delete("/products/:id", deleteProduct);
 
