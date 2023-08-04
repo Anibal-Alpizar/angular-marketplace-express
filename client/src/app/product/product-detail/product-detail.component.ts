@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { GenericService } from 'src/app/share/generic.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ProductService } from 'src/app/share/product.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -16,20 +14,19 @@ export class ProductDetailComponent implements OnInit {
   data: any;
   isFormVisible = false;
   formCreate!: FormGroup;
-  destroy$: Subject<boolean> = new Subject<boolean>();
   showNewQuestion: boolean = false;
   showNewAnswer: boolean = false;
   currentUser: any;
-  answerText: { [questionId: number]: string } = {};
   newQuestion: any;
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  answerText: { [questionId: number]: string } = {};
   newAnswer: { [questionId: number]: string } = {};
 
   questionFormVisibility: { [questionId: number]: boolean } = {};
 
   constructor(
-    private gService: GenericService,
+    private productService: ProductService,
     private route: ActivatedRoute,
-    private http: HttpClient,
     private formBuilder: FormBuilder
   ) {
     let id = this.route.snapshot.paramMap.get('id');
@@ -60,18 +57,8 @@ export class ProductDetailComponent implements OnInit {
       const userId = currentUser.user.UserId;
 
       if (productId !== null) {
-        const url = 'http://localhost:3000/createAnswers';
-        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-        const answerData = {
-          AnswerText: this.answerText[questionId],
-          QuestionId: questionId,
-          UserId: userId,
-        };
-
-        this.http
-          .post(url, answerData, { headers })
-          .pipe(catchError(this.handleError))
+        this.productService
+          .createAnswer(questionId, this.answerText[questionId], userId)
           .subscribe(
             (response: any) => {
               console.log('Respuesta enviada con éxito:', response);
@@ -96,7 +83,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   getProduct(id: any) {
-    this.gService
+    this.productService
       .getProductDetails(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
@@ -104,6 +91,7 @@ export class ProductDetailComponent implements OnInit {
         this.data = data;
       });
   }
+
   submitQuestion() {
     const currentUserString = localStorage.getItem('currentUser');
     if (currentUserString) {
@@ -112,17 +100,12 @@ export class ProductDetailComponent implements OnInit {
       const userId = currentUser.user.UserId;
 
       if (productId !== null) {
-        const formData = new FormData();
-        formData.append('QuestionText', this.formCreate.get('comment')?.value);
-        formData.append('ProductId', productId);
-        formData.append('UserId', userId);
-
-        const url = 'http://localhost:3000/createQuestions';
-        const headers = new HttpHeaders();
-
-        this.http
-          .post(url, formData, { headers })
-          .pipe(catchError(this.handleError))
+        this.productService
+          .createQuestion(
+            Number(productId),
+            this.formCreate.get('comment')?.value,
+            userId
+          )
           .subscribe(
             (response: any) => {
               console.log('Pregunta enviada con éxito:', response);
