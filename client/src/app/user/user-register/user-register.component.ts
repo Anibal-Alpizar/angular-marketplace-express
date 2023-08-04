@@ -1,47 +1,19 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthenticationService } from 'src/app/share/authentication.service';
 import { UsersService } from 'src/app/share/users.service';
 import { CookieService } from 'ngx-cookie-service';
-
-interface Role {
-  RoleId: number;
-  RoleName: string;
-}
-
-interface User {
-  id: number;
-  username: string;
-}
-
-interface BackendError {
-  message: string;
-}
-
-interface RegisterResponse extends User {
-  userId: number;
-  message: string;
-  someOtherProperty: string;
-  anotherProperty: boolean;
-}
-
-interface FormControls {
-  fullName: FormControl;
-  identification: FormControl;
-  password: FormControl;
-  email: FormControl;
-  phoneNumber: FormControl;
-  address: FormControl;
-  role: FormControl;
-}
+import {
+  Role,
+  User,
+  RegisterResponse,
+} from 'src/app/interfaces/user.interface';
+import { FormControls } from 'src/app/interfaces/formControl.interface';
+import { BackendError } from 'src/app/interfaces/backend.interface';
+import { ROLE } from 'src/app/constants/role.constants';
 
 @Component({
   selector: 'app-user-register',
@@ -52,7 +24,8 @@ export class UserRegisterComponent implements OnInit {
   selectRole(event: Event) {
     const selectedValue = (event.target as HTMLSelectElement).value;
     this.formCreate.patchValue({
-      role: selectedValue === '2,3' ? [2, 3] : Number(selectedValue),
+      role:
+        selectedValue === '2,3' ? ROLE.CUSTOMER_VENDOR : Number(selectedValue),
     });
   }
 
@@ -75,6 +48,7 @@ export class UserRegisterComponent implements OnInit {
     private cookieService: CookieService
   ) {
     this.reactiveForm();
+    this.getRoles();
   }
 
   reactiveForm() {
@@ -87,7 +61,6 @@ export class UserRegisterComponent implements OnInit {
       address: ['', [Validators.required]],
       role: ['', [Validators.required]],
     }) as FormGroup & FormControls;
-    this.getRoles();
   }
 
   ngOnInit(): void {
