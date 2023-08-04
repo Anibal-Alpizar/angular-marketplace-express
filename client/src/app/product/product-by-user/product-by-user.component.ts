@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { GenericService } from 'src/app/share/generic.service';
 import { Product } from '../interfaces/product';
+import { PRODUCTSBYUSERS_ROUTE } from 'src/app/constants/routes.constants';
 
 @Component({
   selector: 'app-product-by-user',
@@ -32,7 +33,7 @@ export class ProductByUserComponent implements OnInit, OnDestroy {
   userProductsList() {
     this.products = [];
     this.gService
-      .get<Product[]>('/productsbyusers')
+      .get<Product[]>(PRODUCTSBYUSERS_ROUTE)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (res: Product[]) => {

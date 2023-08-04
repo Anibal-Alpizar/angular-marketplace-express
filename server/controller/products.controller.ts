@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
 
 //Funtion about get all products to only vendor
 export const getProductsByVendor = async (req: Request, res: Response) => {
-  let roleId = 2; // ID del Role específico para el vendedor
+  let roleId = 3; // ID del Role específico para el vendedor
 
   try {
     const users = await prisma.user.findMany({

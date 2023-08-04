@@ -1,99 +1,16 @@
 import { PrismaClient } from "@prisma/client";
-import { Request, Response } from "express";
+import { Request, Response, response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import dotenv from "dotenv";
+import { sendResponse } from "../utils/sendResponse";
+import { sendVerificationEmail } from "./user/emailService";
 import {
   ExtendedUserData,
   createUser,
   generateVerificationCode,
 } from "./user/userLogic";
-import { sendVerificationEmail } from "./user/emailService";
-import { sendResponse } from "../utils/sendResponse";
-import { generateAuthToken } from "../utils/utils";
-import { validationResult } from "express-validator";
 
-export const prisma = new PrismaClient();
-dotenv.config();
-
-export const login = async (req: Request, res: Response) => {
-  try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return await sendResponse(
-        res,
-        400,
-        false,
-        "Validation error",
-        null,
-        null
-      );
-    }
-
-    const userData = req.body;
-
-    const user = await prisma.user.findUnique({
-      where: {
-        Email: userData.email,
-      },
-      include: {
-        Roles: {
-          include: {
-            Role: true,
-          },
-        },
-      },
-    });
-
-    if (!user) {
-      const error = new Error("The email doesn't exist");
-      return await sendResponse(
-        res,
-        401,
-        false,
-        "Error en el inicio de sesión",
-        null,
-        error
-      );
-    }
-    const isPasswordValid = await bcrypt.compare(
-      userData.password,
-      user.Password
-    );
-
-    if (!isPasswordValid) {
-      return await sendResponse(
-        res,
-        401,
-        false,
-        "Invalid password",
-        null,
-        null
-      );
-    }
-
-    const token = generateAuthToken(user.Email);
-
-    return await sendResponse(
-      res,
-      200,
-      true,
-      "Login successful",
-      { user, token },
-      null
-    );
-  } catch (error: any) {
-    console.error("Error en el inicio de sesión:", error.message);
-    return await sendResponse(
-      res,
-      500,
-      false,
-      "Error en el inicio de sesión",
-      null,
-      error
-    );
-  }
-};
+const prisma = new PrismaClient();
 
 export const register = async (req: Request, res: Response) => {
   const userData: ExtendedUserData = req.body;
@@ -177,6 +94,65 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
+export const login = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return sendResponse(res, 400, false, "Email and password are required.");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: {
+      Email: email,
+    },
+    include: {
+      Roles: {
+        include: {
+          Role: true,
+        },
+      },
+    },
+  });
+
+  if (!user) {
+    return sendResponse(
+      res,
+      401,
+      false,
+      "Authentication failed. The email doesn't exist."
+    );
+  }
+
+  const isPasswordValid = bcrypt.compareSync(password, user.Password);
+
+  if (!isPasswordValid) {
+    return sendResponse(
+      res,
+      401,
+      false,
+      "Authentication failed. Invalid password."
+    );
+  }
+
+  const payload = {
+    email: user.Email,
+  };
+
+  const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+
+  const roleNames = user.Roles.map((userRole) => userRole.Role.RoleName);
+
+  return sendResponse(res, 200, true, "Login successful", {
+    user: {
+      ...user,
+      Roles: roleNames,
+    },
+    token,
+  });
+};
+
 export const getRoles = async (req: Request, res: Response) => {
   try {
     const roles = await prisma.role.findMany();
@@ -186,4 +162,3 @@ export const getRoles = async (req: Request, res: Response) => {
     res.json(error);
   }
 };
-export { createUser };

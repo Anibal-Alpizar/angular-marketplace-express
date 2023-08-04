@@ -43,9 +43,9 @@ async function main() {
   // //   data: userRoles as UserRole[],
   // // });
 
-  // await prisma.category.createMany({
-  //   data: categories as Category[],
-  // });
+  await prisma.category.createMany({
+    data: categories as Category[],
+  });
 
   // await prisma.product.createMany({
   //   data: products as Product[],
