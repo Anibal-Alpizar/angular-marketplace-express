@@ -100,21 +100,13 @@
               </p>
             </div>
             <div class="py-6 mb-6 border-t border-b border-gray-200 dark:border-gray-700">
-              <span class="text-base text-gray-600 dark:text-gray-400">
-                {{ data[0].Status }}
+              <span class="text-base text-gray-600 dark:text-gray-400 font-bold">
+                {{ data[0].Quantity }} disponibles
               </span>
-              <ng-container *ngIf="data[0].Status === 'Disponible'">
-                <p class="mt-2 text-sm text-blue-500 dark:text-blue-200">
-                  <span class="text-gray-600 dark:text-gray-400">
-                    Tiempo de entrega 15-20 días hábiles
-                  </span>
-                </p>
-              </ng-container>
-
               <ng-container *ngIf="data[0].Status !== 'Disponible'">
                 <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
                   <span class="text-gray-600 dark:text-gray-400">
-                    No hay disponibilidad
+                    {{ data[0].Quantity > 0 ? 'Disponible' : 'No disponible' }}
                   </span>
                 </p>
               </ng-container>
