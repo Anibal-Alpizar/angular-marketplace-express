@@ -3,11 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { LoginForm, LoginResponse } from 'src/app/interfaces/form.interface';
 import { AuthenticationService } from 'src/app/share/authentication.service';
 import {
   NotificacionService,
   TipoMessage,
 } from 'src/app/share/notification.service';
+import { HOME_ROUTE } from 'src/app/constants/routes.constants';
 
 @Component({
   selector: 'app-user-login',
@@ -35,7 +37,7 @@ export class UserLoginComponent implements OnInit {
     this.form = this.fb.group({
       email: ['', { validators: [Validators.required, Validators.email] }],
       password: ['', { validators: [Validators.required] }],
-    });
+    }) as FormGroup & { value: LoginForm };
   }
 
   ngOnInit(): void {
@@ -75,17 +77,18 @@ export class UserLoginComponent implements OnInit {
 
   onReset() {
     this.form.reset();
+    this.form.markAsUntouched();
   }
 
   submitForm() {
-    this.isFormSubmitted = true;
     if (this.form.invalid) {
+      this.form.markAllAsTouched();
       return;
     }
 
     this.authService.login(this.form.value).subscribe(
-      (res: any) => {
-        this.router.navigate(['/home']);
+      (res: LoginResponse) => {
+        this.router.navigate([HOME_ROUTE]);
       },
       (error: HttpErrorResponse) => {
         this.backendError = error.error.message;

@@ -6,14 +6,15 @@ import { Subject, takeUntil } from 'rxjs';
 import { AuthenticationService } from 'src/app/share/authentication.service';
 import { UsersService } from 'src/app/share/users.service';
 import { CookieService } from 'ngx-cookie-service';
+import { FormControls } from 'src/app/interfaces/form.interface';
+import { BackendError } from 'src/app/interfaces/backend.interface';
+import { ROLE } from 'src/app/constants/role.constants';
+import { LOGIN_ROUTE, ROLES_ROUTE } from 'src/app/constants/routes.constants';
 import {
   Role,
   User,
   RegisterResponse,
 } from 'src/app/interfaces/user.interface';
-import { FormControls } from 'src/app/interfaces/formControl.interface';
-import { BackendError } from 'src/app/interfaces/backend.interface';
-import { ROLE } from 'src/app/constants/role.constants';
 
 @Component({
   selector: 'app-user-register',
@@ -93,7 +94,7 @@ export class UserRegisterComponent implements OnInit {
             encodeURIComponent(this.formCreate.value.email)
           );
 
-          this.router.navigate(['/login'], {
+          this.router.navigate([LOGIN_ROUTE], {
             queryParams: {
               registered: 'true',
             },
@@ -108,7 +109,7 @@ export class UserRegisterComponent implements OnInit {
 
   getRoles() {
     this.gService
-      .list('/roles')
+      .list(ROLES_ROUTE)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: Role[]) => {
         this.roles = data.filter((role: Role) => role.RoleId !== 1);
