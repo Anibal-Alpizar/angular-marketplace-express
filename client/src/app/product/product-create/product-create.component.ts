@@ -1,7 +1,14 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ProductCreateService } from 'src/app/share/product-create.service';
+import { IMAGE1, IMAGE2 } from 'src/app/constants/images.constants';
+import { ALLPRODUCTS_ROUTE } from 'src/app/constants/routes.constants';
+import { FileReaderEventTarget } from 'src/app/interfaces/product-create.interface';
+import {
+  ProductCreateError,
+  ProductCreateResponse,
+} from 'src/app/interfaces/product-create.interface';
 
 @Component({
   selector: 'app-product-create',
@@ -19,8 +26,8 @@ export class ProductCreateComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private productService: ProductCreateService
   ) {
     this.categoryOptions = [
       { value: '1', label: 'Electrónica' },
@@ -40,12 +47,6 @@ export class ProductCreateComponent {
 
   onSubmit() {
     const formData = new FormData();
-    formData.append('productName', this.formCreate.get('productName')?.value);
-    formData.append('price', this.formCreate.get('price')?.value);
-    formData.append('quantity', this.formCreate.get('quantity')?.value);
-    formData.append('category', this.formCreate.get('category')?.value);
-    formData.append('status', this.formCreate.get('status')?.value);
-    formData.append('description', this.formCreate.get('description')?.value);
 
     if (this.image1File) {
       formData.append('sampleFile', this.image1File, this.image1File.name);
@@ -78,46 +79,46 @@ export class ProductCreateComponent {
     formData.append('CategoryId', this.formCreate.get('category')?.value);
     formData.append('Status', this.formCreate.get('status')?.value);
 
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'multipart/form-data');
-
-    this.http
-      .post('http://localhost:3000/createproducts', formData, {
-        headers: headers,
-      })
-      .subscribe(
-        (response: any) => {
-          console.log('Response:', response);
-          this.router.navigate(['/products/all']);
-        },
-        (error: any) => {
-          console.error('Error:', error);
-        }
-      );
-
-    console.log('Formulario:', this.formCreate.value);
+    this.productService.createProduct(formData).subscribe(
+      (response: ProductCreateResponse) => {
+        console.log('Response:', response);
+        this.formCreate.reset();
+        this.image1File = null;
+        this.image2File = null;
+        this.image1Preview = undefined;
+        this.image2Preview = undefined;
+        this.router.navigate([ALLPRODUCTS_ROUTE]);
+      },
+      (error: ProductCreateError) => {
+        console.error('Error:', error);
+      }
+    );
   }
 
-  onFileSelected(event: any, imageNumber: string) {
-    if (event.target.files && event.target.files.length > 0) {
-      const file: File = event.target.files[0];
-      if (imageNumber === 'image1') {
+  onFileSelected(event: Event, imageNumber: string) {
+    const target = event.target as HTMLInputElement;
+    const files = target.files;
+
+    if (files && files.length > 0) {
+      const file: File = files[0];
+      if (imageNumber === IMAGE1) {
         this.image1File = file;
-        this.showImagePreview(file, 'image1');
-      } else if (imageNumber === 'image2') {
+        this.showImagePreview(file, IMAGE1);
+      } else if (imageNumber === IMAGE2) {
         this.image2File = file;
-        this.showImagePreview(file, 'image2');
+        this.showImagePreview(file, IMAGE2);
       }
     }
   }
 
   showImagePreview(file: File, imageNumber: string) {
     const reader = new FileReader();
-    reader.onload = (event: any) => {
-      if (imageNumber === 'image1') {
-        this.image1Preview = event.target.result;
-      } else if (imageNumber === 'image2') {
-        this.image2Preview = event.target.result;
+    reader.onload = (event: Event) => {
+      const target = event.target as FileReaderEventTarget;
+      if (imageNumber === IMAGE1) {
+        this.image1Preview = target.result?.toString();
+      } else if (imageNumber === IMAGE2) {
+        this.image2Preview = target.result?.toString();
       }
     };
     reader.readAsDataURL(file);
