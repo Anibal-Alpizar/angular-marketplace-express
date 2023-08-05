@@ -4,6 +4,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { throwError } from 'rxjs';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ProductService } from 'src/app/share/product.service';
+import { NotificationService } from 'src/app/share/notification.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -27,7 +28,8 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private notificationService: NotificationService
   ) {
     let id = this.route.snapshot.paramMap.get('id');
     if (!isNaN(Number(id))) {
@@ -61,10 +63,17 @@ export class ProductDetailComponent implements OnInit {
           .createAnswer(questionId, this.answerText[questionId], userId)
           .subscribe(
             (response: any) => {
+              this.notificationService.showSuccess(
+                'Respuesta enviada correctamente.'
+              );
               console.log('Respuesta enviada con éxito:', response);
               this.newAnswer[questionId] = '';
+              window.location.reload();
             },
             (error) => {
+              this.notificationService.showError(
+                'Error al enviar la respuesta.'
+              );
               console.error('Error al enviar la respuesta:', error);
             }
           );
@@ -108,6 +117,9 @@ export class ProductDetailComponent implements OnInit {
           )
           .subscribe(
             (response: any) => {
+              this.notificationService.showSuccess(
+                'Pregunta enviada correctamente.'
+              );
               console.log('Pregunta enviada con éxito:', response);
               this.data[0].Questions.push(response);
               this.newQuestion = response;
@@ -116,9 +128,12 @@ export class ProductDetailComponent implements OnInit {
 
               setTimeout(() => {
                 this.showNewQuestion = false;
-              }, 5000);
+              }, 5000000000000000000);
             },
             (error) => {
+              this.notificationService.showError(
+                'Error al enviar la pregunta.'
+              );
               console.error('Error al enviar la pregunta:', error);
             }
           );
