@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NotificationService } from 'src/app/share/notification.service';
 
 @Component({
   selector: 'app-product-edit',
@@ -20,7 +21,8 @@ export class ProductEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {
     this.categoryOptions = [
       { value: '1', label: 'Electrónica' },
@@ -75,6 +77,9 @@ export class ProductEditComponent implements OnInit {
             // Save image URLs in variables
             const image1Url = data[0].Photos[0].PhotoURL;
             const image2Url = data[0].Photos[1].PhotoURL;
+            this.notificationService.showSuccess(
+              'Detalles del producto obtenidos correctamente.'
+            );
 
             console.log('Image 1 URL:', image1Url);
             console.log('Image 2 URL:', image2Url);
@@ -82,6 +87,9 @@ export class ProductEditComponent implements OnInit {
         },
         (error) => {
           console.error('Error al obtener los detalles del producto:', error);
+          this.notificationService.showError(
+            'Error al obtener los detalles del producto.'
+          );
         }
       );
   }
@@ -108,10 +116,16 @@ export class ProductEditComponent implements OnInit {
       .put<any>(`http://localhost:3000/products/${productId}`, formData)
       .subscribe(
         (response) => {
+          this.notificationService.showSuccess(
+            'Producto actualizado correctamente.'
+          );
           console.log('Product updated successfully:', response);
-          this.router.navigate(['/product', productId]); 
+          this.router.navigate(['/product', productId]);
         },
         (error) => {
+          this.notificationService.showError(
+            'Error al actualizar el producto.'
+          );
           console.error('Error updating product:', error);
         }
       );

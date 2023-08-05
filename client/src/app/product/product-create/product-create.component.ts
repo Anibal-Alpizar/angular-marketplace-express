@@ -9,6 +9,7 @@ import {
   ProductCreateError,
   ProductCreateResponse,
 } from 'src/app/interfaces/product-create.interface';
+import { NotificationService } from 'src/app/share/notification.service';
 
 @Component({
   selector: 'app-product-create',
@@ -27,7 +28,8 @@ export class ProductCreateComponent {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private productService: ProductCreateService
+    private productService: ProductCreateService,
+    private notificationService: NotificationService
   ) {
     this.categoryOptions = [
       { value: '1', label: 'Electrónica' },
@@ -67,9 +69,15 @@ export class ProductCreateComponent {
         formData.append('UserId', userId);
       } else {
         console.log('UserId no encontrado en el objeto currentUser.');
+        this.notificationService.showError(
+          'UserId no encontrado en el objeto currentUser.'
+        );
       }
     } else {
       console.log('No se encontró el objeto currentUser en el localStorage.');
+      this.notificationService.showError(
+        'No se encontró el objeto currentUser en el localStorage.'
+      );
     }
 
     formData.append('ProductName', this.formCreate.get('productName')?.value);
@@ -87,10 +95,12 @@ export class ProductCreateComponent {
         this.image2File = null;
         this.image1Preview = undefined;
         this.image2Preview = undefined;
+        this.notificationService.showSuccess('Producto creado correctamente.');
         this.router.navigate([ALLPRODUCTS_ROUTE]);
       },
       (error: ProductCreateError) => {
         console.error('Error:', error);
+        this.notificationService.showError('Error al crear el producto.');
       }
     );
   }
