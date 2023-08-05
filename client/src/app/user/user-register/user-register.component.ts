@@ -15,6 +15,7 @@ import {
   User,
   RegisterResponse,
 } from 'src/app/interfaces/user.interface';
+import { NotificationService } from 'src/app/share/notification.service';
 
 @Component({
   selector: 'app-user-register',
@@ -46,7 +47,8 @@ export class UserRegisterComponent implements OnInit {
     private router: Router,
     private gService: UsersService,
     private authService: AuthenticationService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private notification: NotificationService
   ) {
     this.reactiveForm();
     this.getRoles();
@@ -94,6 +96,10 @@ export class UserRegisterComponent implements OnInit {
             encodeURIComponent(this.formCreate.value.email)
           );
 
+          this.notification.showSuccess(
+            'Usuario registrado! Especifique sus credenciales',
+            3000
+          );
           this.router.navigate([LOGIN_ROUTE], {
             queryParams: {
               registered: 'true',
@@ -102,6 +108,7 @@ export class UserRegisterComponent implements OnInit {
         },
         (error: HttpErrorResponse) => {
           this.backendError = error.error.message;
+          this.notification.showError('Error al registrar usuario', 3000);
         }
       );
     }

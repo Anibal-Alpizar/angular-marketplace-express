@@ -1,33 +1,35 @@
 import { Injectable } from '@angular/core';
-import { ToastrService, IndividualConfig } from 'ngx-toastr';
-export enum TipoMessage {
-  error,
-  info,
-  success,
-  warning,
-}
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+
 @Injectable({
   providedIn: 'root',
 })
-export class NotificacionService {
-  options: IndividualConfig;
-  constructor(private toastr: ToastrService) {
-    this.options = this.toastr.toastrConfig;
+export class NotificationService {
+  constructor(private snackBar: MatSnackBar) {}
 
-    this.options.enableHtml = true;
-
-    this.options.positionClass = 'toast-top-center';
-
-    this.options.disableTimeOut = true;
-    this.options.closeButton = true;
+  showSuccess(message: string, duration: number = 3000) {
+    this.showNotification(message, 'success-snackbar', duration);
   }
 
-  public mensaje(titulo: string, mensaje: string, tipo: TipoMessage) {
-    this.toastr.show(
-      mensaje,
-      titulo,
-      this.options,
-      'toast-' + TipoMessage[tipo]
-    );
+  showError(message: string, duration: number = 3000) {
+    this.showNotification(message, 'error-snackbar', duration);
+  }
+
+  showWarning(message: string, duration: number = 3000) {
+    this.showNotification(message, 'warning-snackbar', duration);
+  }
+
+  private showNotification(
+    message: string,
+    panelClass: string,
+    duration: number
+  ) {
+    const config: MatSnackBarConfig = {
+      duration: duration,
+      verticalPosition: 'bottom',
+      panelClass: [panelClass],
+    };
+
+    this.snackBar.open(message, 'Dismiss', config);
   }
 }

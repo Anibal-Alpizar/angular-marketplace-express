@@ -1,15 +1,12 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { LoginForm, LoginResponse } from 'src/app/interfaces/form.interface';
 import { AuthenticationService } from 'src/app/share/authentication.service';
-import {
-  NotificacionService,
-  TipoMessage,
-} from 'src/app/share/notification.service';
 import { HOME_ROUTE } from 'src/app/constants/routes.constants';
+import { NotificationService } from 'src/app/share/notification.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-login',
@@ -25,7 +22,7 @@ export class UserLoginComponent implements OnInit {
   constructor(
     public fb: FormBuilder,
     private authService: AuthenticationService,
-    private notification: NotificacionService,
+    private notification: NotificationService,
     private router: Router,
     private route: ActivatedRoute,
     private cookieService: CookieService
@@ -52,17 +49,15 @@ export class UserLoginComponent implements OnInit {
       register = params['register'] === 'true' || false;
       auth = params['auth'] || '';
       if (register) {
-        this.notification.mensaje(
-          'Usuario',
+        this.notification.showSuccess(
           'Usuario registrado! Especifique sus credenciales',
-          TipoMessage.success
+          3000
         );
       }
       if (auth) {
-        this.notification.mensaje(
-          'Usuario',
+        this.notification.showWarning(
           'Debe autenticarse para acceder a esta página',
-          TipoMessage.warning
+          3000
         );
       }
     });
@@ -88,15 +83,12 @@ export class UserLoginComponent implements OnInit {
 
     this.authService.login(this.form.value).subscribe(
       (res: LoginResponse) => {
+        this.notification.showSuccess('Login successful!', 3000);
         this.router.navigate([HOME_ROUTE]);
       },
       (error: HttpErrorResponse) => {
         this.backendError = error.error.message;
-        this.notification.mensaje(
-          'Error de autenticación',
-          'Las credenciales proporcionadas son incorrectas',
-          TipoMessage.error
-        );
+        this.notification.showError('Login failed!', 3000);
       }
     );
   }
