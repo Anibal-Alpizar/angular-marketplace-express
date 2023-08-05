@@ -1,11 +1,12 @@
 <div class="card-container grid grid-cols-1 p-3 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mx-auto">
-  <div *ngFor="let product of filterProducts" class="w-full max-w-xs bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 flex-col justify-center rounded-md overflow-hidden shadow-lg hover:scale-105 transition duration-500 cursor-pointer">
+  <div *ngFor="let product of filterProducts"
+    class="w-full max-w-xs bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 flex-col justify-center rounded-md overflow-hidden shadow-lg hover:scale-105 transition duration-500 cursor-pointer">
     <div class="flex items-center">
       <a [routerLink]="['/product', product?.ProductId]" target="_blank">
         <div class="p-8 rounded-t-lg self-center mb-4">
           <img class="product-image" [src]="getFirstImageUrl(product)" alt="product image"
             style="max-height: 150px; object-fit: contain;" />
-        </div> 
+        </div>
       </a>
     </div>
     <div class="px-2 py-3">

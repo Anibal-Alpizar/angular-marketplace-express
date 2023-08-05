@@ -1,24 +1,24 @@
 .card-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  justify-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 @media (max-width: 1180px) {
   .card-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    flex-direction: column;
+    grid-template-columns: repeat(3, 1fr);
   }
+
   .card-container .w-full:last-child {
     margin-bottom: 8rem;
   }
 }
 
-@media (max-width: 1160px) {
+@media (max-width: 768px) {
   .card-container {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
