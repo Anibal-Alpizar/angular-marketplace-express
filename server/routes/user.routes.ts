@@ -1,5 +1,11 @@
 import { Router } from "express";
-import { register, login, getRoles } from "../controller/user.controller";
+import {
+  register,
+  login,
+  getRoles,
+  getUsersWithRoles,
+  updateUserStatus,
+} from "../controller/user.controller";
 import { checkUserExists } from "../middlewares/checkUserExists.middleware";
 import { validationMiddleware } from "../middlewares/validation.middleware";
 import { body } from "express-validator";
@@ -18,5 +24,9 @@ router.post(
   login
 );
 router.get("/roles", getRoles);
+
+router.get("/users", getUsersWithRoles);
+
+router.post("/update-user-status", updateUserStatus);
 
 export default router;

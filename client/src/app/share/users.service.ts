@@ -26,4 +26,11 @@ export class UsersService {
   list(endpoint: string): Observable<any | any[]> {
     return this.http.get<any | any[]>(environment.apiURL + endpoint);
   }
+
+  updateUserStatus(userId: number, isActive: boolean): Observable<any> {
+    return this.http.post<any>(environment.apiURL + '/update-user-status', {
+      userId,
+      isActive,
+    });
+  }
 }

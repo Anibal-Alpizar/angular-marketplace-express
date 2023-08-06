@@ -9,7 +9,7 @@ export interface UserData {
   email: string;
   password: string;
   address: string;
-  role?: number; // Agregamos la propiedad 'role' como opcional
+  role?: number; 
 }
 
 export interface ExtendedUserData extends UserData {
