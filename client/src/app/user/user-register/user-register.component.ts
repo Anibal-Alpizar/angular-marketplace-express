@@ -60,6 +60,8 @@ export class UserRegisterComponent implements OnInit {
   showProveedorField = false;
   selectedRoleId: number | null = null;
   backendError: BackendError | null = null;
+  savedPaymentMethods: string[] = [];
+
   roles: Role[] = [];
   formCreate!: FormGroup;
   makeSubmit: boolean = false;
@@ -164,17 +166,35 @@ export class UserRegisterComponent implements OnInit {
   onAddCard() {
     console.log('Método de pago seleccionado:', this.selectedPaymentMethod);
 
-    // Obtener el valor del mes de vencimiento desde el formulario
+    // Obtén los valores de los campos del formulario
     const expirationMonth = this.formCreate.get('expirationMonth')?.value;
-    console.log('Mes de vencimiento:', expirationMonth);
-
-    // Obtener el valor del año de vencimiento desde el formulario
     const expirationYear = this.formCreate.get('expirationYear')?.value;
-    console.log('Año de vencimiento:', expirationYear);
-
     const cvc = this.formCreate.get('cvc')?.value;
-    console.log('CVC:', cvc);
 
+    // Verifica que todos los valores necesarios estén definidos antes de agregar el método de pago
+    if (
+      this.selectedPaymentMethod &&
+      expirationMonth &&
+      expirationYear &&
+      cvc
+    ) {
+      // Agrega el método de pago a la lista de métodos guardados
+      const newPaymentMethod = `${this.selectedPaymentMethod} - ${expirationMonth}/${expirationYear}`;
+      this.savedPaymentMethods.push(newPaymentMethod);
+
+      // Reinicia los campos del formulario
+      this.formCreate.reset();
+
+      // Limpia las propiedades relacionadas con el método de pago actual
+      this.selectedPaymentMethod = undefined;
+      this.expirationMonth = undefined;
+      this.expirationYear = undefined;
+      this.cvc = undefined;
+    } else {
+      console.log(
+        'Por favor complete todos los campos requeridos antes de agregar un método de pago.'
+      );
+    }
   }
 
   submitForm() {
