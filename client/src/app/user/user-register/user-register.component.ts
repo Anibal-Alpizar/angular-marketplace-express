@@ -21,6 +21,7 @@ import {
   RegisterResponse,
 } from 'src/app/interfaces/user.interface';
 import { NotificationService } from 'src/app/share/notification.service';
+import { LocationService } from 'src/app/share/locations.service';
 
 function proveedorValidator(
   control: AbstractControl
@@ -46,6 +47,8 @@ function proveedorValidator(
 export class UserRegisterComponent implements OnInit {
   isCustomerSelected: boolean = true;
   isVendorSelected: boolean = false;
+  provinces: string[] = [];
+  cantons: string[] = [];
   hide = true;
   user: User | null = null;
   showProveedorField = false;
@@ -60,6 +63,7 @@ export class UserRegisterComponent implements OnInit {
     public fb: FormBuilder,
     private router: Router,
     private gService: UsersService,
+    private lService: LocationService,
     private authService: AuthenticationService,
     private cookieService: CookieService,
     private notification: NotificationService
@@ -78,11 +82,13 @@ export class UserRegisterComponent implements OnInit {
       phoneNumber: ['', [Validators.required]],
       address: ['', [Validators.required]],
       role: ['', [Validators.required]],
+      province: [''],
     }) as FormGroup & FormControls;
   }
 
   ngOnInit(): void {
     this.reactiveForm();
+    this.getProvinces();
   }
 
   selectRole(event: Event) {
@@ -92,6 +98,52 @@ export class UserRegisterComponent implements OnInit {
       role:
         selectedValue === '2,3' ? ROLE.CUSTOMER_VENDOR : Number(selectedValue),
     });
+  }
+
+  onChangeProvince(event: Event) {
+    const selectedValue = (event.target as HTMLSelectElement)?.value;
+    if (selectedValue !== null) {
+      console.log('Provincia seleccionada:', selectedValue);
+      this.getCantonsByProvince(selectedValue);
+    }
+  }
+
+  getCantonsByProvince(province: string) {
+    if (province) {
+      this.lService.getCantons(province).then(
+        (data: any) => {
+          const cantons = Object.values(data);
+          console.log('Cantones de la provincia:', cantons);
+        },
+        (error: any) => {
+          console.error('Error fetching cantons:', error);
+        }
+      );
+    }
+  }
+
+  getProvinces() {
+    this.lService.getProvinces().then(
+      (data: any) => {
+        this.provinces = Object.values(data); // Convertir el objeto en un array de provincias
+        this.formCreate.get('province')?.setValue(this.provinces[0] || ''); // Establecer el valor predeterminado
+        console.log(this.provinces);
+      },
+      (error: any) => {
+        console.error('Error fetching provinces:', error);
+      }
+    );
+  }
+
+  getCantons(province: string) {
+    this.lService.getCantons(province).then(
+      (data: any) => {
+        this.cantons = data;
+      },
+      (error: any) => {
+        console.error('Error fetching cantons:', error);
+      }
+    );
   }
 
   submitForm() {
