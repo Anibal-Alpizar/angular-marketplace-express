@@ -48,6 +48,12 @@ export class UserRegisterComponent implements OnInit {
   isCustomerSelected: boolean = true;
   isVendorSelected: boolean = false;
   provinces: string[] = [];
+  selectedPaymentMethod: string | undefined;
+  cardOwner: string | undefined;
+  cardNumber: string | undefined;
+  expirationMonth: string | undefined;
+  expirationYear: string | undefined;
+  cvc: string | undefined;
   cantons: string[] = [];
   hide = true;
   user: User | null = null;
@@ -83,6 +89,11 @@ export class UserRegisterComponent implements OnInit {
       address: ['', [Validators.required]],
       role: ['', [Validators.required]],
       province: [''],
+      cardOwner: ['', Validators.required],
+      cardNumber: ['', Validators.required],
+      expirationMonth: ['', [Validators.required]],
+      expirationYear: ['', [Validators.required]],
+      cvc: ['', [Validators.required]],
     }) as FormGroup & FormControls;
   }
 
@@ -125,8 +136,8 @@ export class UserRegisterComponent implements OnInit {
   getProvinces() {
     this.lService.getProvinces().then(
       (data: any) => {
-        this.provinces = Object.values(data); // Convertir el objeto en un array de provincias
-        this.formCreate.get('province')?.setValue(this.provinces[0] || ''); // Establecer el valor predeterminado
+        this.provinces = Object.values(data);
+        this.formCreate.get('province')?.setValue(this.provinces[0] || '');
         console.log(this.provinces);
       },
       (error: any) => {
@@ -144,6 +155,26 @@ export class UserRegisterComponent implements OnInit {
         console.error('Error fetching cantons:', error);
       }
     );
+  }
+
+  onChangePaymentMethod(paymentMethod: string) {
+    this.selectedPaymentMethod = paymentMethod;
+  }
+
+  onAddCard() {
+    console.log('Método de pago seleccionado:', this.selectedPaymentMethod);
+
+    // Obtener el valor del mes de vencimiento desde el formulario
+    const expirationMonth = this.formCreate.get('expirationMonth')?.value;
+    console.log('Mes de vencimiento:', expirationMonth);
+
+    // Obtener el valor del año de vencimiento desde el formulario
+    const expirationYear = this.formCreate.get('expirationYear')?.value;
+    console.log('Año de vencimiento:', expirationYear);
+
+    const cvc = this.formCreate.get('cvc')?.value;
+    console.log('CVC:', cvc);
+
   }
 
   submitForm() {
