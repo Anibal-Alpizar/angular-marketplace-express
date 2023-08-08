@@ -7,6 +7,7 @@ export interface User {
   Password: string;
   IsActive: boolean;
   Address: string;
+  Proveedor: string | null;
   VerificationCode: string;
   VerificationToken: String;
 }

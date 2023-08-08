@@ -9,6 +9,7 @@ export interface FormControls {
   phoneNumber: FormControl;
   address: FormControl;
   role: FormControl;
+  proveedor: FormControl;
 }
 
 export interface LoginForm {

@@ -1,6 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthenticationService } from 'src/app/share/authentication.service';
@@ -17,24 +22,33 @@ import {
 } from 'src/app/interfaces/user.interface';
 import { NotificationService } from 'src/app/share/notification.service';
 
+function proveedorValidator(
+  control: AbstractControl
+): { [key: string]: any } | null {
+  const selectedRole = control.parent?.get('role')?.value;
+
+  if (selectedRole === 3) {
+    return Validators.required(control);
+  }
+
+  if (selectedRole === 2) {
+    return null;
+  }
+
+  return null;
+}
+
 @Component({
   selector: 'app-user-register',
   templateUrl: './user-register.component.html',
   styleUrls: ['./user-register.component.css'],
 })
 export class UserRegisterComponent implements OnInit {
-  selectRole(event: Event) {
-    const selectedValue = (event.target as HTMLSelectElement).value;
-    this.formCreate.patchValue({
-      role:
-        selectedValue === '2,3' ? ROLE.CUSTOMER_VENDOR : Number(selectedValue),
-    });
-  }
-
   isCustomerSelected: boolean = true;
   isVendorSelected: boolean = false;
   hide = true;
   user: User | null = null;
+  showProveedorField = false;
   selectedRoleId: number | null = null;
   backendError: BackendError | null = null;
   roles: Role[] = [];
@@ -59,6 +73,7 @@ export class UserRegisterComponent implements OnInit {
       fullName: ['', [Validators.required]],
       identification: ['', [Validators.required]],
       password: ['', [Validators.required]],
+      proveedor: ['', proveedorValidator],
       email: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
       address: ['', [Validators.required]],
@@ -70,10 +85,20 @@ export class UserRegisterComponent implements OnInit {
     this.reactiveForm();
   }
 
+  selectRole(event: Event) {
+    const selectedValue = (event.target as HTMLSelectElement).value;
+    this.showProveedorField = selectedValue === '2,3' || selectedValue === '3';
+    this.formCreate.patchValue({
+      role:
+        selectedValue === '2,3' ? ROLE.CUSTOMER_VENDOR : Number(selectedValue),
+    });
+  }
+
   submitForm() {
     this.makeSubmit = true;
     if (this.formCreate.valid) {
       const selectedRole = this.formCreate.get('role')?.value;
+      console.log('Form Data:', this.formCreate.value);
 
       if (Array.isArray(selectedRole)) {
         const roleString = selectedRole
@@ -87,7 +112,12 @@ export class UserRegisterComponent implements OnInit {
         console.log('Form Data:', this.formCreate.value);
       }
 
-      this.authService.register(this.formCreate.value).subscribe(
+      const userData: any = {
+        ...this.formCreate.value,
+        Proveedor: this.formCreate.get('proveedor')?.value || null,
+      };
+
+      this.authService.register(userData).subscribe(
         (res: RegisterResponse) => {
           this.user = res;
 

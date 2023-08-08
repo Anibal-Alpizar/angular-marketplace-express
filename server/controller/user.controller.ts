@@ -72,6 +72,7 @@ export const register = async (req: Request, res: Response) => {
       PhoneNumber: userData.phoneNumber,
       Email: userData.email,
       Address: userData.address,
+      Proveedor: userData.Proveedor,
     };
 
     await sendVerificationEmail(userData.email, verificationCode, selectedData);

@@ -6,6 +6,7 @@ CREATE TABLE `User` (
     `PhoneNumber` VARCHAR(191) NOT NULL,
     `Email` VARCHAR(191) NOT NULL,
     `Password` VARCHAR(191) NOT NULL,
+    `Proveedor` VARCHAR(191) NULL,
     `IsActive` BOOLEAN NOT NULL,
     `Address` VARCHAR(191) NOT NULL,
     `VerificationCode` VARCHAR(191) NOT NULL,

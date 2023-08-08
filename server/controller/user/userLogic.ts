@@ -8,8 +8,9 @@ export interface UserData {
   phoneNumber: string;
   email: string;
   password: string;
+  Proveedor: string | null;
   address: string;
-  role?: number; 
+  role?: number;
 }
 
 export interface ExtendedUserData extends UserData {
@@ -27,6 +28,7 @@ export async function createUser(userData: ExtendedUserData): Promise<User> {
         PhoneNumber: userData.phoneNumber,
         Email: userData.email,
         Password: userData.password,
+        Proveedor: userData.Proveedor,
         IsActive: userData.isActive,
         Address: userData.address,
         VerificationCode: userData.verificationCode,
