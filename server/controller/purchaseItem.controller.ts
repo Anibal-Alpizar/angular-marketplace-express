@@ -189,7 +189,7 @@ export const detailsPurchaseItemByCustomer = async (
                     PaymentType: true,
                     Provider: true,
                     AccountNumber: true,
-                    ExpirationDate: true,
+                    ExpirationMonth: true,
                   },
                 },
               },

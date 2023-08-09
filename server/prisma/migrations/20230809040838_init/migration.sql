@@ -36,12 +36,14 @@ CREATE TABLE `UserRole` (
 
 -- CreateTable
 CREATE TABLE `PaymentMethod` (
-    `PaymentMethodId` INTEGER NOT NULL,
+    `PaymentMethodId` INTEGER NOT NULL AUTO_INCREMENT,
     `UserId` INTEGER NOT NULL,
     `PaymentType` VARCHAR(191) NOT NULL,
-    `Provider` VARCHAR(191) NOT NULL,
+    `Provider` VARCHAR(191) NULL,
     `AccountNumber` VARCHAR(191) NOT NULL,
-    `ExpirationDate` DATETIME(3) NOT NULL,
+    `ExpirationMonth` VARCHAR(191) NOT NULL,
+    `ExpirationYear` VARCHAR(191) NOT NULL,
+    `Cvc` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`PaymentMethodId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

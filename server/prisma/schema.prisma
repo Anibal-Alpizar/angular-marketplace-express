@@ -49,12 +49,14 @@ model UserRole {
 }
 
 model PaymentMethod {
-  PaymentMethodId Int        @id
+  PaymentMethodId Int        @id @default(autoincrement())
   UserId          Int
   PaymentType     String
-  Provider        String
+  Provider        String?
   AccountNumber   String
-  ExpirationDate  DateTime
+  ExpirationMonth String
+  ExpirationYear  String
+  Cvc             String
   User            User       @relation(fields: [UserId], references: [UserId])
   Purchase        Purchase[]
 }
