@@ -51,6 +51,14 @@ export class HeaderComponent implements OnInit {
     );
   }
 
+  isAdmin(): boolean {
+    return this.currentUser?.Roles?.includes('Admin');
+  }
+
+  isCustomer(): boolean {
+    return this.currentUser?.Roles?.includes('Customer');
+  }
+
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
