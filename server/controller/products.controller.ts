@@ -8,38 +8,7 @@ import fs from "fs-extra";
 
 const prisma = new PrismaClient();
 
-//Funtion about get all products to only vendor
-// export const getProductsByVendor = async (req: Request, res: Response) => {
-//   let roleId = 3; // ID del Role específico para el vendedor
 
-//   try {
-//     const users = await prisma.user.findMany({
-//       where: {
-//         Roles: {
-//           some: {
-//             RoleId: roleId,
-//           },
-//         },
-//       },
-//       include: {
-//         Products: true,
-//       },
-//     });
-
-//     if (users.length === 0) {
-//       return res
-//         .status(404)
-//         .json({ message: "No products found for the specified user role" });
-//     }
-
-//     const products = users.flatMap((user) => user.Products);
-
-//     res.json(products);
-//   } catch (error) {
-//     console.log(error);
-//     res.json(error);
-//   }
-// };
 export const getProductsByVendor = async (req: Request, res: Response) => {
   const userId = parseInt(req.params.id);
 
@@ -181,10 +150,7 @@ export const createProduct = async (req: any, res: Response) => {
     //Se declara esta variable para cargar la imagen en ella
     let sampleFile: any;
     let sampleFile2: any;
-    //Se valida que se recibio correctamenta la imagen
-    if (!req.files || Object.keys(req.files).length === 0) {
-      return res.status(400).send("No files were uploaded.");
-    }
+ 
 
     //Cargamos la imagen que nos envian
     sampleFile = req.files.sampleFile;
@@ -193,24 +159,17 @@ export const createProduct = async (req: any, res: Response) => {
     let fileName = "";
     let fileName2 = "";
 
+     //Se crea una constante, donde se van a guardar las img con su nombre
+     const path = `./uploads`;
+
     //Verificamos si el tipo de img que nos estan enviando es el formato correcto de png y jpg
-    if (
-      sampleFile.mimetype === "image/png" ||
-      sampleFile.mimetype === "image/jpg"
-    ) {
-      //Se crea una constante, donde se van a guardar las img con su nombre
-      const path = `./uploads`;
+    if (sampleFile && (sampleFile.mimetype === "image/png" || sampleFile.mimetype === "image/jpg")) {
+     
       //Creamos la extención
       const fileExtension = sampleFile.mimetype.split("/")[1];
       //El nombre con una variable aleatoria y la extención
       fileName = `${uuidv4()}.${fileExtension}`;
       //Se asegura que la carpeta de la variable path exista, donde se van a guardar las imagenes
-
-      //Creamos la extensión para la segunda imagen
-      const fileExtension2 = sampleFile2.mimetype.split("/")[1];
-      //El nombre con una variable aleatoria y la extensión para la segunda imagen
-      fileName2 = `${uuidv4()}.${fileExtension2}`;
-
       await fs.ensureDir(path);
       //Despues enviamos la img y la guardamos
       await sampleFile.mv(`${path}/${fileName}`, function (err: any) {
@@ -218,9 +177,16 @@ export const createProduct = async (req: any, res: Response) => {
           return res
             .status(404)
             .json({ message: "No products found for the specified user role" });
-
-        //  res.send('File uploaded!');
       });
+    }
+
+    if (sampleFile2 && (sampleFile2.mimetype === "image/png" || sampleFile2.mimetype === "image/jpg")) { 
+      //Creamos la extensión para la segunda imagen
+      const fileExtension2 = sampleFile2.mimetype.split("/")[1];
+      //El nombre con una variable aleatoria y la extensión para la segunda imagen
+      fileName2 = `${uuidv4()}.${fileExtension2}`;
+
+   
 
       //Después enviamos la segunda imagen y la guardamos
       await sampleFile2.mv(`${path}/${fileName2}`, function (err: any) {
@@ -229,10 +195,6 @@ export const createProduct = async (req: any, res: Response) => {
             .status(404)
             .json({ message: "No products found for the specified user role" });
       });
-    } else {
-      return res
-        .status(404)
-        .json({ message: "No products found for the specified user role" });
     }
 
     //Agregar las variables, donde se encuentran la img en el array de Photos de la DB
@@ -276,41 +238,124 @@ export const createProduct = async (req: any, res: Response) => {
   }
 };
 
-//Esta función es para crear la actualización de dicho producto
 export const updateProduct = async (req: Request, res: Response) => {
-  const productId = parseInt(req.params.id);
+  //Metemos el id que nos mandan del producto en esta variable
+  let productId = parseInt(req.params.id);
 
   try {
+    // Buscamos el producto en la base de datos
     const existingProduct = await prisma.product.findUnique({
       where: { ProductId: productId },
       include: { Photos: true },
     });
 
+    //Validamos que exista ese producto
     if (!existingProduct) {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    // Validamos si se recibieron nuevas imágenes
-    if (req.files && Object.keys(req.files).length > 0) {
-      // Lógica de actualización de imágenes...
+    /*Se declaran estas variables para cargar las imagenes en ella
+      vamos a tener 4 imagenes, así solo se puede modificar una imagen individualmente
+    */
+    let sampleFile: any;
+    let sampleFile2: any;
+
+    //Esta variable se declara para meter las imagenes nuevas en ella
+    let updatedPhotos = [...existingProduct.Photos];
+
+    //Cargamos las imagenes que nos envian, en las variables declaradas anteriormente
+    sampleFile = req.files?.sampleFile;
+    sampleFile2 = req.files?.sampleFile2;
+
+    const path = `./uploads`;
+    //Verificamos si el tipo de img que nos estan enviando es el formato correcto de png y jpg
+    if (sampleFile && (sampleFile.mimetype === "image/png" || sampleFile.mimetype === "image/jpg")) {
+      //Se crea una constante, donde se van a guardar las img con su nombre
+
+      //Creamos la extención
+      const fileExtension = sampleFile.mimetype.split("/")[1];
+      //se crea esta variable para cargar la img en ella con un nombre aleatorio de la librerio uuid y se le agrega la extención
+      const fileName = `${uuidv4()}.${fileExtension}`;
+
+       //Se verifica que la carpeta fue creada
+       await fs.ensureDir(path);
+
+      //Despues enviamos la img y la guardamos
+      await sampleFile.mv(`${path}/${fileName}`, function (err: any) {
+        if (err)
+          return res
+            .status(404)
+            .json({ message: "No products found for the specified user role" });
+      });
+
+      updatedPhotos[0].PhotoURL = fileName;
+
     }
 
-    // Actualizamos el producto en la base de datos con los nuevos valores del formulario
+    if (sampleFile2 && (sampleFile2.mimetype === "image/png" || sampleFile2.mimetype === "image/jpg")) { 
+
+      //Creamos la extensión para la segunda imagen
+      const fileExtension2 = sampleFile2.mimetype.split("/")[1];
+      //El nombre con una variable aleatoria y la extensión para la segunda imagen
+      const fileName2 = `${uuidv4()}.${fileExtension2}`;
+
+      //Se verifica que la carpeta fue creada
+      await fs.ensureDir(path);
+
+        //Después enviamos la segunda imagen y la guardamos
+        await sampleFile2.mv(`${path}/${fileName2}`, function (err: any) {
+          if (err)
+            return res
+              .status(404)
+              .json({ message: "No products found for the specified user role" });
+        });
+
+       // Actualizamos las rutas de las fotos existentes
+       updatedPhotos[1].PhotoURL = fileName2;
+    }
+          
+      // Actualizamos las rutas de las fotos existentes
+      req.body.Photos = updatedPhotos;
+
+    // Eliminamos las imágenes antiguas que no están siendo utilizadas
+    const oldPhotosURLs = existingProduct.Photos.map((photo) => photo.PhotoURL);
+    const newPhotosURLs = updatedPhotos.map((photo) => photo.PhotoURL);
+
+    const imagesToDelete = oldPhotosURLs.filter(
+      (url) => !newPhotosURLs.includes(url)
+    );
+
+    for (const imageUrl of imagesToDelete) {
+      const imagePath = `./uploads/${imageUrl}`;
+      try {
+        await fs.unlink(imagePath); // Elimina la imagen del directorio uploads
+      } catch (error) {
+        console.error(`Error al eliminar la imagen ${imageUrl}:`, error);
+      }
+    }
+
+    // Actualizamos el producto en la base de datos con los nuevos valores
     const updatedProduct = await prisma.product.update({
       where: { ProductId: productId },
       data: {
-        ProductName: req.body.productName || existingProduct.ProductName,
-        Description: req.body.description || existingProduct.Description,
-        Price: parseFloat(req.body.price) || existingProduct.Price,
-        Quantity: parseInt(req.body.quantity) || existingProduct.Quantity,
-        CategoryId: parseInt(req.body.category) || existingProduct.CategoryId,
-        Status: req.body.status || existingProduct.Status,
+        ProductName: req.body.ProductName || existingProduct.ProductName,
+        Description: req.body.Description || existingProduct.Description,
+        Price: parseFloat(req.body.Price) || existingProduct.Price,
+        Status: req.body.Status || existingProduct.Status,
+        Rating: parseInt(req.body.Rating) || existingProduct.Rating,
+        Quantity: parseInt(req.body.Quantity) || existingProduct.Quantity,
+        Photos: {
+          update: updatedPhotos.map((photo: any) => ({
+            where: { PhotoId: photo.PhotoId },
+            data: { PhotoURL: photo.PhotoURL },
+          })),
+        },
       },
     });
 
     res.json(updatedProduct);
   } catch (error) {
-    console.error(error);
+    console.log(error);
     res.status(500).json({ message: "Internal server error" });
   }
 };

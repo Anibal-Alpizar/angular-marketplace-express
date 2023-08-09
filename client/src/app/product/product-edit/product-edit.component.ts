@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from 'src/app/share/notification.service';
+import { IMAGE1, IMAGE2 } from 'src/app/constants/images.constants';
+import { FileReaderEventTarget } from 'src/app/interfaces/product-create.interface';
 
 @Component({
   selector: 'app-product-edit',
@@ -129,5 +131,35 @@ export class ProductEditComponent implements OnInit {
           console.error('Error updating product:', error);
         }
       );
+  }
+
+  
+  onFileSelected(event: Event, imageNumber: string) {
+    const target = event.target as HTMLInputElement;
+    const files = target.files;
+
+    if (files && files.length > 0) {
+      const file: File = files[0];
+      if (imageNumber === IMAGE1) {
+        this.image1File = file;
+        this.showImagePreview(file, IMAGE1);
+      } else if (imageNumber === IMAGE2) {
+        this.image2File = file;
+        this.showImagePreview(file, IMAGE2);
+      }
+    }
+  }
+
+  showImagePreview(file: File, imageNumber: string) {
+    const reader = new FileReader();
+    reader.onload = (event: Event) => {
+      const target = event.target as FileReaderEventTarget;
+      if (imageNumber === IMAGE1) {
+        this.image1Preview = target.result?.toString();
+      } else if (imageNumber === IMAGE2) {
+        this.image2Preview = target.result?.toString();
+      }
+    };
+    reader.readAsDataURL(file);
   }
 }

@@ -48,6 +48,34 @@
                     class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                     formControlName="description"></textarea>
             </div>
+            <div>
+                <label class="block text-sm font-medium text-white">Image 1</label>
+                <div
+                    class="mt-1 flex flex-col items-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                    <label for="file-upload-1"
+                        class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                        <span class="">Upload a file</span>
+                        <input id="file-upload-1" name="file-upload-1" type="file" class="sr-only"
+                            (change)="onFileSelected($event, 'image1')" />
+                    </label>
+                    <p class="pl-1 text-white">or drag and drop</p>
+                    <img *ngIf="image1Preview" [src]="image1Preview" alt="Image 1 Preview" width="200" />
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-white">Image 2</label>
+                <div
+                    class="mt-1 flex flex-col items-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                    <label for="file-upload-2"
+                        class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                        <span class="">Upload a file</span>
+                        <input id="file-upload-2" name="file-upload-2" type="file" class="sr-only"
+                            (change)="onFileSelected($event, 'image2')" />
+                    </label>
+                    <p class="pl-1 text-white">or drag and drop</p>
+                    <img *ngIf="image2Preview" [src]="image2Preview" alt="Image 2 Preview" width="200" />
+                </div>
+            </div>
         </div>
 
         <div class="flex justify-end mt-6">
