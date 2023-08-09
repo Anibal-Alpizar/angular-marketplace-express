@@ -4,6 +4,7 @@ export const ROLES_ROUTE = '/roles';
 export const PRODUCTSBYUSERS_ROUTE = '/productsbyusers';
 export const PRODUCTSBYVENDOR_ROUTE = '/productsbyvendor';
 export const ALLPRODUCTS_ROUTE = '/products/all';
+export const REGISTERPAYMENTMETHOD_ROUTE = 'payment-method';
 
 // environment + endPoint
 export const PRODUCTSDETAILS_ROUTE = 'productsdetails';

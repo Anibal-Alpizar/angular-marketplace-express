@@ -3,10 +3,10 @@ import { Request, Response } from "express";
 
 const prisma = new PrismaClient();
 
-export const registerPaymentMethods = async (req: Request, res: Response) => {
+export const registerPaymentMethod = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    const paymentMethodsData = req.body;
+    const paymentMethodData = req.body;
 
     const user = await prisma.user.findUnique({
       where: { UserId: parseInt(userId) },
@@ -15,34 +15,30 @@ export const registerPaymentMethods = async (req: Request, res: Response) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const paymentMethods = await Promise.all(
-      paymentMethodsData.map(async (data: any) => {
-        let paymentMethodData: Prisma.PaymentMethodCreateInput = {
-          User: { connect: { UserId: parseInt(userId) } },
-          PaymentType: data.paymentType,
-          AccountNumber: data.accountNumber,
-          ExpirationMonth: data.expirationMonth as string,
-          ExpirationYear: data.expirationYear,
-          Cvc: data.cvc,
-        };
+    let newPaymentMethodData: Prisma.PaymentMethodCreateInput = {
+      User: { connect: { UserId: parseInt(userId) } },
+      PaymentType: paymentMethodData.paymentType,
+      AccountNumber: paymentMethodData.accountNumber,
+      ExpirationMonth: paymentMethodData.expirationMonth as string,
+      ExpirationYear: paymentMethodData.expirationYear,
+      Cvc: paymentMethodData.cvc,
+    };
 
-        if (data.paymentType === "PayPal") {
-          // Omit properties if payment type is PayPal
-          paymentMethodData = {
-            ...paymentMethodData,
-            ExpirationMonth: "",
-            ExpirationYear: "",
-            Cvc: "",
-          };
-        }
+    if (paymentMethodData.paymentType === "PayPal") {
+      // Omit properties if payment type is PayPal
+      newPaymentMethodData = {
+        ...newPaymentMethodData,
+        ExpirationMonth: "",
+        ExpirationYear: "",
+        Cvc: "",
+      };
+    }
 
-        return await prisma.paymentMethod.create({
-          data: paymentMethodData,
-        });
-      })
-    );
+    const paymentMethod = await prisma.paymentMethod.create({
+      data: newPaymentMethodData,
+    });
 
-    res.status(201).json(paymentMethods);
+    res.status(201).json(paymentMethod);
   } catch (error) {
     console.error("Error registering payment method:", error);
     res

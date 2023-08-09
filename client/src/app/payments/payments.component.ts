@@ -1,6 +1,8 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { FormControls } from '../interfaces/form.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PaymentService } from '../share/payment.service';
+import { NotificationService } from '../share/notification.service';
 
 @Component({
   selector: 'app-payments',
@@ -18,7 +20,12 @@ export class PaymentsComponent {
   showProveedorField = false;
   formCreate!: FormGroup;
 
-  constructor(public fb: FormBuilder, private cdr: ChangeDetectorRef) {
+  constructor(
+    public fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
+    private paymentService: PaymentService,
+    private notificationService: NotificationService
+  ) {
     this.reactiveForm();
   }
 
@@ -37,29 +44,52 @@ export class PaymentsComponent {
   }
 
   onAddCard() {
-    console.log('Método de pago seleccionado:', this.selectedPaymentMethod);
+    const currentUserJson = localStorage.getItem('currentUser');
+    if (currentUserJson) {
+      const currentUser = JSON.parse(currentUserJson);
+      if (currentUser.user && currentUser.user.UserId) {
+        const userId = currentUser.user.UserId;
 
-    const expirationMonth = this.formCreate.get('expirationMonth')?.value;
-    const expirationYear = this.formCreate.get('expirationYear')?.value;
-    const cvc = this.formCreate.get('cvc')?.value;
+        const expirationMonth = this.formCreate.get('expirationMonth')?.value;
+        const expirationYear = this.formCreate.get('expirationYear')?.value;
+        const cvc = this.formCreate.get('cvc')?.value;
 
-    const newPaymentMethod = `${this.selectedPaymentMethod} - ${expirationMonth}/${expirationYear}`;
-    this.savedPaymentMethods.push(newPaymentMethod);
+        const paymentData = {
+          paymentType: this.selectedPaymentMethod,
+          accountNumber: this.cardNumber,
+          expirationMonth: expirationMonth,
+          expirationYear: expirationYear,
+          cvc: cvc,
+        };
 
-    console.log('Selected Payment Method:', this.selectedPaymentMethod);
-    console.log('Card Owner:', this.cardOwner);
-    console.log('Card Number:', this.cardNumber);
-    console.log('Expiration Month:', this.expirationMonth);
-    console.log('Expiration Year:', this.expirationYear);
-    console.log('CVC:', this.cvc);
+        this.paymentService
+          .registerPaymentMethod(userId, paymentData)
+          .subscribe(
+            (response) => {
+              console.log('Payment method registered:', response);
+              this.notificationService.showSuccess(
+                'Método de pago registrado correctamente'
+              );
 
-    this.formCreate.reset();
+              const newPaymentMethod = `${this.selectedPaymentMethod} - ${expirationMonth}/${expirationYear}`;
+              this.savedPaymentMethods.push(newPaymentMethod);
 
-    this.selectedPaymentMethod = undefined;
-    this.expirationMonth = undefined;
-    this.expirationYear = undefined;
-    this.cvc = undefined;
+              this.formCreate.reset(); 
+              this.selectedPaymentMethod = undefined;
+              this.expirationMonth = undefined;
+              this.expirationYear = undefined;
+              this.cvc = undefined;
 
-    this.cdr.detectChanges();
+              this.cdr.detectChanges();
+            },
+            (error) => {
+              console.error('Error registering payment method:', error);
+              this.notificationService.showError(
+                'Error al registrar el método de pago'
+              );
+            }
+          );
+      }
+    }
   }
 }
