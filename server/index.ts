@@ -7,6 +7,7 @@ import purchaseItemRoutes from "./routes/purchaseItem.routes";
 import questions from "./routes/questions.routes";
 import answer from "./routes/answer.routes";
 import userRoutes from "./routes/user.routes";
+import orderRoutes from "./routes/order.routes";
 import categoriesRoutes from "./routes/category.routes";
 import paymenthRoute from "./routes/payment.routes";
 import fileUpload from "express-fileupload";
@@ -37,6 +38,7 @@ app.use(questions);
 app.use(answer);
 app.use(categoriesRoutes);
 app.use(paymenthRoute);
+app.use(orderRoutes);
 
 app.listen(PORT || 3000, () => {
   console.log(`Server is running on port ${PORT}`);
