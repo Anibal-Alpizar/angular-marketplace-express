@@ -54,12 +54,15 @@ export class PaymentsComponent {
         const expirationYear = this.formCreate.get('expirationYear')?.value;
         const cvc = this.formCreate.get('cvc')?.value;
 
+        console.log('expirationMonth:', expirationMonth);
+        console.log('expirationYear:', expirationYear);
+
         const paymentData = {
           paymentType: this.selectedPaymentMethod,
           accountNumber: this.cardNumber,
-          expirationMonth: expirationMonth,
-          expirationYear: expirationYear,
-          cvc: cvc,
+          expirationMonth: this.expirationMonth,
+          expirationYear: this.expirationYear,
+          cvc: this.cvc,
         };
 
         this.paymentService
@@ -71,16 +74,16 @@ export class PaymentsComponent {
                 'Método de pago registrado correctamente'
               );
 
-              const newPaymentMethod = `${this.selectedPaymentMethod} - ${expirationMonth}/${expirationYear}`;
-              this.savedPaymentMethods.push(newPaymentMethod);
+              // const newPaymentMethod = `${this.selectedPaymentMethod} - ${expirationMonth}/${expirationYear}`;
+              // this.savedPaymentMethods.push(newPaymentMethod);
 
-              this.formCreate.reset(); 
-              this.selectedPaymentMethod = undefined;
-              this.expirationMonth = undefined;
-              this.expirationYear = undefined;
-              this.cvc = undefined;
+              // this.formCreate.reset(); 
+              // this.selectedPaymentMethod = undefined;
+              // this.expirationMonth = undefined;
+              // this.expirationYear = undefined;
+              // this.cvc = undefined;
 
-              this.cdr.detectChanges();
+              // this.cdr.detectChanges();
             },
             (error) => {
               console.error('Error registering payment method:', error);
