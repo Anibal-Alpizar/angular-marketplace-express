@@ -4,34 +4,53 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const createOrder = async (req: Request, res: Response) => {
-  const orderData = req.body;
-
   try {
-    const order = await prisma.purchase.create({
-      data: {
-        User: { connect: { UserId: orderData.UserId } },
-        PaymentMethod: {
-          connect: { PaymentMethodId: orderData.PaymentMethodId },
-        },
-        Address: { connect: { AddressId: orderData.AddressId } },
-        TotalAmount: orderData.TotalAmount,
-        TaxAmount: orderData.TaxAmount,
-        PurchaseDate: orderData.PurchaseDate,
-        PurchaseStatus: orderData.PurchaseStatus,
-        PurchaseItems: {
-          create: orderData.PurchaseItems.map((item: any) => ({
-            Product: { connect: { ProductId: item.ProductId } },
-            Quantity: item.Quantity,
-            Subtotal: item.Subtotal,
-            PurchaseStatus: item.PurchaseStatus,
-          })),
+    const {
+      userId,
+      paymentMethodId,
+      addressId,
+      purchaseItems,
+      totalAmount,
+      taxAmount,
+    } = req.body;
+
+    const purchaseItemsData = purchaseItems.map((item: any) => ({
+      Product: { connect: { ProductId: item.productId } },
+      Quantity: item.quantity,
+      Subtotal: item.subtotal,
+      PurchaseStatus: "Pending",
+    }));
+
+    const orderData: any = {
+      User: {
+        connect: {
+          UserId: userId,
         },
       },
+      PaymentMethod: {
+        connect: {
+          PaymentMethodId: paymentMethodId,
+        },
+      },
+      Address: {
+        connect: {
+          AddressId: addressId,
+        },
+      },
+      TotalAmount: totalAmount,
+      TaxAmount: taxAmount,
+      PurchaseStatus: "Pending",
+      PurchaseItems: {
+        create: purchaseItemsData,
+      },
+    };
 
+    const createdOrder = await prisma.purchase.create({
+      data: orderData,
       include: {
         User: true,
-        PaymentMethod: true,
         Address: true,
+        PaymentMethod: true,
         PurchaseItems: {
           include: {
             Product: true,
@@ -40,9 +59,9 @@ export const createOrder = async (req: Request, res: Response) => {
       },
     });
 
-    res.json(order);
+    res.status(201).json(createdOrder);
   } catch (error) {
-    console.log("Error creating order:", error);
-    res.status(500).json({ error: "Error creating order" });
+    console.error(error);
+    res.status(500).json({ message: "Error creating order" });
   }
 };
