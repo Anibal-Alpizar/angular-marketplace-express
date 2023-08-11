@@ -25,7 +25,6 @@ export const registerPaymentMethod = async (req: Request, res: Response) => {
     };
 
     if (paymentMethodData.paymentType === "PayPal") {
-      // Omit properties if payment type is PayPal
       newPaymentMethodData = {
         ...newPaymentMethodData,
         ExpirationMonth: "",
@@ -44,5 +43,25 @@ export const registerPaymentMethod = async (req: Request, res: Response) => {
     res
       .status(500)
       .json({ error: "An error occurred while registering payment method" });
+  }
+};
+
+export const getPaymentMethodsByUserId = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const { userId } = req.params;
+
+    const userPaymentMethods = await prisma.paymentMethod.findMany({
+      where: { UserId: parseInt(userId) },
+    });
+
+    res.status(200).json(userPaymentMethods);
+  } catch (error) {
+    console.error("Error getting user payment methods:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while getting user payment methods" });
   }
 };

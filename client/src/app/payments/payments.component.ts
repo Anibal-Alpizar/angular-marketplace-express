@@ -3,14 +3,16 @@ import { FormControls } from '../interfaces/form.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PaymentService } from '../share/payment.service';
 import { NotificationService } from '../share/notification.service';
+import { PaymentMethod } from '../interfaces/payment.interface';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-payments',
   templateUrl: './payments.component.html',
   styleUrls: ['./payments.component.css'],
 })
-export class PaymentsComponent {
-  savedPaymentMethods: string[] = [];
+export class PaymentsComponent implements OnInit {
+  savedPaymentMethods: PaymentMethod[] = [];
   selectedPaymentMethod: string | undefined;
   cardOwner: string | undefined;
   cardNumber: string | undefined;
@@ -19,6 +21,7 @@ export class PaymentsComponent {
   cvc: string | undefined;
   showProveedorField = false;
   formCreate!: FormGroup;
+  savedPaymentMethods$: Observable<PaymentMethod[]> | undefined;
 
   constructor(
     public fb: FormBuilder,
@@ -27,6 +30,10 @@ export class PaymentsComponent {
     private notificationService: NotificationService
   ) {
     this.reactiveForm();
+  }
+
+  ngOnInit(): void {
+    this.getPaymentMethodsForCurrentUser();
   }
 
   reactiveForm() {
@@ -74,16 +81,8 @@ export class PaymentsComponent {
                 'Método de pago registrado correctamente'
               );
 
-              // const newPaymentMethod = `${this.selectedPaymentMethod} - ${expirationMonth}/${expirationYear}`;
-              // this.savedPaymentMethods.push(newPaymentMethod);
-
-              // this.formCreate.reset(); 
-              // this.selectedPaymentMethod = undefined;
-              // this.expirationMonth = undefined;
-              // this.expirationYear = undefined;
-              // this.cvc = undefined;
-
-              // this.cdr.detectChanges();
+              this.cdr.detectChanges();
+              window.location.reload();
             },
             (error) => {
               console.error('Error registering payment method:', error);
@@ -92,6 +91,27 @@ export class PaymentsComponent {
               );
             }
           );
+      }
+    }
+  }
+
+  getPaymentMethodsForCurrentUser() {
+    const currentUserJson = localStorage.getItem('currentUser');
+    if (currentUserJson) {
+      const currentUser = JSON.parse(currentUserJson);
+      if (currentUser.user && currentUser.user.UserId) {
+        const userId = currentUser.user.UserId;
+        this.savedPaymentMethods$ =
+          this.paymentService.getPaymentMethodsByUserId(userId);
+
+        this.paymentService.getPaymentMethodsByUserId(userId).subscribe(
+          (response: PaymentMethod[]) => {
+            this.savedPaymentMethods = response; 
+          },
+          (error) => {
+            console.error('Error getting payment methods:', error);
+          }
+        );
       }
     }
   }

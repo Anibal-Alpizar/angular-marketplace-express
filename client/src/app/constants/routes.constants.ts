@@ -5,6 +5,7 @@ export const PRODUCTSBYUSERS_ROUTE = '/productsbyusers';
 export const PRODUCTSBYVENDOR_ROUTE = '/productsbyvendor';
 export const ALLPRODUCTS_ROUTE = '/products/all';
 export const REGISTERPAYMENTMETHOD_ROUTE = 'payment-method';
+export const GETPAYMENTMETHODSBYUSER_ROUTE = 'payment-methods';
 
 // environment + endPoint
 export const PRODUCTSDETAILS_ROUTE = 'productsdetails';
