@@ -13,3 +13,11 @@
         <option *ngFor="let canton of getCantonsForSelectedProvince()" [value]="canton">{{ canton }}</option>
     </select>
 </div>
+
+<div *ngIf="selectedCanton">
+    <label for="districtSelect">Seleccione un distrito:</label>
+    <select id="districtSelect" [(ngModel)]="selectedDistrict" (change)="onDistrictSelected($event)">
+        <option value="" disabled>Seleccione un distrito...</option>
+        <option *ngFor="let district of districts" [value]="district">{{ district }}</option>
+    </select>
+</div>
