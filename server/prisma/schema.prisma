@@ -124,7 +124,7 @@ model Answer {
 }
 
 model Purchase {
-  PurchaseId      Int            @id
+  PurchaseId      Int            @id @default(autoincrement())
   UserId          Int
   PaymentMethodId Int
   AddressId       Int
@@ -140,7 +140,7 @@ model Purchase {
 }
 
 model PurchaseItem {
-  PurchaseItemId Int      @id
+  PurchaseItemId Int      @id @default(autoincrement())
   PurchaseId     Int
   ProductId      Int
   Quantity       Int

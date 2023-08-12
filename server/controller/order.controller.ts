@@ -3,7 +3,9 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const createOrder = async (req: Request, res: Response) => {
+
+
+export const confirmarOrder = async (req: Request, res: Response) => {
   try {
     const {
       userId,
@@ -43,6 +45,7 @@ export const createOrder = async (req: Request, res: Response) => {
       PurchaseItems: {
         create: purchaseItemsData,
       },
+      PurchaseDate: new Date(),
     };
 
     const createdOrder = await prisma.purchase.create({
@@ -59,9 +62,52 @@ export const createOrder = async (req: Request, res: Response) => {
       },
     });
 
+    
+
     res.status(201).json(createdOrder);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error creating order" });
   }
 };
+
+
+export const createOrder = async (req: Request, res: Response) => {
+ // const purchase = req.body;
+ const {
+  userId,
+  paymentMethodId,
+  addressId,
+  PurchaseStatus,
+  totalAmount,
+  PurchaseDate,
+ 
+} = req.body;
+
+  try {
+    const newPurchase = await prisma.purchase.create({
+      data: {
+        TotalAmount: totalAmount,
+        TaxAmount: 200.0,
+        PurchaseDate: PurchaseDate,
+        PurchaseStatus: PurchaseStatus,
+        User: {connect: {UserId: userId},},
+        PaymentMethod: { connect: {PaymentMethodId: paymentMethodId,},},
+        Address: {connect: {AddressId: addressId,},},
+      }
+    })
+
+    if (newPurchase === null) {
+      return res
+        .status(404)
+        .json({ message: "No products found for the specified user role" });
+    }
+
+
+res.json(newPurchase);
+
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+}

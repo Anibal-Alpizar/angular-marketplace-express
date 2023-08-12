@@ -116,7 +116,7 @@ CREATE TABLE `Answer` (
 
 -- CreateTable
 CREATE TABLE `Purchase` (
-    `PurchaseId` INTEGER NOT NULL,
+    `PurchaseId` INTEGER NOT NULL AUTO_INCREMENT,
     `UserId` INTEGER NOT NULL,
     `PaymentMethodId` INTEGER NOT NULL,
     `AddressId` INTEGER NOT NULL,
@@ -130,7 +130,7 @@ CREATE TABLE `Purchase` (
 
 -- CreateTable
 CREATE TABLE `PurchaseItem` (
-    `PurchaseItemId` INTEGER NOT NULL,
+    `PurchaseItemId` INTEGER NOT NULL AUTO_INCREMENT,
     `PurchaseId` INTEGER NOT NULL,
     `ProductId` INTEGER NOT NULL,
     `Quantity` INTEGER NOT NULL,
