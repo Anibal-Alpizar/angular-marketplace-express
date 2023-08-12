@@ -1,0 +1,15 @@
+<div>
+    <label for="provinceSelect">Seleccione una provincia:</label>
+    <select id="provinceSelect" [(ngModel)]="selectedProvince" (change)="onProvinceSelected($event)">
+        <option value="" disabled>Seleccione una provincia...</option>
+        <option *ngFor="let province of provinces" [value]="province">{{ province }}</option>
+    </select>
+</div>
+
+<div *ngIf="selectedProvince">
+    <label for="cantonSelect">Seleccione un cantón:</label>
+    <select id="cantonSelect" [(ngModel)]="selectedCanton" (change)="onCantonSelected($event)">
+        <option value="" disabled>Seleccione un cantón...</option>
+        <option *ngFor="let canton of getCantonsForSelectedProvince()" [value]="canton">{{ canton }}</option>
+    </select>
+</div>

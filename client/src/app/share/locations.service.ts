@@ -21,6 +21,7 @@ export class LocationService {
   }
 
   getDistritos(province: string, canton: string): Promise<any> {
+    // example: https://ubicaciones.paginasweb.cr/provincia/1/canton/1/distritos.json
     const url = `https://ubicaciones.paginasweb.cr/provincia/${province}/canton/${canton}/distritos.json`;
     return this.http.get(url).toPromise();
   }

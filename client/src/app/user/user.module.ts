@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { UserListComponent } from './admin/user-list/user-list.component';
 import { PaymentsComponent } from '../payments/payments.component';
+import { LocationsComponent } from '../locations/locations.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { PaymentsComponent } from '../payments/payments.component';
     UserRegisterComponent,
     UserListComponent,
     PaymentsComponent,
+    LocationsComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, UserRoutingModule, FormsModule],
 })
