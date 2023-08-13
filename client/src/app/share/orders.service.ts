@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { Order } from '../order/interfaces/Order';
 import { catchError } from 'rxjs/operators';
-import { CREATEORDER_ROUTE } from '../constants/routes.constants';
+import { CREATEORDER_ROUTE, HOME_ROUTE } from '../constants/routes.constants';
 
 
 @Injectable({
@@ -27,15 +27,11 @@ export class OrdersService {
   }
 
   
-  createOrder(formData: FormData): Observable<any> {
-    console.log(formData);
-    const headers = new HttpHeaders();
-    headers.append('Content-Type','multipart/form-data');
+  createOrder(orderData: any): Observable<any> {
+    const url = `${this.urlAPI}${HOME_ROUTE}`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.post(this.urlAPI + CREATEORDER_ROUTE, formData, {
-      headers: headers,
-    })
-    .pipe(catchError(this.handleError));
+    return this.http.post(url, orderData, { headers }).pipe(catchError(this.handleError));
   }
 
   private handleError(error: any) {

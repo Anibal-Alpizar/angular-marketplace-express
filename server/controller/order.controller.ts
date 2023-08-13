@@ -12,9 +12,9 @@ export const confirmarOrder = async (req: Request, res: Response) => {
       paymentMethodId,
       addressId,
       purchaseItems,
-      totalAmount,
-      taxAmount,
     } = req.body;
+
+    
 
     const purchaseItemsData = purchaseItems.map((item: any) => ({
       Product: { connect: { ProductId: item.productId } },
@@ -22,6 +22,15 @@ export const confirmarOrder = async (req: Request, res: Response) => {
       Subtotal: item.subtotal,
       PurchaseStatus: "Pending",
     }));
+
+    // Calcular el TotalAmount sumando los subtotales de los PurchaseItems y los precios de los productos
+    const totalAmountWithoutTax = purchaseItems.reduce((acc: number, item: any) => acc + item.subtotal + item.product.Price, 0);
+
+    // Calcular el impuesto (tax) del 13% del TotalAmount
+    const taxAmount = totalAmountWithoutTax * 0.13;
+
+// Calcular el TotalAmount sumando los subtotales, el Price de los productos y el impuesto
+    const totalAmount = totalAmountWithoutTax + taxAmount;
 
     const orderData: any = {
       User: {
@@ -39,15 +48,15 @@ export const confirmarOrder = async (req: Request, res: Response) => {
           AddressId: addressId,
         },
       },
-      TotalAmount: purchaseItems.subtotal + taxAmount,
-      TaxAmount: purchaseItems.subtotal * 0.13,
+      TotalAmount: totalAmount,
+      TaxAmount: taxAmount,
       PurchaseStatus: "Pending",
       PurchaseItems: {
         create: purchaseItemsData,
       },
       PurchaseDate: new Date(),
     };
-
+ 
     const createdOrder = await prisma.purchase.create({
       data: orderData,
       include: {
@@ -70,6 +79,7 @@ export const confirmarOrder = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error creating order" });
   }
 };
+
 
 
 export const createOrder = async (req: Request, res: Response) => {
