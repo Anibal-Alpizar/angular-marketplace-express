@@ -39,8 +39,8 @@ export const confirmarOrder = async (req: Request, res: Response) => {
           AddressId: addressId,
         },
       },
-      TotalAmount: totalAmount,
-      TaxAmount: taxAmount,
+      TotalAmount: purchaseItems.subtotal + taxAmount,
+      TaxAmount: purchaseItems.subtotal * 0.13,
       PurchaseStatus: "Pending",
       PurchaseItems: {
         create: purchaseItemsData,
