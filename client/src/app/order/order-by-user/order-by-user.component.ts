@@ -34,7 +34,7 @@ export class OrderByUserComponent implements AfterViewInit, OnDestroy {
 
   orderProductsList() {
     this.gService
-      .list('/purchaseitem')
+      .list('/orderByCustumer/2')
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: Order[]) => {
         this.orders = res;

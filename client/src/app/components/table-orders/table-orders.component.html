@@ -14,13 +14,13 @@
         class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600">
         <td *ngFor="let columna of columns" class="px-6 py-4 text-center align-middle">
           <ng-container *ngIf="columna.key === 'UserId'">
-            {{ order?.User?.FullName }}
+            {{ order?.UserId}}
           </ng-container>
           <ng-container *ngIf="columna.key === 'ProductId'">
-            {{ getProductNames(order) }}
+            {{ order?.ProductId }}
           </ng-container>
           <ng-container *ngIf="columna.key === 'Quantity'">
-            {{ getProductQuantities(order) }}
+            {{ order?.Quantity}}
           </ng-container>
           <ng-container *ngIf="columna.key === 'PurchaseStatus'">
             <div class="flex items-center">
