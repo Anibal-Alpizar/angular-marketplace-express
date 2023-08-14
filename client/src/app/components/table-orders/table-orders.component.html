@@ -6,7 +6,6 @@
           {{ column.name }}
         </th>
         <th scope="col" class="px-6 py-3"></th>
-        <th scope="col" class="px-6 py-3"></th>
       </tr>
     </thead>
     <tbody>
@@ -22,6 +21,7 @@
           <ng-container *ngIf="columna.key === 'Quantity'">
             {{ order?.Quantity}}
           </ng-container>
+        
           <ng-container *ngIf="columna.key === 'PurchaseStatus'">
             <div class="flex items-center">
               <div [ngClass]="{
@@ -38,14 +38,7 @@
             {{ order[columna.key] }}
           </ng-container>
         </td>
-        <td class="px-6 py-4">
-        <td class="px-6 py-4">
-          <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-            *ngFor="let purchaseItem of order.PurchaseItems; let last = last"
-            [routerLink]="['/orders', purchaseItem.Purchase.PurchaseId]">
-            <ng-container *ngIf="last">Ver detalles</ng-container>
-          </a>
-        </td>
+       
       </tr>
     </tbody>
   </table>

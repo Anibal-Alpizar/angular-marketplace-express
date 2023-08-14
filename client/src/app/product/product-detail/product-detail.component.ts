@@ -143,7 +143,7 @@ export class ProductDetailComponent implements OnInit {
       );
       return;
     }
-  
+   
     const currentUser = JSON.parse(currentUserString);
     const userId = currentUser?.user?.UserId;
     if (currentUserString) {
