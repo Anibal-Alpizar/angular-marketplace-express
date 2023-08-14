@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LocationService } from 'src/app/share/locations.service';
+import { NotificationService } from '../share/notification.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-locations',
@@ -10,14 +12,70 @@ export class LocationsComponent implements OnInit {
   provinces: string[] = [];
   districts: string[] = [];
   cantons: any = {};
-  selectedCanton: string = '';
-  selectedDistrict: string = '';
-  selectedProvince: string = '';
-
-  constructor(private lService: LocationService) {}
+  selectedCanton?: string;
+  formCreate!: FormGroup;
+  selectedDistrict?: string;
+  selectedProvince?: string;
+  exactAddress?: string;
+  postalCode?: string;
+  makeSubmit: boolean = false;
+  phone?: string;
+  constructor(
+    public fb: FormBuilder,
+    private lService: LocationService,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {
     this.loadProvinces();
+    this.reactiveForm();
+  }
+
+  reactiveForm() {
+    this.formCreate = this.fb.group({
+      province: ['', [Validators.required]],
+      canton: ['', [Validators.required]],
+      district: ['', [Validators.required]],
+      exactAddress: ['', [Validators.required]],
+      postalCode: ['', [Validators.required]],
+      phone: ['', [Validators.required]],
+    });
+  }
+
+  createAddress(): void {
+    this.makeSubmit = true;
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+    const formData = {
+      userId: currentUser.user.UserId,
+      province: this.selectedProvince,
+      canton: this.selectedCanton,
+      district: this.selectedDistrict,
+      exactAddress: this.exactAddress,
+      postalCode: this.postalCode,
+      phone: this.phone,
+    };
+
+    this.lService.createAddress(formData).then(
+      (response) => {
+        console.log('Dirección creada:', response);
+        this.notificationService.showSuccess('Dirección creada');
+        this.formCreate.reset();
+        this.makeSubmit = false;
+        this.selectedProvince = '';
+        this.selectedCanton = '';
+        this.selectedDistrict = '';
+        this.exactAddress = '';
+        this.postalCode = '';
+        this.phone = '';
+      },
+      (error) => {
+        console.error('Error creando dirección:', error);
+        this.notificationService.showError(
+          'Error creando dirección, seleccione todos los campos'
+        );
+      }
+    );
   }
 
   onCantonSelected(event: any): void {
@@ -25,9 +83,11 @@ export class LocationsComponent implements OnInit {
 
     if (selectedCantonName) {
       const selectedCantonNumber = Object.keys(
-        this.cantons[this.selectedProvince]
+        this.cantons[this.selectedProvince as string]
       ).find(
-        (key) => this.cantons[this.selectedProvince][key] === selectedCantonName
+        (key) =>
+          this.cantons[this.selectedProvince as string][key] ===
+          selectedCantonName
       );
 
       if (selectedCantonNumber) {
@@ -96,10 +156,10 @@ export class LocationsComponent implements OnInit {
     this.lService
       .getCantons(provinceNumber)
       .then((data: any) => {
-        this.cantons[this.selectedProvince] = Object.values(data);
+        this.cantons[this.selectedProvince as string] = Object.values(data);
         console.log(
           `Cantons loaded for province ${this.selectedProvince}:`,
-          this.cantons[this.selectedProvince]
+          this.cantons[this.selectedProvince as string]
         );
       })
       .catch((error) => {
@@ -121,7 +181,7 @@ export class LocationsComponent implements OnInit {
 
         if (provinceNumber) {
           console.log(`Selected Province Number: ${provinceNumber}`);
-          this.loadCantons(provinceNumber); 
+          this.loadCantons(provinceNumber);
         } else {
           console.log('Province number not found.');
         }
@@ -131,4 +191,12 @@ export class LocationsComponent implements OnInit {
         throw error;
       });
   }
+
+  public errorHandling = (control: string, error: string) => {
+    return (
+      this.formCreate.controls[control].hasError(error) &&
+      this.formCreate.controls[control].invalid &&
+      (this.makeSubmit || this.formCreate.controls[control].touched)
+    );
+  };
 }

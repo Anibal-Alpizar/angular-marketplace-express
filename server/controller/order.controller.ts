@@ -3,18 +3,9 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-
-
 export const confirmarOrder = async (req: Request, res: Response) => {
   try {
-    const {
-      userId,
-      paymentMethodId,
-      addressId,
-      purchaseItems,
-    } = req.body;
-
-    
+    const { userId, paymentMethodId, addressId, purchaseItems } = req.body;
 
     const purchaseItemsData = purchaseItems.map((item: any) => ({
       Product: { connect: { ProductId: item.productId } },
@@ -24,12 +15,15 @@ export const confirmarOrder = async (req: Request, res: Response) => {
     }));
 
     // Calcular el TotalAmount sumando los subtotales de los PurchaseItems y los precios de los productos
-    const totalAmountWithoutTax = purchaseItems.reduce((acc: number, item: any) => acc + item.subtotal + item.product.Price, 0);
+    const totalAmountWithoutTax = purchaseItems.reduce(
+      (acc: number, item: any) => acc + item.subtotal + item.product.Price,
+      0
+    );
 
     // Calcular el impuesto (tax) del 13% del TotalAmount
     const taxAmount = totalAmountWithoutTax * 0.13;
 
-// Calcular el TotalAmount sumando los subtotales, el Price de los productos y el impuesto
+    // Calcular el TotalAmount sumando los subtotales, el Price de los productos y el impuesto
     const totalAmount = totalAmountWithoutTax + taxAmount;
 
     const orderData: any = {
@@ -56,7 +50,7 @@ export const confirmarOrder = async (req: Request, res: Response) => {
       },
       PurchaseDate: new Date(),
     };
- 
+
     const createdOrder = await prisma.purchase.create({
       data: orderData,
       include: {
@@ -71,8 +65,6 @@ export const confirmarOrder = async (req: Request, res: Response) => {
       },
     });
 
-    
-
     res.status(201).json(createdOrder);
   } catch (error) {
     console.error(error);
@@ -80,19 +72,16 @@ export const confirmarOrder = async (req: Request, res: Response) => {
   }
 };
 
-
-
 export const createOrder = async (req: Request, res: Response) => {
- // const purchase = req.body;
- const {
-  userId,
-  paymentMethodId,
-  addressId,
-  PurchaseStatus,
-  totalAmount,
-  PurchaseDate,
- 
-} = req.body;
+  // const purchase = req.body;
+  const {
+    userId,
+    paymentMethodId,
+    addressId,
+    PurchaseStatus,
+    totalAmount,
+    PurchaseDate,
+  } = req.body;
 
   try {
     const newPurchase = await prisma.purchase.create({
@@ -101,11 +90,11 @@ export const createOrder = async (req: Request, res: Response) => {
         TaxAmount: 200.0,
         PurchaseDate: PurchaseDate,
         PurchaseStatus: PurchaseStatus,
-        User: {connect: {UserId: userId},},
-        PaymentMethod: { connect: {PaymentMethodId: paymentMethodId,},},
-        Address: {connect: {AddressId: addressId,},},
-      }
-    })
+        User: { connect: { UserId: userId } },
+        PaymentMethod: { connect: { PaymentMethodId: paymentMethodId } },
+        Address: { connect: { AddressId: addressId } },
+      },
+    });
 
     if (newPurchase === null) {
       return res
@@ -113,11 +102,9 @@ export const createOrder = async (req: Request, res: Response) => {
         .json({ message: "No products found for the specified user role" });
     }
 
-
-res.json(newPurchase);
-
+    res.json(newPurchase);
   } catch (error) {
     console.log(error);
     res.json(error);
   }
-}
+};

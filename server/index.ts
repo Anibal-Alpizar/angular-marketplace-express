@@ -13,6 +13,7 @@ import paymenthRoute from "./routes/payment.routes";
 import fileUpload from "express-fileupload";
 import path from "path";
 import { errorHandler } from "./middlewares/errorHandler.middleware";
+import addressRouter from "./routes/address.routes";
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use(answer);
 app.use(categoriesRoutes);
 app.use(paymenthRoute);
 app.use(orderRoutes);
+app.use(addressRouter);
 
 app.listen(PORT || 3000, () => {
   console.log(`Server is running on port ${PORT}`);
