@@ -30,7 +30,7 @@ export const createAddress = async (req: Request, res: Response) => {
     res.status(201).json(newAddress);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error creating address" });
+    res.status(500).json({ message: "Error creando la dirección" });
   }
 };
 
@@ -47,6 +47,6 @@ export const getAddressesByUserId = async (req: Request, res: Response) => {
     res.status(200).json(addresses);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error fetching addresses" });
+    res.status(500).json({ message: "Error obteniendo las direcciones" });
   }
 };

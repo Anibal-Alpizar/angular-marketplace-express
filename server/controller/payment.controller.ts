@@ -12,7 +12,7 @@ export const registerPaymentMethod = async (req: Request, res: Response) => {
       where: { UserId: parseInt(userId) },
     });
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: "Usuario no encontrado" });
     }
 
     let newPaymentMethodData: Prisma.PaymentMethodCreateInput = {
@@ -39,10 +39,10 @@ export const registerPaymentMethod = async (req: Request, res: Response) => {
 
     res.status(201).json(paymentMethod);
   } catch (error) {
-    console.error("Error registering payment method:", error);
+    console.error("Error registrando metodo de pago:", error);
     res
       .status(500)
-      .json({ error: "An error occurred while registering payment method" });
+      .json({ error: "A ocurrido un error al registrar el metodo de pago" });
   }
 };
 
@@ -59,9 +59,9 @@ export const getPaymentMethodsByUserId = async (
 
     res.status(200).json(userPaymentMethods);
   } catch (error) {
-    console.error("Error getting user payment methods:", error);
+    console.error("Error obteniendo metodos de pago del usuario:", error);
     res
       .status(500)
-      .json({ error: "An error occurred while getting user payment methods" });
+      .json({ error: "A ocurrido un error al obtener los metodos de pago" });
   }
 };

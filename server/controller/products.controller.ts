@@ -8,7 +8,6 @@ import fs from "fs-extra";
 
 const prisma = new PrismaClient();
 
-
 export const getProductsByVendor = async (req: Request, res: Response) => {
   const userId = parseInt(req.params.id);
 
@@ -25,7 +24,7 @@ export const getProductsByVendor = async (req: Request, res: Response) => {
     if (!user || !user.Products || user.Products.length === 0) {
       return res
         .status(404)
-        .json({ message: "No products found for the specified vendor" });
+        .json({ message: "No productos encontrados para el usuario" });
     }
 
     const products = user.Products;
@@ -52,7 +51,8 @@ export const getProductByUser = async (req: Request, res: Response) => {
 
     if (users.length === 0) {
       return res.status(404).json({
-        message: "No users found or the users do not have any products",
+        message:
+          "No se encontraron usuarios o los usuarios no tienen productos",
       });
     }
 
@@ -120,7 +120,7 @@ export const detailsProducts = async (req: Request, res: Response) => {
     if (product.length === 0) {
       return res
         .status(404)
-        .json({ message: "No products found for the specified user role" });
+        .json({ message: "No hay productos para el usuario especificado" });
     }
 
     const productsWithFullPhotoURL = product.map((product) => {
@@ -150,7 +150,6 @@ export const createProduct = async (req: any, res: Response) => {
     //Se declara esta variable para cargar la imagen en ella
     let sampleFile: any;
     let sampleFile2: any;
- 
 
     //Cargamos la imagen que nos envian
     sampleFile = req.files.sampleFile;
@@ -159,12 +158,15 @@ export const createProduct = async (req: any, res: Response) => {
     let fileName = "";
     let fileName2 = "";
 
-     //Se crea una constante, donde se van a guardar las img con su nombre
-     const path = `./uploads`;
+    //Se crea una constante, donde se van a guardar las img con su nombre
+    const path = `./uploads`;
 
     //Verificamos si el tipo de img que nos estan enviando es el formato correcto de png y jpg
-    if (sampleFile && (sampleFile.mimetype === "image/png" || sampleFile.mimetype === "image/jpg")) {
-     
+    if (
+      sampleFile &&
+      (sampleFile.mimetype === "image/png" ||
+        sampleFile.mimetype === "image/jpg")
+    ) {
       //Creamos la extención
       const fileExtension = sampleFile.mimetype.split("/")[1];
       //El nombre con una variable aleatoria y la extención
@@ -176,24 +178,26 @@ export const createProduct = async (req: any, res: Response) => {
         if (err)
           return res
             .status(404)
-            .json({ message: "No products found for the specified user role" });
+            .json({ message: "No hay productos para el usuario especificado" });
       });
     }
 
-    if (sampleFile2 && (sampleFile2.mimetype === "image/png" || sampleFile2.mimetype === "image/jpg")) { 
+    if (
+      sampleFile2 &&
+      (sampleFile2.mimetype === "image/png" ||
+        sampleFile2.mimetype === "image/jpg")
+    ) {
       //Creamos la extensión para la segunda imagen
       const fileExtension2 = sampleFile2.mimetype.split("/")[1];
       //El nombre con una variable aleatoria y la extensión para la segunda imagen
       fileName2 = `${uuidv4()}.${fileExtension2}`;
-
-   
 
       //Después enviamos la segunda imagen y la guardamos
       await sampleFile2.mv(`${path}/${fileName2}`, function (err: any) {
         if (err)
           return res
             .status(404)
-            .json({ message: "No products found for the specified user role" });
+            .json({ message: "No hay productos para el usuario especificado" });
       });
     }
 
@@ -228,7 +232,7 @@ export const createProduct = async (req: any, res: Response) => {
     if (newProduct === null) {
       return res
         .status(404)
-        .json({ message: "No products found for the specified user role" });
+        .json({ message: "No hay productos para el usuario especificado" });
     }
 
     res.json(newProduct);
@@ -251,7 +255,7 @@ export const updateProduct = async (req: Request, res: Response) => {
 
     //Validamos que exista ese producto
     if (!existingProduct) {
-      return res.status(404).json({ message: "Product not found" });
+      return res.status(404).json({ message: "Producto no encontrado" });
     }
 
     /*Se declaran estas variables para cargar las imagenes en ella
@@ -269,7 +273,11 @@ export const updateProduct = async (req: Request, res: Response) => {
 
     const path = `./uploads`;
     //Verificamos si el tipo de img que nos estan enviando es el formato correcto de png y jpg
-    if (sampleFile && (sampleFile.mimetype === "image/png" || sampleFile.mimetype === "image/jpg")) {
+    if (
+      sampleFile &&
+      (sampleFile.mimetype === "image/png" ||
+        sampleFile.mimetype === "image/jpg")
+    ) {
       //Se crea una constante, donde se van a guardar las img con su nombre
 
       //Creamos la extención
@@ -277,23 +285,25 @@ export const updateProduct = async (req: Request, res: Response) => {
       //se crea esta variable para cargar la img en ella con un nombre aleatorio de la librerio uuid y se le agrega la extención
       const fileName = `${uuidv4()}.${fileExtension}`;
 
-       //Se verifica que la carpeta fue creada
-       await fs.ensureDir(path);
+      //Se verifica que la carpeta fue creada
+      await fs.ensureDir(path);
 
       //Despues enviamos la img y la guardamos
       await sampleFile.mv(`${path}/${fileName}`, function (err: any) {
         if (err)
           return res
             .status(404)
-            .json({ message: "No products found for the specified user role" });
+            .json({ message: "No hay productos para el usuario especificado" });
       });
 
       updatedPhotos[0].PhotoURL = fileName;
-
     }
 
-    if (sampleFile2 && (sampleFile2.mimetype === "image/png" || sampleFile2.mimetype === "image/jpg")) { 
-
+    if (
+      sampleFile2 &&
+      (sampleFile2.mimetype === "image/png" ||
+        sampleFile2.mimetype === "image/jpg")
+    ) {
       //Creamos la extensión para la segunda imagen
       const fileExtension2 = sampleFile2.mimetype.split("/")[1];
       //El nombre con una variable aleatoria y la extensión para la segunda imagen
@@ -302,20 +312,20 @@ export const updateProduct = async (req: Request, res: Response) => {
       //Se verifica que la carpeta fue creada
       await fs.ensureDir(path);
 
-        //Después enviamos la segunda imagen y la guardamos
-        await sampleFile2.mv(`${path}/${fileName2}`, function (err: any) {
-          if (err)
-            return res
-              .status(404)
-              .json({ message: "No products found for the specified user role" });
-        });
+      //Después enviamos la segunda imagen y la guardamos
+      await sampleFile2.mv(`${path}/${fileName2}`, function (err: any) {
+        if (err)
+          return res
+            .status(404)
+            .json({ message: "No hay productos para el usuario especificado" });
+      });
 
-       // Actualizamos las rutas de las fotos existentes
-       updatedPhotos[1].PhotoURL = fileName2;
-    }
-          
       // Actualizamos las rutas de las fotos existentes
-      req.body.Photos = updatedPhotos;
+      updatedPhotos[1].PhotoURL = fileName2;
+    }
+
+    // Actualizamos las rutas de las fotos existentes
+    req.body.Photos = updatedPhotos;
 
     // Eliminamos las imágenes antiguas que no están siendo utilizadas
     const oldPhotosURLs = existingProduct.Photos.map((photo) => photo.PhotoURL);
@@ -356,7 +366,7 @@ export const updateProduct = async (req: Request, res: Response) => {
     res.json(updatedProduct);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Error al actualizar el producto" });
   }
 };
 

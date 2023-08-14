@@ -28,6 +28,6 @@ export const createAnswer = async (req: Request, res: Response) => {
     res.json(newAnswer);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Ups! Sucedio un error" });
   }
 };

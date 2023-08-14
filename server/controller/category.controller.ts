@@ -10,6 +10,6 @@ export const getCategories = async (req: Request, res: Response) => {
     res.json(categories);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Ups! Sucedio un error" });
   }
 };

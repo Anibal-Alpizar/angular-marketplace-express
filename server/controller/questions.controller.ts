@@ -23,6 +23,6 @@ export const createQuestions = async (req: Request, res: Response) => {
     res.json(newQuestion);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Error creando la pregunta" });
   }
 };

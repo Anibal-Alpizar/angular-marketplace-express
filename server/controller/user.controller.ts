@@ -23,12 +23,12 @@ export const register = async (req: Request, res: Response) => {
     !userData.password ||
     !userData.address
   ) {
-    return sendResponse(res, 400, false, "All fields are required.");
+    return sendResponse(res, 400, false, "Todos los campos son requeridos.");
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(userData.email)) {
-    return sendResponse(res, 400, false, "Invalid email address.");
+    return sendResponse(res, 400, false, "Email inválido.");
   }
 
   try {
@@ -81,16 +81,16 @@ export const register = async (req: Request, res: Response) => {
       res,
       200,
       true,
-      "Verification email sent. Please check your inbox and confirm your email address.",
+      "Verificación de correo electrónico enviada. Por favor, revisa tu bandeja de entrada y confirma tu correo electrónico.",
       user
     );
   } catch (error: any) {
-    console.error("Error creating user:", error.message);
+    console.error("Error creando el usuario:", error.message);
     return sendResponse(
       res,
       500,
       false,
-      "Error creating user: " + error.message
+      "Error creando el usuario: " + error.message
     );
   }
 };
@@ -99,7 +99,12 @@ export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return sendResponse(res, 400, false, "Email and password are required.");
+    return sendResponse(
+      res,
+      400,
+      false,
+      "Correo electrónico y contraseña son requeridos."
+    );
   }
 
   const user = await prisma.user.findUnique({
@@ -120,7 +125,7 @@ export const login = async (req: Request, res: Response) => {
       res,
       401,
       false,
-      "Authentication failed. The email doesn't exist."
+      "Autenticación fallida. El correo electrónico no existe."
     );
   }
 
@@ -129,7 +134,7 @@ export const login = async (req: Request, res: Response) => {
       res,
       401,
       false,
-      "Authentication failed. The account is not active."
+      "Autenticación fallida. La cuenta no está activa."
     );
   }
 
@@ -140,7 +145,7 @@ export const login = async (req: Request, res: Response) => {
       res,
       401,
       false,
-      "Authentication failed. Invalid password."
+      "Autenticación fallida. Contraseña inválida."
     );
   }
 
@@ -154,7 +159,7 @@ export const login = async (req: Request, res: Response) => {
 
   const roleNames = user.Roles.map((userRole) => userRole.Role.RoleName);
 
-  return sendResponse(res, 200, true, "Login successful", {
+  return sendResponse(res, 200, true, "Autenticación exitosa.", {
     user: {
       ...user,
       Roles: roleNames,
@@ -200,16 +205,16 @@ export const getUsersWithRoles = async (req: Request, res: Response) => {
       res,
       200,
       true,
-      "Users with roles retrieved successfully.",
+      "Usuario con roles recuperados con éxito.",
       formattedUsers
     );
   } catch ({ message }: any) {
-    console.error("Error fetching users with roles:", message);
+    console.error("Error recorrer usuarios con roles:", message);
     return sendResponse(
       res,
       500,
       false,
-      "Error fetching users with roles: " + message
+      "Error recorrer usuarios con roles: " + message
     );
   }
 };
@@ -219,7 +224,7 @@ export const updateUserStatus = async (req: Request, res: Response) => {
 
   // Validar los datos recibidos
   if (!userId || isActive === undefined) {
-    return sendResponse(res, 400, false, "userId and isActive are required.");
+    return sendResponse(res, 400, false, "User Id y estado son requeridos.");
   }
 
   try {
@@ -238,7 +243,7 @@ export const updateUserStatus = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      return sendResponse(res, 404, false, "User not found.");
+      return sendResponse(res, 404, false, "Usuario no encontrado.");
     }
 
     // Actualizar el estado del usuario
@@ -265,7 +270,7 @@ export const updateUserStatus = async (req: Request, res: Response) => {
     });
 
     if (!updatedUser) {
-      return sendResponse(res, 500, false, "Error fetching updated user.");
+      return sendResponse(res, 500, false, "Error actualizando el usuario.");
     }
 
     const formattedUser = {
@@ -283,16 +288,16 @@ export const updateUserStatus = async (req: Request, res: Response) => {
       res,
       200,
       true,
-      "User status updated successfully.",
+      "Usuario actualizado con éxito.",
       formattedUser
     );
   } catch (error: any) {
-    console.error("Error updating user status:", error.message);
+    console.error("Error actualizando el usuario:", error.message);
     return sendResponse(
       res,
       500,
       false,
-      "Error updating user status: " + error.message
+      "Error actualizando el usuario: " + error.message
     );
   }
 };

@@ -62,9 +62,10 @@ export const getPurchaseItemByUser = async (req: Request, res: Response) => {
     });
 
     if (purchaseItems.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No products found for the specified user role" });
+      return res.status(404).json({
+        message:
+          "No se encontraron productos para el rol de usuario especificado",
+      });
     }
 
     // Agrupar los productos por la orden de compra (Purchase)
@@ -128,9 +129,10 @@ export const getPurchaseItemByVendor = async (req: Request, res: Response) => {
     });
 
     if (filteredOrders.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No orders found for the specified vendor" });
+      return res.status(404).json({
+        message:
+          "No se encontraron productos para el rol de usuario especificado",
+      });
     }
 
     res.json(filteredOrders);
@@ -145,7 +147,6 @@ export const detailsPurchaseItemByCustomer = async (
   res: Response
 ) => {
   let purchaseId = parseInt(req.params.purchaseId); // Assuming you pass the purchaseId in the request parameter
-
 
   try {
     const purchaseItems = await prisma.purchaseItem.findMany({
@@ -210,11 +211,9 @@ export const detailsPurchaseItemByCustomer = async (
     });
 
     if (purchaseItems.length === 0) {
-      return res
-        .status(404)
-        .json({
-          message: "No purchase items found for the specified purchase",
-        });
+      return res.status(404).json({
+        message: "No se encontraron productos para la compra especificada",
+      });
     }
 
     res.json(purchaseItems);
@@ -223,9 +222,6 @@ export const detailsPurchaseItemByCustomer = async (
     res.json(error);
   }
 };
-
-
-
 
 export const detailsPurchaseItemsByPurchase = async (
   req: Request,
@@ -241,21 +237,15 @@ export const detailsPurchaseItemsByPurchase = async (
         },
       },
       include: {
-        Product: {
-          // Incluye los detalles del producto
-        },
-        Purchase: {
-          // Incluye los detalles de la compra
-        },
+        Product: {},
+        Purchase: {},
       },
     });
 
     if (purchaseItems.length === 0) {
-      return res
-        .status(404)
-        .json({
-          message: "No purchase items found for the specified purchase",
-        });
+      return res.status(404).json({
+        message: "No purchase items found for the specified purchase",
+      });
     }
 
     res.json(purchaseItems);

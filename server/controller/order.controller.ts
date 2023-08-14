@@ -74,81 +74,77 @@ const prisma = new PrismaClient();
 
 export const createOrder = async (req: Request, res: Response) => {
   const purchase = req.body;
- 
 
- try {
+  try {
+    // Obtener información detallada del producto
+    const product = await prisma.product.findUnique({
+      where: { ProductId: purchase.productId },
+    });
 
-   // Obtener información detallada del producto
-   const product = await prisma.product.findUnique({
-    where: { ProductId: purchase.productId },
-  });
+    if (!product) {
+      return res.status(404).json({ message: "Producto no encontrado" });
+    }
 
-  if (!product) {
-    return res
-      .status(404)
-      .json({ message: "Product not found" });
+    const subtotal = purchase.Quantity * product.Price;
+    const taxAmount = subtotal * 0.13;
+    const totalAmount = subtotal + taxAmount;
+
+    const newPurchase = await prisma.purchase.create({
+      data: {
+        Quantity: parseInt(purchase.Quantity),
+        TotalAmount: totalAmount,
+        TaxAmount: taxAmount,
+        PurchaseDate: new Date(),
+        PurchaseStatus: "Pending",
+        Subtotal: subtotal,
+        User: { connect: { UserId: purchase.userId } },
+        PaymentMethod: {
+          connect: { PaymentMethodId: purchase.PaymentMethodId },
+        },
+        Address: { connect: { AddressId: parseInt(purchase.AddressId) } },
+        Product: { connect: { ProductId: purchase.productId } },
+      },
+    });
+
+    if (newPurchase === null) {
+      return res.status(404).json({
+        message:
+          "No se encontraron productos para el rol de usuario especificado",
+      });
+    }
+
+    res.json(newPurchase);
+  } catch (error) {
+    console.log(error);
+    res.json(error);
   }
-
-  const subtotal = purchase.Quantity * product.Price;
-  const taxAmount = subtotal * 0.13;
-  const totalAmount = subtotal + taxAmount;
-
-   const newPurchase = await prisma.purchase.create({
-     data: {
-       Quantity: parseInt(purchase.Quantity),
-       TotalAmount: totalAmount,
-       TaxAmount: taxAmount,
-       PurchaseDate: new Date(),
-       PurchaseStatus: "Pending",
-       Subtotal: subtotal,
-       User: { connect: { UserId: purchase.userId } },
-       PaymentMethod: { connect: { PaymentMethodId: purchase.PaymentMethodId } },
-       Address: { connect: { AddressId: parseInt(purchase.AddressId)} },
-       Product: { connect: { ProductId: purchase.productId}},
-     },
-   });
-   
-
-   if (newPurchase === null) {
-     return res
-       .status(404)
-       .json({ message: "No products found for the specified user role" });
-   }
-
-   res.json(newPurchase);
- } catch (error) {
-   console.log(error);
-   res.json(error);
- }
 };
 
-export const getPurchaseByCustumer= async (req:Request, res:Response) => {
- const userId = parseInt(req.params.id);
+export const getPurchaseByCustumer = async (req: Request, res: Response) => {
+  const userId = parseInt(req.params.id);
 
- try {
-   const user = await prisma.user.findUnique({
-     where: { UserId: userId },
-     include: {
-       Purchase: true,
-       Addresses: true,
-       PaymentMethod: true,
-       Products:true
-     },
-   });
+  try {
+    const user = await prisma.user.findUnique({
+      where: { UserId: userId },
+      include: {
+        Purchase: true,
+        Addresses: true,
+        PaymentMethod: true,
+        Products: true,
+      },
+    });
 
+    if (!user || !user.Purchase || user.Purchase.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No se encotraon compras para el usuario" });
+    }
 
-   if (!user || !user.Purchase || user.Purchase.length === 0) {
-     return res
-       .status(404)
-       .json({ message: "No products found for the specified vendor" });
-   }
+    const purchase = user.Purchase;
 
-   const purchase = user.Purchase;
-
-   res.json(purchase);
-
- } catch (error) {
-   console.log(error);
-   res.json(error);
- }
-}
+    res.json(purchase);
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+};
