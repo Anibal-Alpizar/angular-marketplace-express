@@ -6,7 +6,6 @@ import { Order } from '../order/interfaces/Order';
 import { catchError } from 'rxjs/operators';
 import { CREATEORDER_ROUTE, HOME_ROUTE } from '../constants/routes.constants';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -25,8 +24,6 @@ export class OrdersService {
     const url = `${this.urlAPI}/${endPoint}`;
     return this.http.get<Order>(url);
   }
-
-  //Obtener todos los usuarios
 
   createOrder(orderData: any): Observable<any> {
     const endPoint = 'create-order';

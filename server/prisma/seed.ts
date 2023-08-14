@@ -35,13 +35,13 @@ async function main() {
     data: roles as Role[],
   });
 
-  // // await prisma.user.createMany({
-  // //   data: users as User[],
-  // // });
+  await prisma.user.createMany({
+    data: users as [],
+  });
 
-  // // await prisma.userRole.createMany({
-  // //   data: userRoles as UserRole[],
-  // // });
+  await prisma.userRole.createMany({
+    data: userRoles as UserRole[],
+  });
 
   await prisma.category.createMany({
     data: categories as Category[],

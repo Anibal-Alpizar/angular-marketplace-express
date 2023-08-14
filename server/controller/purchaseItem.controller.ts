@@ -144,12 +144,13 @@ export const detailsPurchaseItemByCustomer = async (
   req: Request,
   res: Response
 ) => {
-  let id = parseInt(req.params.id);
+  let purchaseId = parseInt(req.params.purchaseId); // Assuming you pass the purchaseId in the request parameter
+
 
   try {
-    const purchaseItem = await prisma.purchaseItem.findMany({
+    const purchaseItems = await prisma.purchaseItem.findMany({
       where: {
-        PurchaseId: id,
+        PurchaseId: purchaseId,
       },
       include: {
         Product: {
@@ -208,15 +209,61 @@ export const detailsPurchaseItemByCustomer = async (
       },
     });
 
-    if (purchaseItem.length === 0) {
+    if (purchaseItems.length === 0) {
       return res
         .status(404)
-        .json({ message: "No products found for the specified user role" });
+        .json({
+          message: "No purchase items found for the specified purchase",
+        });
     }
 
-    res.json(purchaseItem);
+    res.json(purchaseItems);
   } catch (error) {
     console.log(error);
     res.json(error);
+  }
+};
+
+
+
+
+export const detailsPurchaseItemsByPurchase = async (
+  req: Request,
+  res: Response
+) => {
+  let purchaseId = parseInt(req.params.purchaseId);
+
+  try {
+    const purchaseItems = await prisma.purchaseItem.findMany({
+      where: {
+        Purchase: {
+          PurchaseId: purchaseId,
+        },
+      },
+      include: {
+        Product: {
+          // Incluye los detalles del producto
+        },
+        Purchase: {
+          // Incluye los detalles de la compra
+        },
+      },
+    });
+
+    if (purchaseItems.length === 0) {
+      return res
+        .status(404)
+        .json({
+          message: "No purchase items found for the specified purchase",
+        });
+    }
+
+    res.json(purchaseItems);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "An error occurred while fetching purchase items.",
+      // error: error.message,
+    });
   }
 };
