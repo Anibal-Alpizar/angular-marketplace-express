@@ -120,10 +120,13 @@ CREATE TABLE `Purchase` (
     `UserId` INTEGER NOT NULL,
     `PaymentMethodId` INTEGER NOT NULL,
     `AddressId` INTEGER NOT NULL,
+    `ProductId` INTEGER NOT NULL,
+    `Quantity` INTEGER NOT NULL,
     `TotalAmount` DOUBLE NOT NULL,
     `TaxAmount` DOUBLE NOT NULL,
     `PurchaseDate` DATETIME(3) NOT NULL,
     `PurchaseStatus` VARCHAR(191) NOT NULL,
+    `Subtotal` DOUBLE NOT NULL,
 
     PRIMARY KEY (`PurchaseId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -192,6 +195,9 @@ ALTER TABLE `Purchase` ADD CONSTRAINT `Purchase_AddressId_fkey` FOREIGN KEY (`Ad
 
 -- AddForeignKey
 ALTER TABLE `Purchase` ADD CONSTRAINT `Purchase_PaymentMethodId_fkey` FOREIGN KEY (`PaymentMethodId`) REFERENCES `PaymentMethod`(`PaymentMethodId`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Purchase` ADD CONSTRAINT `Purchase_ProductId_fkey` FOREIGN KEY (`ProductId`) REFERENCES `Product`(`ProductId`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `PurchaseItem` ADD CONSTRAINT `PurchaseItem_PurchaseId_fkey` FOREIGN KEY (`PurchaseId`) REFERENCES `Purchase`(`PurchaseId`) ON DELETE RESTRICT ON UPDATE CASCADE;

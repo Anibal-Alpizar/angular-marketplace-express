@@ -16,6 +16,7 @@ import { CloseScrollStrategy } from '@angular/cdk/overlay';
   styleUrls: ['./product-detail.component.css'],
 })
 export class ProductDetailComponent implements OnInit {
+  id: number = 1;
   quantity: number = 1; // Inicializa la cantidad con 1
   data: any;
   isFormVisible = false;
@@ -57,67 +58,56 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    //IDUSUARIO✔
-    //IDPRODUCT✔
-    //Quantity✔
-    //SubTotal✔
-    //PaymentMethod😱
-    //Andres✔
-    //TaxAmount✔
-    //Total✔
-
-    const formData = new FormData();
-    //const orderData = new OrderData();
+  onSubmit(id: number) {
     const currentUserString = localStorage.getItem('currentUser');
-    const data = this.data[0].ProductId;
-    const price = this.data[0].Price;
-
-    if (currentUserString) {
-      const currentUser = JSON.parse(currentUserString);
-      const userId = currentUser?.user?.UserId;
-      const addressId = currentUser?.user?.Address;
-      console.log('Address', addressId);
-      console.log('UserId', userId);
-
-      if (userId) {
-        formData.append('userId', userId);
-        formData.append('addressId', addressId);
-      } else {
-        console.log('Invalid');
-        this.notificationService.showError('Invalid');
-      }
-    } else {
+    
+    if (!currentUserString) {
       console.log('No se encontró el objeto currentUser en el localStorage.');
       this.notificationService.showError(
         'No se encontró el objeto currentUser en el localStorage.'
       );
+      return;
     }
-
-    formData.append('ProductId', this.formCreate.get('productId')?.value);
-    console.log('ProductId', data);
-    formData.append('Quantity', this.quantity.toString());
-    console.log('Quantity', this.quantity.toString());
-    formData.append('Subtotal', this.formCreate.get('subtotal')?.value);
-    console.log('Subtotal', price);
-    formData.append('PaymentMethodId', '1');
-    console.log('PaymentMethodId', '1');
-    formData.append('AddressId', '1');
-    console.log('addressId', '1');
-
-    this.orderService.createOrder(formData).subscribe(
+  
+    const currentUser = JSON.parse(currentUserString);
+    const userId = currentUser?.user?.UserId;
+    console.log('userId:', userId);
+  
+    const product = this.data[0]; // Assuming this.data[0] is your product information
+    if (!product) {
+      console.log('No se encontró información del producto.');
+      this.notificationService.showError('No se encontró información del producto.');
+      return;
+    }
+  
+    const orderData = {
+      userId: userId,
+      productId: product.ProductId,
+      Quantity: this.quantity.toString(),
+      subtotal: product.Price,
+      PaymentMethodId: 1,
+      AddressId: 1
+    };
+  
+    console.log('Quantity:', this.quantity.toString());
+    console.log('PaymentMethodId:', orderData.PaymentMethodId);
+    console.log('AddressId:', orderData.AddressId);
+  
+    this.orderService.createOrder(orderData).subscribe(
       (response: any) => {
         console.log('Response', response);
         this.formCreate.reset();
-        this.notificationService.showSuccess('Create Order Successful');
+        this.notificationService.showSuccess('Orden creada exitosamente.');
         this.router.navigate([HOME_ROUTE]);
       },
       (error: any) => {
         console.error('Error:', error);
-        this.notificationService.showError('Error al crear el producto.');
+        this.notificationService.showError('Error al crear la orden.');
       }
     );
   }
+  
+  
 
   ngOnInit() {
     const currentUserString = localStorage.getItem('currentUser');

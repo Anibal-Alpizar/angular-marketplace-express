@@ -95,6 +95,7 @@ model Product {
   Photos       Photo[]
   Questions    Question[]
   PurchaseItem PurchaseItem[]
+  Purchase Purchase[]
 }
 
 model Photo {
@@ -128,13 +129,17 @@ model Purchase {
   UserId          Int
   PaymentMethodId Int
   AddressId       Int
+  ProductId      Int
+  Quantity       Int
   TotalAmount     Float
   TaxAmount       Float
   PurchaseDate    DateTime
   PurchaseStatus  String
+  Subtotal       Float
   User            User           @relation(fields: [UserId], references: [UserId])
   Address         Address        @relation(fields: [AddressId], references: [AddressId])
   PaymentMethod   PaymentMethod  @relation(fields: [PaymentMethodId], references: [PaymentMethodId])
+  Product        Product  @relation(fields: [ProductId], references: [ProductId])
   PurchaseItems   PurchaseItem[]
   Evaluations     Evaluation[]
 }

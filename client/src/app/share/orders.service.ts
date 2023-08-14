@@ -26,12 +26,12 @@ export class OrdersService {
     return this.http.get<Order>(url);
   }
 
-  
-  createOrder(orderData: any): Observable<any> {
-    const url = `${this.urlAPI}${HOME_ROUTE}`;
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  //Obtener todos los usuarios
 
-    return this.http.post(url, orderData, { headers }).pipe(catchError(this.handleError));
+  createOrder(orderData: any): Observable<any> {
+    const endPoint = 'create-order';
+    const url = `${this.urlAPI}/${endPoint}`;
+    return this.http.post<any>(url, orderData);
   }
 
   private handleError(error: any) {
