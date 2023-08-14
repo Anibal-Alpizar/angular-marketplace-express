@@ -103,7 +103,7 @@ export const createOrder = async (req: Request, res: Response) => {
        Subtotal: subtotal,
        User: { connect: { UserId: purchase.userId } },
        PaymentMethod: { connect: { PaymentMethodId: purchase.PaymentMethodId } },
-       Address: { connect: { AddressId: 1} },
+       Address: { connect: { AddressId: parseInt(purchase.AddressId)} },
        Product: { connect: { ProductId: purchase.productId}},
      },
    });

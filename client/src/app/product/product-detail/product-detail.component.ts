@@ -5,6 +5,7 @@ import { throwError } from 'rxjs';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ProductService } from 'src/app/share/product.service';
 import { NotificationService } from 'src/app/share/notification.service';
+import { LocationService } from 'src/app/share/locations.service';
 //  import {createOrder } from 'src/app/share/orders.service';
 import { OrdersService } from 'src/app/share/orders.service';
 import { HOME_ROUTE } from 'src/app/constants/routes.constants';
@@ -28,10 +29,16 @@ export class ProductDetailComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   answerText: { [questionId: number]: string } = {};
   newAnswer: { [questionId: number]: string } = {};
+  userAddresses: any[] = [0];
+  selectedAddressId: number | null = null;
+  selectedAddress: number | null = null; // Valor inicial
+// Aquí debes usar el tipo adecuado para las direcciones, reemplaza 'any' si es posible.
+
 
   questionFormVisibility: { [questionId: number]: boolean } = {};
 
   constructor(
+    private lService: LocationService,
     private productService: ProductService,
     private route: ActivatedRoute,
     private router: Router,
@@ -44,6 +51,12 @@ export class ProductDetailComponent implements OnInit {
       this.getProduct(Number(id));
     }
     this.createForm();
+  }
+
+  onAddressChange(): void {
+    if (this.selectedAddress !== null) {
+      console.log('Selected AddressId:', this.selectedAddress);
+    }
   }
 
   // Método para incrementar la cantidad
@@ -79,14 +92,15 @@ export class ProductDetailComponent implements OnInit {
       this.notificationService.showError('No se encontró información del producto.');
       return;
     }
-  
+    console.log('????????????????????????????????????????????', this.selectedAddressId)
+  console.log(this.selectedAddress);
     const orderData = {
       userId: userId,
       productId: product.ProductId,
       Quantity: this.quantity.toString(),
       subtotal: product.Price,
       PaymentMethodId: 1,
-      AddressId: 1
+      AddressId: this.selectedAddress
     };
   
     console.log('Quantity:', this.quantity.toString());
@@ -106,13 +120,35 @@ export class ProductDetailComponent implements OnInit {
       }
     );
   }
-  
+  loadUserAddresses(userId: number): void {
+    this.lService.getUserAddressesByUserId(userId).subscribe(
+      (addresses) => {
+        this.userAddresses = addresses;
+        this.notificationService.showSuccess('Direcciones cargadas');
+      },
+      (error) => {
+        this.notificationService.showError('Error cargando direcciones');
+      }
+    );
+  }
   
 
   ngOnInit() {
     const currentUserString = localStorage.getItem('currentUser');
+    
+    if (!currentUserString) {
+      console.log('No se encontró el objeto currentUser en el localStorage.');
+      this.notificationService.showError(
+        'No se encontró el objeto currentUser en el localStorage.'
+      );
+      return;
+    }
+  
+    const currentUser = JSON.parse(currentUserString);
+    const userId = currentUser?.user?.UserId;
     if (currentUserString) {
       this.currentUser = JSON.parse(currentUserString);
+      this.loadUserAddresses(userId);
     }
   }
 
