@@ -33,3 +33,20 @@ export const createAddress = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error creating address" });
   }
 };
+
+export const getAddressesByUserId = async (req: Request, res: Response) => {
+  try {
+    const userId = Number(req.params.userId);
+
+    const addresses = await prisma.address.findMany({
+      where: {
+        UserId: userId,
+      },
+    });
+
+    res.status(200).json(addresses);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching addresses" });
+  }
+};

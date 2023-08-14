@@ -17,8 +17,11 @@ export class LocationsComponent implements OnInit {
   selectedDistrict?: string;
   selectedProvince?: string;
   exactAddress?: string;
+  currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  curretnUserId = this.currentUser.user.UserId;
   postalCode?: string;
   makeSubmit: boolean = false;
+  userAddresses: any[] = [];
   phone?: string;
   constructor(
     public fb: FormBuilder,
@@ -29,6 +32,7 @@ export class LocationsComponent implements OnInit {
   ngOnInit(): void {
     this.loadProvinces();
     this.reactiveForm();
+    this.loadUserAddresses(this.curretnUserId);
   }
 
   reactiveForm() {
@@ -68,12 +72,26 @@ export class LocationsComponent implements OnInit {
         this.exactAddress = '';
         this.postalCode = '';
         this.phone = '';
+        window.location.reload();
       },
       (error) => {
         console.error('Error creando dirección:', error);
         this.notificationService.showError(
           'Error creando dirección, seleccione todos los campos'
         );
+      }
+    );
+  }
+
+  loadUserAddresses(userId: number): void {
+    this.lService.getUserAddressesByUserId(userId).subscribe(
+      (addresses) => {
+        console.log(addresses);
+        this.userAddresses = addresses;
+        this.notificationService.showSuccess('Direcciones cargadas');
+      },
+      (error) => {
+        this.notificationService.showError('Error cargando direcciones');
       }
     );
   }

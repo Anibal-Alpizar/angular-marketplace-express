@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CREATEORDER_ROUTE } from '../constants/routes.constants';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -33,4 +34,37 @@ export class LocationService {
     const url = `${this.urlAPI}${CREATEORDER_ROUTE}`;
     return this.http.post(url, formData).toPromise();
   }
+
+  getUserAddresses(userId: number): Promise<any[]> {
+    const url = `${this.urlAPI}/locations/${userId}`;
+    return this.http
+      .get<any[]>(url)
+      .toPromise()
+      .then((response) => response || [])
+      .catch((error) => {
+        console.error('Error fetching user addresses:', error);
+        return [];
+      });
+  }
+
+  // example: 
+  // getPaymentMethodsByUserId(userId: number): Observable<PaymentMethod[]> {
+  //   const url = `${this.urlAPI}/users/${userId}/${GETPAYMENTMETHODSBYUSER_ROUTE}`;
+
+  //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+  //   return this.http.get<PaymentMethod[]>(url, { headers }).pipe(
+  //     catchError((error) => {
+  //       console.error('An error occurred:', error);
+  //       return throwError('Something went wrong; please try again later.');
+  //     })
+  //   );
+  // }
+
+  getUserAddressesByUserId(userId: number): Observable<any[]>{
+    const url = `${this.urlAPI}/locations/${userId}`;
+    return this.http.get<any[]>(url);
+  }
+
+  
 }
