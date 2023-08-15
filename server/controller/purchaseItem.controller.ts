@@ -149,7 +149,7 @@ export const detailsPurchaseItemByCustomer = async (
   let purchaseId = parseInt(req.params.purchaseId); // Assuming you pass the purchaseId in the request parameter
 
   try {
-    const purchaseItems = await prisma.purchaseItem.findMany({
+    const Purchase = await prisma.purchase.findMany({
       where: {
         PurchaseId: purchaseId,
       },
@@ -170,53 +170,17 @@ export const detailsPurchaseItemByCustomer = async (
             },
           },
         },
-        Purchase: {
-          select: {
-            PurchaseId: true,
-            UserId: true,
-            PaymentMethodId: true,
-            AddressId: true,
-            TotalAmount: true,
-            TaxAmount: true,
-            PurchaseDate: true,
-            PurchaseStatus: true,
-            User: {
-              select: {
-                UserId: true,
-                FullName: true,
-                Email: true,
-                Addresses: true,
-                PaymentMethod: {
-                  select: {
-                    PaymentType: true,
-                    Provider: true,
-                    AccountNumber: true,
-                    ExpirationMonth: true,
-                  },
-                },
-              },
-            },
-            Address: {
-              select: {
-                Province: true,
-                Canton: true,
-                District: true,
-                ExactAddress: true,
-                PostalCode: true,
-              },
-            },
-          },
-        },
+     
       },
     });
 
-    if (purchaseItems.length === 0) {
+    if (Purchase.length === 0) {
       return res.status(404).json({
         message: "No se encontraron productos para la compra especificada",
       });
     }
 
-    res.json(purchaseItems);
+    res.json(Purchase);
   } catch (error) {
     console.log(error);
     res.json(error);

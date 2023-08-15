@@ -20,7 +20,7 @@ export class OrdersService {
   }
 
   getOrderDetails(OrderId: string): Observable<Order> {
-    const endPoint = `purchaseItemDetailsByCustomer/${OrderId}`;
+    const endPoint = `details/${OrderId}`;
     const url = `${this.urlAPI}/${endPoint}`;
     return this.http.get<Order>(url);
   }

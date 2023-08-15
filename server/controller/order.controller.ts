@@ -148,3 +148,42 @@ export const getPurchaseByCustumer = async (req: Request, res: Response) => {
     res.json(error);
   }
 };
+
+export const details = async (req: Request, res: Response) => {
+  const purchaseId = parseInt(req.params.id);
+
+  try {
+    const purchase = await prisma.purchase.findUnique({
+      where: { PurchaseId: purchaseId },
+      include: {
+        Address: true,
+        PaymentMethod: true,
+        Product: {
+          select: {
+            ProductId: true,
+            ProductName: true,
+            Price: true,
+            Description: true,
+            User: {
+              select: {
+                UserId: true,
+                FullName: true,
+                Email: true,
+                Addresses: true,
+              },
+            },
+          },
+        },
+        User: true,
+      },
+    });
+
+    const purchaseArray = [purchase]; // Convert the object to an array
+
+    res.json(purchaseArray);
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+};
+
