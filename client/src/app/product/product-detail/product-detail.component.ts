@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { throwError } from 'rxjs';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ProductService } from 'src/app/share/product.service';
 import { NotificationService } from 'src/app/share/notification.service';
 import { LocationService } from 'src/app/share/locations.service';
-//  import {createOrder } from 'src/app/share/orders.service';
 import { OrdersService } from 'src/app/share/orders.service';
 import { HOME_ROUTE } from 'src/app/constants/routes.constants';
-import { CloseScrollStrategy } from '@angular/cdk/overlay';
+import { PaymentService } from 'src/app/share/payment.service';
+import { PaymentMethod } from 'src/app/interfaces/payment.interface';
 
 @Component({
   selector: 'app-product-detail',
@@ -18,7 +18,7 @@ import { CloseScrollStrategy } from '@angular/cdk/overlay';
 })
 export class ProductDetailComponent implements OnInit {
   id: number = 1;
-  quantity: number = 1; // Inicializa la cantidad con 1
+  quantity: number = 1;
   data: any;
   isFormVisible = false;
   formCreate!: FormGroup;
@@ -26,14 +26,15 @@ export class ProductDetailComponent implements OnInit {
   showNewAnswer: boolean = false;
   currentUser: any;
   newQuestion: any;
+  selectedAddressControl = new FormControl();
   destroy$: Subject<boolean> = new Subject<boolean>();
   answerText: { [questionId: number]: string } = {};
   newAnswer: { [questionId: number]: string } = {};
   userAddresses: any[] = [0];
   selectedAddressId: number | null = null;
-  selectedAddress: number | null = null; // Valor inicial
-// Aquí debes usar el tipo adecuado para las direcciones, reemplaza 'any' si es posible.
-
+  selectedAddress: number | null = null;
+  savedPaymentMethods: PaymentMethod[] = [];
+  savedPaymentMethods$: Observable<PaymentMethod[]> | undefined;
 
   questionFormVisibility: { [questionId: number]: boolean } = {};
 
@@ -44,7 +45,8 @@ export class ProductDetailComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private notificationService: NotificationService,
-    private orderService: OrdersService
+    private orderService: OrdersService,
+    private paymentService: PaymentService
   ) {
     let id = this.route.snapshot.paramMap.get('id');
     if (!isNaN(Number(id))) {
@@ -59,21 +61,57 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
-  // Método para incrementar la cantidad
   incrementQuantity() {
     this.quantity++;
   }
 
-  // Método para decrementar la cantidad
   decrementQuantity() {
     if (this.quantity > 1) {
       this.quantity--;
     }
   }
 
+  getPaymentMethodsForCurrentUser() {
+    const currentUserJson = localStorage.getItem('currentUser');
+    if (currentUserJson) {
+      const currentUser = JSON.parse(currentUserJson);
+      if (currentUser.user && currentUser.user.UserId) {
+        const userId = currentUser.user.UserId;
+        this.savedPaymentMethods$ =
+          this.paymentService.getPaymentMethodsByUserId(userId);
+
+        this.paymentService.getPaymentMethodsByUserId(userId).subscribe(
+          (response: PaymentMethod[]) => {
+            this.savedPaymentMethods = response;
+            console.log('Payment methods:', this.savedPaymentMethods);
+          },
+          (error) => {
+            console.error('Error getting payment methods:', error);
+          }
+        );
+      }
+    }
+  }
+
   onSubmit(id: number) {
     const currentUserString = localStorage.getItem('currentUser');
-    
+
+    if (!this.selectedAddressControl.value) {
+      this.notificationService.showError(
+        'No se seleccionó una dirección de envío, en caso de que no tenga direcciones, por favor cree una.'
+      );
+      this.router.navigate(['/locations']);
+      return;
+    }
+
+    if (!this.savedPaymentMethods || this.savedPaymentMethods.length === 0) {
+      this.notificationService.showError(
+        'No se encontraron métodos de pago, por favor cree uno.'
+      );
+      this.router.navigate(['/payments']);
+      return;
+    }
+
     if (!currentUserString) {
       console.log('No se encontró el objeto currentUser en el localStorage.');
       this.notificationService.showError(
@@ -81,32 +119,37 @@ export class ProductDetailComponent implements OnInit {
       );
       return;
     }
-  
+
     const currentUser = JSON.parse(currentUserString);
     const userId = currentUser?.user?.UserId;
     console.log('userId:', userId);
-  
-    const product = this.data[0]; // Assuming this.data[0] is your product information
+
+    const product = this.data[0];
     if (!product) {
       console.log('No se encontró información del producto.');
-      this.notificationService.showError('No se encontró información del producto.');
+      this.notificationService.showError(
+        'No se encontró información del producto.'
+      );
       return;
     }
-    console.log('????????????????????????????????????????????', this.selectedAddressId)
-  console.log(this.selectedAddress);
+    console.log(
+      '????????????????????????????????????????????',
+      this.selectedAddressId
+    );
+    console.log(this.selectedAddress);
     const orderData = {
       userId: userId,
       productId: product.ProductId,
       Quantity: this.quantity.toString(),
       subtotal: product.Price,
       PaymentMethodId: 1,
-      AddressId: this.selectedAddress
+      AddressId: this.selectedAddress,
     };
-  
+
     console.log('Quantity:', this.quantity.toString());
     console.log('PaymentMethodId:', orderData.PaymentMethodId);
     console.log('AddressId:', orderData.AddressId);
-  
+
     this.orderService.createOrder(orderData).subscribe(
       (response: any) => {
         console.log('Response', response);
@@ -131,11 +174,11 @@ export class ProductDetailComponent implements OnInit {
       }
     );
   }
-  
 
   ngOnInit() {
     const currentUserString = localStorage.getItem('currentUser');
-    
+    this.getPaymentMethodsForCurrentUser();
+
     if (!currentUserString) {
       console.log('No se encontró el objeto currentUser en el localStorage.');
       this.notificationService.showError(
@@ -143,7 +186,7 @@ export class ProductDetailComponent implements OnInit {
       );
       return;
     }
-   
+
     const currentUser = JSON.parse(currentUserString);
     const userId = currentUser?.user?.UserId;
     if (currentUserString) {

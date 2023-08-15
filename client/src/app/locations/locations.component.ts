@@ -88,7 +88,7 @@ export class LocationsComponent implements OnInit {
       (addresses) => {
         console.log(addresses);
         this.userAddresses = addresses;
-        this.notificationService.showSuccess('Direcciones cargadas');
+        // this.notificationService.showSuccess('Direcciones cargadas');
       },
       (error) => {
         this.notificationService.showError('Error cargando direcciones');

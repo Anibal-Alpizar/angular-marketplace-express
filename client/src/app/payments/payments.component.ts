@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 })
 export class PaymentsComponent implements OnInit {
   savedPaymentMethods: PaymentMethod[] = [];
+  savedPaymentMethods$: Observable<PaymentMethod[]> | undefined;
   selectedPaymentMethod: string | undefined;
   cardOwner: string | undefined;
   cardNumber: string | undefined;
@@ -21,7 +22,6 @@ export class PaymentsComponent implements OnInit {
   cvc: string | undefined;
   showProveedorField = false;
   formCreate!: FormGroup;
-  savedPaymentMethods$: Observable<PaymentMethod[]> | undefined;
 
   constructor(
     public fb: FormBuilder,
