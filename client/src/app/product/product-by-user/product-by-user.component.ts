@@ -21,6 +21,9 @@ export class ProductByUserComponent implements OnInit, OnDestroy {
   products: Product[] = [];
   filterProducts: Product[] = [];
   searchText: string = '';
+  showElectronicsProductos: boolean = false;
+  showHomeProducts: boolean = false;
+  showSportsProducts: boolean = false;
 
   @ViewChild('searchInput', { static: false }) searchInput!: ElementRef;
 
@@ -38,7 +41,8 @@ export class ProductByUserComponent implements OnInit, OnDestroy {
       .subscribe(
         (res: Product[]) => {
           this.products = res;
-          this.filterProducts = this.filterProductsByName();
+          this.filterProductsByName();
+          this.filterProducts = this.products;
         },
         (error: Error) => {
           console.error('Error: ', error);
@@ -46,17 +50,40 @@ export class ProductByUserComponent implements OnInit, OnDestroy {
       );
   }
 
-  searchProduct() {
+  showAllProducts() {
+    this.showElectronicsProductos = false;
     this.filterProducts = this.filterProductsByName();
   }
 
-  filterProductsByName(): Product[] {
+  searchProduct() {
+    this.filterProducts = this.filterProductsByN();
+  }
+
+  filterProductsByN(): Product[] {
     return this.products.filter(
       (product) =>
         product.ProductName.toLowerCase().includes(
           this.searchText.toLowerCase()
         ) || product.Price.toString().includes(this.searchText.toLowerCase())
     );
+  }
+
+  filterProductsByName(): any {
+    this.filterProducts = this.products.filter((user) => {
+      const nameMatches = user.ProductName.toLowerCase().includes(
+        this.searchText.toLowerCase()
+      );
+
+      if (this.showElectronicsProductos) {
+        return user.CategoryId === 1 && nameMatches;
+      } else if (this.showHomeProducts) {
+        return user.CategoryId === 2 && nameMatches;
+      } else if (this.showSportsProducts) {
+        return user.CategoryId === 3 && nameMatches;
+      } else {
+        return nameMatches;
+      }
+    });
   }
 
   focusSearchInput() {
