@@ -14,6 +14,7 @@ export class OrderByUserComponent implements AfterViewInit, OnDestroy {
   res: Order[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
   orders: Order[] = [];
+  purchaseId: number[] = [];
 
   columns: Column[] = [
     { name: 'Comprador', key: 'UserId' },

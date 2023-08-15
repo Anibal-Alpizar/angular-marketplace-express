@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { OrdersService } from 'src/app/share/orders.service';
@@ -9,7 +9,7 @@ import * as moment from 'moment';
   templateUrl: './order-detail.component.html',
   styleUrls: ['./order-detail.component.css'],
 })
-export class OrderDetailComponent {
+export class OrderDetailComponent implements AfterViewInit, OnDestroy {
   data: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
   totalPrice: number = 0;
@@ -26,7 +26,9 @@ export class OrderDetailComponent {
     return formattedDate;
   }
 
-  constructor(private gService: OrdersService, private route: ActivatedRoute) {
+  constructor(private gService: OrdersService, private route: ActivatedRoute) {}
+
+  ngAfterViewInit() {
     let id = this.route.snapshot.paramMap.get('id');
     if (!isNaN(Number(id))) {
       this.getOrder(Number(id));
@@ -40,12 +42,13 @@ export class OrderDetailComponent {
       .subscribe((data: any) => {
         console.log(data);
         this.data = data;
+
         this.totalPrice = this.data.reduce(
           (sum: number, item: any) => sum + item.Product.Price * item.Quantity,
           0
         );
         this.totalTaxes = this.data.reduce(
-          (sum: number, item: any) => sum + item.Purchase.TaxAmount,
+          (sum: number, item: any) => sum + item.TaxAmount,
           0
         );
       });

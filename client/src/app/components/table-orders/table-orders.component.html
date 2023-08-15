@@ -21,7 +21,7 @@
           <ng-container *ngIf="columna.key === 'Quantity'">
             {{ order?.Quantity}}
           </ng-container>
-        
+
           <ng-container *ngIf="columna.key === 'PurchaseStatus'">
             <div class="flex items-center">
               <div [ngClass]="{
@@ -38,7 +38,18 @@
             {{ order[columna.key] }}
           </ng-container>
         </td>
-       
+        <td>
+          <div class="flex items-center justify-center">
+            <button routerLink="/orders/{{ 1 }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500" viewBox="0 0 20 20"
+                fill="currentColor">
+                <path d="M10 12a2 2 0 100-4 2 2 0 000 4zM3 6a2 2 0 114 0 2 2 0 01-4 0zM17 14a2 2 0 100-4 2 2 0 000
+                  4zM3 14a2 2 0 114 0 2 2 0 01-4 0zM17 6a2 2 0 100-4 2 2 0 000 4z">
+                </path>
+              </svg>
+            </button>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>

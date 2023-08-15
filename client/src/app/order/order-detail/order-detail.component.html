@@ -2,16 +2,15 @@
     <div class="flex justify-start item-start space-y-2 flex-col">
         <ng-container *ngIf="data && data.length > 0">
             <h1 class="text-3xl dark:text-white lg:text-4xl font-semibold leading-7 lg:leading-9 text-gray-800">
-                Order {{data[0].Purchase.PurchaseId}}
+                Order {{data[0].PurchaseId}}
+
             </h1>
         </ng-container>
         <ng-container *ngFor="let item of data">
             <p class="text-base dark:text-gray-300 font-medium leading-6 text-gray-600">
-                {{formatDate(item.Purchase.PurchaseDate)}} - 
-                
+                {{formatDate(item.PurchaseDate)}} -
                 <span class="italic text-sm text-zinc-400">
-
-                    {{item.Product.ProductName}}
+                    {{item.ProductName}}
                 </span>
 
             </p>
@@ -24,7 +23,7 @@
                 class="flex flex-col justify-start items-start dark:bg-gray-800 bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
                 <ng-container *ngIf="data && data.length > 0">
                     <p class="text-lg md:text-xl dark:text-white font-semibold leading-6 xl:leading-5 text-gray-800">
-                        Tarjeta del cliente {{data[0].Purchase.User.FullName}}
+                        Tarjeta del cliente {{data[0].User.FullName}}
                     </p>
                 </ng-container>
                 <ng-container *ngFor="let item of data">
@@ -104,25 +103,19 @@
                         Método(s) de pago seleccionado(s) por orden
                     </h3>
                     <ng-container *ngFor="let item of data">
-                        <div *ngFor="let paymentMethod of item.Purchase.User.PaymentMethod">
-                            <div class="flex justify-between items-start w-full">
-                                <div class="flex justify-center items-center space-x-4">
-                                    <div class="w-8 h-8">
-                                        <img class="w-full h-full" alt="logo"
-                                            src="https://i.ibb.co/L8KSdNQ/image-3.png" />
-                                    </div>
-                                    <div class="flex flex-col justify-start items-center">
-                                        <p class="text-lg leading-6 dark:text-white font-semibold text-gray-800">
-                                            {{paymentMethod.PaymentType}} - {{item.Product.ProductName }}
-                                            <br /><span class="font-normal">
-                                                {{paymentMethod.Provider}}
-                                            </span>
-                                        </p>
-                                    </div>
+                        <div class="flex justify-between items-start w-full">
+                            <div class="flex justify-center items-center space-x-4">
+                                <div class="w-8 h-8">
+                                    <img class="w-full h-full" alt="logo" src="https://i.ibb.co/L8KSdNQ/image-3.png" />
                                 </div>
-                                <p class="text-lg font-semibold leading-6 dark:text-white text-gray-800">
-                                    {{(item.Product.Price * item.Quantity) + item.Purchase.TaxAmount}}
-                                </p>
+                                <div class="flex flex-col justify-start items-center">
+                                    <p class="text-lg leading-6 dark:text-white font-semibold text-gray-800">
+                                        {{ item.User?.PaymentMethod?.AccountNumber || 'PaymentType not available' }}
+                                        - {{ item.Product?.ProductName || 'ProductName not available' }}
+                                        <br /><span class="font-normal">{{ item.User?.PaymentMethod?.Provider ||
+                                            'Provider not available' }}</span>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                         <div class="w-full flex justify-center items-center">
@@ -132,6 +125,9 @@
                             </button>
                         </div>
                     </ng-container>
+
+
+
                 </div>
             </div>
         </div>
@@ -178,9 +174,9 @@
                             </p>
                             <p
                                 class="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
-                                {{item.Purchase.Address.ExactAddress}}, {{ item.Purchase.Address.District
-                                }}, {{ item.Purchase.Address.Canton }}, {{ item.Purchase.Address.Province }},
-                                {{ item.Purchase.Address.PostalCode }}
+                                {{ item.Address.ExactAddress }}, {{ item.Address.District }}, {{ item.Address.Canton }},
+                                {{ item.Address.Province }}, {{ item.Address.PostalCode }}
+
                             </p>
                         </div>
                         <div
@@ -192,11 +188,12 @@
                             <p
                                 class="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
 
-                                {{item.Product.User.Addresses[0].ExactAddress}}, {{
-                                item.Product.User.Addresses[0].District
-                                }}, {{ item.Product.User.Addresses[0].Canton }}, {{
-                                item.Product.User.Addresses[0].Province }},
+                                {{ item.Product.User.Addresses[0].ExactAddress }}, {{
+                                item.Product.User.Addresses[0].District }},
+                                {{ item.Product.User.Addresses[0].Canton }}, {{ item.Product.User.Addresses[0].Province
+                                }},
                                 {{ item.Product.User.Addresses[0].PostalCode }}
+
                             </p>
                         </div>
                     </div>
