@@ -24,6 +24,8 @@ export class ProductByUserComponent implements OnInit, OnDestroy {
   showElectronicsProductos: boolean = false;
   showHomeProducts: boolean = false;
   showSportsProducts: boolean = false;
+  sortByAsc: boolean = false;
+  sortByDesc: boolean = false;
 
   @ViewChild('searchInput', { static: false }) searchInput!: ElementRef;
 
@@ -48,6 +50,18 @@ export class ProductByUserComponent implements OnInit, OnDestroy {
           console.error('Error: ', error);
         }
       );
+  }
+
+  sortByPriceAsc(): void {
+    this.sortByAsc = true;
+    this.sortByDesc = false;
+    this.filterProducts.sort((a, b) => a.Price - b.Price);
+  }
+
+  sortByPriceDesc(): void {
+    this.sortByAsc = false;
+    this.sortByDesc = true;
+    this.filterProducts.sort((a, b) => b.Price - a.Price);
   }
 
   showAllProducts() {

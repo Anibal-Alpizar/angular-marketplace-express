@@ -1,4 +1,4 @@
-<div class="bg-white">
+<div class="bg-white dark:bg-gray-800">
   <div>
     <div class="relative z-40 lg:hidden" role="dialog" aria-modal="true">
       <div class="fixed inset-0 bg-black bg-opacity-25"></div>
@@ -45,7 +45,7 @@
     </div>
     <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-        <h1 class="text-4xl font-bold tracking-tight text-gray-900">
+        <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
           Productos
         </h1>
         <div class="flex items-center justify-center">
@@ -99,10 +99,11 @@
             </ul>
             <div class="border-b border-gray-200 py-6">
               <h3 class="-my-3 flow-root">
-                <button type="button"
-                  class="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500"
-                  aria-controls="filter-section-1" aria-expanded="false">
-                  <span class="font-medium text-gray-900">Category</span>
+                <button type="button" class="flex w-full items-center justify-between bg-white py-3 text-sm border rounded-lg
+                   text-gray-400 hover:text-gray-500 dark:bg-gray-700 dark:text-gray-400 dark:rounded-lg"
+                  aria-controls=" filter-section-1" aria-expanded="false">
+                  <span class="font-medium text-gray-900 dark:text-gray-300
+                  ">Categoria</span>
                   <span class="ml-6 flex items-center">
                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                       <path
@@ -140,6 +141,17 @@
                   </div>
                 </div>
               </div>
+              <div class="py-4">
+              </div>
+            </div>
+            <div class="pt-6">
+
+              <button href="#"
+                class="text-gray-500 rounded-lg block px-4 py-2 text-sm focus:outline-none focus:bg-blue-100 {{ sortByAsc ? 'text-blue-700' : '' }}"
+                (click)="sortByPriceAsc()" id="menu-item-3"> 👇 Precio: Menor a Mayor</button>
+              <button href="#"
+                class="text-gray-500 rounded-lg block px-4 py-2 text-sm focus:outline-none focus:bg-blue-100 {{ sortByDesc ? 'text-blue-700' : '' }}"
+                (click)="sortByPriceDesc()" id="menu-item-4"> 👆 Precio: Mayor a Menor</button>
             </div>
           </form>
           <div class="lg:col-span-3">
