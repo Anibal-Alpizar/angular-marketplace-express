@@ -110,10 +110,12 @@
                                 </div>
                                 <div class="flex flex-col justify-start items-center">
                                     <p class="text-lg leading-6 dark:text-white font-semibold text-gray-800">
-                                        {{ item.User?.PaymentMethod?.AccountNumber || 'PaymentType not available' }}
+                                        {{ item?.PaymentMethod?.PaymentType || 'PaymentType not available' }}
                                         - {{ item.Product?.ProductName || 'ProductName not available' }}
-                                        <br /><span class="font-normal">{{ item.User?.PaymentMethod?.Provider ||
-                                            'Provider not available' }}</span>
+                                        <br /><span class="font-normal">
+                                            {{ item.PaymentMethod?.AccountNumber ||
+                                            'Provider not available' }}
+                                        </span>
                                     </p>
                                 </div>
                             </div>
@@ -125,9 +127,6 @@
                             </button>
                         </div>
                     </ng-container>
-
-
-
                 </div>
             </div>
         </div>
