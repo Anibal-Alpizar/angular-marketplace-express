@@ -98,7 +98,7 @@ export class LocationsComponent implements OnInit {
 
   onCantonSelected(event: any): void {
     const selectedCantonName = event.target.value;
-
+    console.log(selectedCantonName)
     if (selectedCantonName) {
       const selectedCantonNumber = Object.keys(
         this.cantons[this.selectedProvince as string]
@@ -107,6 +107,8 @@ export class LocationsComponent implements OnInit {
           this.cantons[this.selectedProvince as string][key] ===
           selectedCantonName
       );
+
+      
 
       if (selectedCantonNumber) {
         console.log(`Selected Canton Number: ${selectedCantonNumber}`);

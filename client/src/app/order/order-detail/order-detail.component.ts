@@ -1,10 +1,12 @@
 import { Component, AfterViewInit, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { OrdersService } from 'src/app/share/orders.service';
 import * as moment from 'moment';
 import { PaymentMethod } from 'src/app/interfaces/payment.interface';
 import { PaymentService } from 'src/app/share/payment.service';
+import { NotificationService } from 'src/app/share/notification.service';
+import { ORDERS_ROUTE } from 'src/app/constants/routes.constants';
 
 @Component({
   selector: 'app-order-detail',
@@ -19,6 +21,8 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
   savedPaymentMethods$: Observable<PaymentMethod[]> | undefined;
   savedPaymentMethods: PaymentMethod[] = [];
   selectedPaymentMethod: PaymentMethod | undefined;
+  PurchaseId: any;
+  isCanceled: boolean = false;
 
   formatDate(dateString: string): string {
     if (!dateString) {
@@ -34,7 +38,9 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
   constructor(
     private gService: OrdersService,
     private route: ActivatedRoute,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private notification: NotificationService,
+    private router: Router
   ) {}
 
   ngAfterViewInit() {
@@ -99,6 +105,12 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
         console.log(data);
         this.data = data;
 
+        if (this.data[0].PurchaseStatus === 'Completada') {
+          this.isCanceled = true;
+        } else {
+          this.isCanceled = false;
+        }
+
         this.totalPrice = this.data.reduce(
           (sum: number, item: any) => sum + item.Product.Price * item.Quantity,
           0
@@ -107,7 +119,23 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
           (sum: number, item: any) => sum + item.TaxAmount,
           0
         );
+        console.log(this.isCanceled)
+        this.PurchaseId = this.data[0].PurchaseId;
       });
+  }
+
+  pagar() {
+    console.log(this.PurchaseId);
+    const orderId = this.PurchaseId;
+    this.gService.markOrderAsCompleted(orderId).subscribe(
+      (response) => {
+        this.notification.showSuccess('¡Orden pagada con éxito!');
+        this.router.navigate([ORDERS_ROUTE]);
+      },
+      (error) => {
+        this.notification.showError('¡Error al pagar la orden!');
+      }
+    );
   }
 
   ngOnDestroy() {

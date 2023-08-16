@@ -83,12 +83,12 @@ export class UserLoginComponent implements OnInit {
 
     this.authService.login(this.form.value).subscribe(
       (res: LoginResponse) => {
-        this.notification.showSuccess('Login successful!', 3000);
+        this.notification.showSuccess('¡Bienvenido/a!', 3000);
         this.router.navigate([HOME_ROUTE]);
       },
       (error: HttpErrorResponse) => {
         this.backendError = error.error.message;
-        this.notification.showError('Login failed!', 3000);
+        this.notification.showError('Login fallado!', 3000);
       }
     );
   }

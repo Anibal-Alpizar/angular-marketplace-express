@@ -31,6 +31,20 @@ export class OrdersService {
     return this.http.post<any>(url, orderData);
   }
 
+  markOrderAsCompleted(orderId: string): Observable<any> {
+    const endPoint = `mark-order-completed/${orderId}`;
+    const url = `${this.urlAPI}/${endPoint}`;
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.patch(url, null, { headers }).pipe(
+      catchError((error) => {
+        console.error('An error occurred:', error);
+        return throwError('Something went wrong; please try again later.');
+      })
+    );
+  }
+
   private handleError(error: any) {
     console.error('An error occurred:', error);
     return throwError('Something went wrong; please try again later.');

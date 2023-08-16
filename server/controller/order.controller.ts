@@ -187,3 +187,26 @@ export const details = async (req: Request, res: Response) => {
   }
 };
 
+export const markOrderAsCompleted = async (req: Request, res: Response) => {
+  const purchaseId = parseInt(req.params.id);
+
+  try {
+    const purchase = await prisma.purchase.findUnique({
+      where: { PurchaseId: purchaseId },
+    });
+
+    if (!purchase) {
+      return res.status(404).json({ message: "Compra no encontrada" });
+    }
+
+    const updatedPurchase = await prisma.purchase.update({
+      where: { PurchaseId: purchaseId },
+      data: { PurchaseStatus: "Completada" },
+    });
+
+    res.json(updatedPurchase);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error al marcar la orden como completada" });
+  }
+};

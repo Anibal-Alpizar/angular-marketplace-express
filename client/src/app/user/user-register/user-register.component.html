@@ -16,15 +16,16 @@
                     <div class="mt-6">
                         <h1 class="text-gray-500 dark:text-gray-300">Seleccione el tipo de cuenta que desea crear.</h1>
                         <span *ngIf="errorHandling('role', 'required')" class="text-red-500 text-xs italic">
-                            Please enter a role.
+                           ¡Escoge un rol!
                         </span>
                         <div class="mt-2 md:flex md:items-center md:-mx-2">
                             <div class="relative">
                                 <select formControlName="role" (change)="selectRole($event)"
                                     class="block w-full px-4 py-2 mt-1 bg-white border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-500 sm:text-sm appearance-none">
                                     <option value="">Seleccione un rol</option>
-                                    <option *ngFor="let r of roles" [value]="r.RoleId">{{ r.RoleName }}</option>
-                                    <option [value]="'2,3'">Customer & Vendor</option>
+                                    <option [value]="'2'">Cliente</option> 
+                                    <option [value]="'3'">Vendedor</option>
+                                    <option [value]="'2,3'">Cliente y Vendedor</option>
                                 </select>
                                 <div *ngIf="backendError" class="text-red-500 mt-2">{{ backendError }}</div>
                                 <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
@@ -45,7 +46,7 @@
                             <input type="text" placeholder="John Doe" formControlName="fullName"
                                 class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
                             <span *ngIf="errorHandling('fullName', 'required')"
-                                class="text-red-500 text-xs italic">Please enter a username.</span>
+                                class="text-red-500 text-xs italic">Por favor, ingrese un nombre de usuario.</span>
                         </div>
                         <div>
                             <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">
@@ -54,7 +55,7 @@
                             <input type="text" placeholder="1234567890" formControlName="identification"
                                 class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
                             <span *ngIf="errorHandling('identification', 'required')"
-                                class="text-red-500 text-xs italic">Please enter a identity number.</span>
+                                class="text-red-500 text-xs italic">Por favor, ingrese un número de cédula.</span>
                         </div>
                         <div>
                             <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">
@@ -63,7 +64,7 @@
                             <input type="text" placeholder="XXX-XX-XXXX-XXX" formControlName="phoneNumber"
                                 class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
                             <span *ngIf="errorHandling('phoneNumber', 'required')"
-                                class="text-red-500 text-xs italic">Please enter a phone number.</span>
+                                class="text-red-500 text-xs italic">Por favor, ingrese un número de teléfono.</span>
                         </div>
                         <div>
                             <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">
@@ -71,8 +72,7 @@
                             </label>
                             <input type="email" placeholder="johnsnow@example.com" formControlName="email"
                                 class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
-                            <span *ngIf="errorHandling('email', 'required')" class="text-red-500 text-xs italic">Please
-                                enter a email.</span>
+                            <span *ngIf="errorHandling('email', 'required')" class="text-red-500 text-xs italic">Por favor, ingresa un correo electrónico.</span>
                         </div>
                         <div>
                             <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">
@@ -81,8 +81,7 @@
                             <input type="password" placeholder="Enter your password" formControlName="password"
                                 class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
                             <span *ngIf="errorHandling('password', 'required')"
-                                class="text-red-500 text-xs italic">Please
-                                enter a password.</span>
+                                class="text-red-500 text-xs italic">Por favor, ingresa una contraseña.</span>
                         </div>
                         <div *ngIf="showProveedorField">
                             <div>
@@ -105,8 +104,7 @@
                             <input type="email" placeholder="El sur" formControlName="address"
                                 class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
                             <span *ngIf="errorHandling('address', 'required')"
-                                class="text-red-500 text-xs italic">Please
-                                enter a address.</span>
+                                class="text-red-500 text-xs italic">Por favor, ingrese una dirección rápida.</span>
                             <!-- <select formControlName="province"
                                 class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                                 (change)="onChangeProvince($event)">

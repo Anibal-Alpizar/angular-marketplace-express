@@ -6,7 +6,7 @@ export const users: User[] = [
     FullName: "John Doe",
     Identification: "1234567890",
     PhoneNumber: "123456789",
-    Email: "anibal.alpizar14@gmail.com",
+    Email: "admin@gmail.com",
     Password: "$2b$10$NvYx6F3dMAQG1FOXSaQZ4.sXeWKO2O4ILXfoTjIv1PA0GFiMP8fkO",
     IsActive: false,
     Address: "123 Main Street",

@@ -1,81 +1,81 @@
-<div class="m-10">
-    <div class="my-4">
-        <label for="provinceSelect" class="block text-gray-700">Seleccione una provincia:</label>
-        <select id="provinceSelect" [(ngModel)]="selectedProvince" (change)="onProvinceSelected($event)"
-            class="w-full p-2 border rounded-md focus:outline-none focus:border-blue-500">
-            <option value="" disabled [selected]="!selectedProvince">Seleccione una provincia...</option>
-            <option *ngFor="let province of provinces" [value]="province">{{ province }}</option>
-        </select>
-        <span *ngIf="errorHandling('province', 'required')" class="text-red-500 text-xs italic">La provincia es
-            requerida.</span>
-    </div>
+    <div class="m-10">
+        <div class="my-4">
+            <label for="provinceSelect" class="block text-gray-700">Seleccione una provincia:</label>
+            <select id="provinceSelect" [(ngModel)]="selectedProvince" (change)="onProvinceSelected($event)"
+                class="w-full p-2 border rounded-md focus:outline-none focus:border-blue-500">
+                <option value="" disabled [selected]="!selectedProvince">Seleccione una provincia...</option>
+                <option *ngFor="let province of provinces" [value]="province">{{ province }}</option>
+            </select>
+            <span *ngIf="errorHandling('province', 'required')" class="text-red-500 text-xs italic">La provincia es
+                requerida.</span>
+        </div>
 
-    <div *ngIf="selectedProvince" class="my-4">
-        <label for="cantonSelect" class="block text-gray-700">Seleccione un cantón:</label>
-        <select id="cantonSelect" [(ngModel)]="selectedCanton" (change)="onCantonSelected($event)"
-            class="w-full p-2 border rounded-md focus:outline-none focus:border-blue-500">
-            <option value="" disabled>Seleccione un cantón...</option>
-            <option *ngFor="let canton of getCantonsForSelectedProvince()" [value]="canton">{{ canton }}</option>
-        </select>
-        <span *ngIf="errorHandling('canton', 'required')" class="text-red-500 text-xs italic">El cantón es
-            requerido.</span>
-    </div>
+        <div *ngIf="selectedProvince" class="my-4">
+            <label for="cantonSelect" class="block text-gray-700">Seleccione un cantón:</label>
+            <select id="cantonSelect" [(ngModel)]="selectedCanton" (change)="onCantonSelected($event)"
+                class="w-full p-2 border rounded-md focus:outline-none focus:border-blue-500">
+                <option value="" disabled>Seleccione un cantón...</option>
+                <option *ngFor="let canton of getCantonsForSelectedProvince()" [value]="canton">{{ canton }}</option>
+            </select>
+            <span *ngIf="errorHandling('canton', 'required')" class="text-red-500 text-xs italic">El cantón es
+                requerido.</span>
+        </div>
 
-    <div *ngIf="selectedCanton" class="my-4">
-        <label for="districtSelect" class="block text-gray-700">Seleccione un distrito:</label>
-        <select id="districtSelect" [(ngModel)]="selectedDistrict" (change)="onDistrictSelected($event)"
-            class="w-full p-2 border rounded-md focus:outline-none focus:border-blue-500">
-            <option value="" disabled>Seleccione un distrito...</option>
-            <option *ngFor="let district of districts" [value]="district">{{ district }}</option>
-        </select>
-        <span *ngIf="errorHandling('district', 'required')" class="text-red-500 text-xs italic">El distrito es
-            requerido.</span>
-    </div>
+        <div *ngIf="selectedCanton" class="my-4">
+            <label for="districtSelect" class="block text-gray-700">Seleccione un distrito:</label>
+            <select id="districtSelect" [(ngModel)]="selectedDistrict" (change)="onDistrictSelected($event)"
+                class="w-full p-2 border rounded-md focus:outline-none focus:border-blue-500">
+                <option value="" disabled>Seleccione un distrito...</option>
+                <option *ngFor="let district of districts" [value]="district">{{ district }}</option>
+            </select>
+            <span *ngIf="errorHandling('district', 'required')" class="text-red-500 text-xs italic">El distrito es
+                requerido.</span>
+        </div>
 
-    <div class="my-4">
-        <label for="exactAddressInput" class="block text-gray-700">Dirección exacta:</label>
-        <input id="exactAddressInput" type="text" [(ngModel)]="exactAddress"
-            class="w-full p-2 border rounded-md focus:outline-none focus:border-blue-500" required />
-        <span *ngIf="errorHandling('exactAddress', 'required')" class="text-red-500 text-xs italic">La dirección exacta
-            es
-            requerida.</span>
-    </div>
+        <div class="my-4">
+            <label for="exactAddressInput" class="block text-gray-700">Dirección exacta:</label>
+            <input id="exactAddressInput" type="text" [(ngModel)]="exactAddress"
+                class="w-full p-2 border rounded-md focus:outline-none focus:border-blue-500" required />
+            <span *ngIf="errorHandling('exactAddress', 'required')" class="text-red-500 text-xs italic">La dirección exacta
+                es
+                requerida.</span>
+        </div>
 
-    <div class="my-4">
-        <label for="postalCodeInput" class="block text-gray-700">Código postal:</label>
-        <input id="postalCodeInput" type="text" [(ngModel)]="postalCode"
-            class="w-full p-2 border rounded-md focus:outline-none focus:border-blue-500" required />
-        <span *ngIf="errorHandling('postalCode', 'required')" class="text-red-500 text-xs italic">El código postal es
-            requerido.</span>
-    </div>
+        <div class="my-4">
+            <label for="postalCodeInput" class="block text-gray-700">Código postal:</label>
+            <input id="postalCodeInput" type="text" [(ngModel)]="postalCode"
+                class="w-full p-2 border rounded-md focus:outline-none focus:border-blue-500" required />
+            <span *ngIf="errorHandling('postalCode', 'required')" class="text-red-500 text-xs italic">El código postal es
+                requerido.</span>
+        </div>
 
-    <div class="my-4">
-        <label for="phoneInput" class="block text-gray-700">Teléfono:</label>
-        <input id="phoneInput" type="text" [(ngModel)]="phone"
-            class="w-full p-2 border rounded-md focus:outline-none focus:border-blue-500" required />
-        <span *ngIf="errorHandling('phone', 'required')" class="text-red-500 text-xs italic">El teléfono es
-            requerido.</span>
-    </div>
+        <div class="my-4">
+            <label for="phoneInput" class="block text-gray-700">Teléfono:</label>
+            <input id="phoneInput" type="text" [(ngModel)]="phone"
+                class="w-full p-2 border rounded-md focus:outline-none focus:border-blue-500" required />
+            <span *ngIf="errorHandling('phone', 'required')" class="text-red-500 text-xs italic">El teléfono es
+                requerido.</span>
+        </div>
 
-    <div class="my-4">
-        <button type="button" (click)="createAddress()"
-            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-700">
-            Crear Dirección
-        </button>
-    </div>
-</div>
-
-<div class="mt-8">
-    <h2 class="text-lg font-semibold mb-4">Direcciones del Usuario</h2>
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <div *ngFor="let address of userAddresses" class="bg-white p-4 rounded-md shadow-md">
-            <h3 class="text-lg font-semibold mb-2">Dirección ID: {{ address.AddressId }}</h3>
-            <p><strong>Provincia:</strong> {{ address.Province }}</p>
-            <p><strong>Cantón:</strong> {{ address.Canton }}</p>
-            <p><strong>Distrito:</strong> {{ address.District }}</p>
-            <p><strong>Dirección Exacta:</strong> {{ address.ExactAddress }}</p>
-            <p><strong>Código Postal:</strong> {{ address.PostalCode }}</p>
-            <p><strong>Teléfono:</strong> {{ address.Phone }}</p>
+        <div class="my-4">
+            <button type="button" (click)="createAddress()"
+                class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-700">
+                Crear Dirección
+            </button>
         </div>
     </div>
-</div>
+
+    <div class="mt-8">
+        <h2 class="text-lg font-semibold mb-4">Direcciones del Usuario</h2>
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div *ngFor="let address of userAddresses" class="bg-white p-4 rounded-md shadow-md">
+                <h3 class="text-lg font-semibold mb-2">Dirección ID: {{ address.AddressId }}</h3>
+                <p><strong>Provincia:</strong> {{ address.Province }}</p>
+                <p><strong>Cantón:</strong> {{ address.Canton }}</p>
+                <p><strong>Distrito:</strong> {{ address.District }}</p>
+                <p><strong>Dirección Exacta:</strong> {{ address.ExactAddress }}</p>
+                <p><strong>Código Postal:</strong> {{ address.PostalCode }}</p>
+                <p><strong>Teléfono:</strong> {{ address.Phone }}</p>
+            </div>
+        </div>
+    </div>
