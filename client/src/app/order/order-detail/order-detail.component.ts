@@ -35,6 +35,25 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  decreaseQuantity(index: number) {
+    if (this.data[index].Quantity > 1) {
+      this.data[index].Quantity--;
+      this.updateTotalPrice();
+    }
+  }
+
+  increaseQuantity(index: number) {
+    this.data[index].Quantity++;
+    this.updateTotalPrice();
+  }
+
+  updateTotalPrice() {
+    this.totalPrice = this.data.reduce(
+      (sum: number, item: any) => sum + item.Product.Price * item.Quantity,
+      0
+    );
+  }
+
   getOrder(id: any) {
     this.gService
       .getOrderDetails(id)
