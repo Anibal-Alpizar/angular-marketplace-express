@@ -95,7 +95,7 @@ export const createOrder = async (req: Request, res: Response) => {
         TotalAmount: totalAmount,
         TaxAmount: taxAmount,
         PurchaseDate: new Date(),
-        PurchaseStatus: "Pending",
+        PurchaseStatus: "En progreso",
         Subtotal: subtotal,
         User: { connect: { UserId: purchase.userId } },
         PaymentMethod: {
