@@ -106,7 +106,7 @@
                         Método(s) de pago seleccionado(s) por orden
                     </h3>
                     <ng-container *ngFor="let item of data">
-                        <div class="flex justify-between items-start w-full">
+                        <!-- <div class="flex justify-between items-start w-full">
                             <div class="flex justify-center items-center space-x-4">
                                 <div class="w-8 h-8">
                                     <img class="w-full h-full" alt="logo" src="https://i.ibb.co/L8KSdNQ/image-3.png" />
@@ -122,7 +122,16 @@
                                     </p>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
+                        <h1 class="block font-medium mb-2">
+                            Agregar otro método de pago
+                        </h1>
+                        <select class="border rounded p-2 w-full" [(ngModel)]="selectedPaymentMethod"
+                            name="paymentMethod">
+                            <option class="py-2" *ngFor="let method of savedPaymentMethods" [value]="method">{{
+                                method.AccountNumber}} - {{method.PaymentType}}
+                            </option>
+                        </select>
                         <div class="w-full flex justify-center items-center">
                             <button
                                 class="hover:bg-black dark:bg-white dark:text-gray-800 dark:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 py-5 w-96 md:w-full bg-gray-800 text-base font-medium leading-4 text-white">
