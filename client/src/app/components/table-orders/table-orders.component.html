@@ -13,7 +13,7 @@
         class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600">
         <td *ngFor="let columna of columns" class="px-6 py-4 text-center align-middle">
           <ng-container *ngIf="columna.key === 'UserId'">
-            {{ order?.UserId}}
+            {{ order.UserId}}
           </ng-container>
           <ng-container *ngIf="columna.key === 'ProductId'">
             {{ order?.ProductId }}
@@ -40,7 +40,7 @@
         </td>
         <td>
           <div class="flex items-center justify-center">
-            <button routerLink="/orders/{{ 1 }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+            <button routerLink="/orders/{{ order.PurchaseId }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500" viewBox="0 0 20 20"
                 fill="currentColor">
                 <path d="M10 12a2 2 0 100-4 2 2 0 000 4zM3 6a2 2 0 114 0 2 2 0 01-4 0zM17 14a2 2 0 100-4 2 2 0 000

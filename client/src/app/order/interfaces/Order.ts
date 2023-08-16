@@ -1,5 +1,6 @@
 export interface Order {
   UserId: number;
+  PurchaseId: number;
   PurchaseItemId: number;
   ProductId: number;
   Quantity: number;
