@@ -1,4 +1,11 @@
-import { Component, AfterViewInit, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { OrdersService } from 'src/app/share/orders.service';
@@ -14,6 +21,10 @@ import { ORDERS_ROUTE } from 'src/app/constants/routes.constants';
   styleUrls: ['./order-detail.component.css'],
 })
 export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
+  @ViewChild('quantityElement', { static: false }) quantityElement:
+    | ElementRef
+    | undefined;
+
   data: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
   totalPrice: number = 0;
@@ -157,27 +168,39 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
       });
   }
 
- 
   pagar() {
     console.log(this.PurchaseId);
     const orderId = this.PurchaseId;
-  
+    const quantityValue = this.quantityElement?.nativeElement.textContent;
+
+    console.log('quantityValue:', quantityValue);
+
     this.gService.markOrderAsCompleted(orderId).subscribe(
       (response) => {
         this.data.forEach((item: any) => {
           const productId = item.Product.ProductId;
-          const productQuantity = item.Product.Quantity; // Asegúrate de que item.Product.Quantity sea correcto
+          const productQuantity = (item.Product.Quantity); // Asegúrate de que item.Product.Quantity sea correcto
           const purchasedQuantity = item.Quantity; // Asegúrate de que item.Quantity sea correcto
-    
+
           // Verifica los valores antes de calcular newQuantity
-          console.log('productQuantity:', productQuantity);
-          console.log('purchasedQuantity:', purchasedQuantity);
-    
-          const newQuantity = productQuantity - purchasedQuantity;
-    
-          console.log('productId:', productId);
-          console.log('newQuantity:', newQuantity);
-    
+
+          const newQuantity = (productQuantity - purchasedQuantity);
+
+          console.log('valor actualizadando', quantityValue);
+          console.log('resta', newQuantity);
+
+          console.log('product quantity:', productQuantity);
+          console.log('purchased quantity:', purchasedQuantity);
+
+          this.gService.updateOrderQuantity(orderId, quantityValue).subscribe(
+            (updateResponse) => {
+              console.log('Cantidad actualizada:', updateResponse);
+            },
+            (updateError) => {
+              console.error('Error al actualizar la cantidad:', updateError);
+            }
+          );
+          console.log(newQuantity, 'antes de que llegueeeee')
           this.gService.updateProductQuantity(productId, newQuantity).subscribe(
             (updateResponse) => {
               console.log('Cantidad actualizada:', updateResponse);
@@ -186,8 +209,10 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
               console.error('Error al actualizar la cantidad:', updateError);
             }
           );
+          console.log('anibal', quantityValue);
+          console.log('charlie', newQuantity);
         });
-    
+
         this.notification.showSuccess('¡Orden pagada con éxito!');
         this.router.navigate([ORDERS_ROUTE]);
       },
@@ -195,7 +220,6 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
         this.notification.showError('¡Error al pagar la orden!');
       }
     );
-    
   }
 
   ngOnDestroy() {
