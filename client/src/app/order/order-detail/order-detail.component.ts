@@ -72,6 +72,16 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
     this.getPaymentMethodsForCurrentUser();
   }
 
+  checkQuantityAvailability() {
+    if (this.quantity > this.data[0].Quantity) {
+      console.log('tengo', this.quantity)
+      console.log('en el array hay', this.data[0].Quantity)
+      this.notification.showError('No hay suficiente cantidad disponible.');
+      return false;
+    }
+    return true;
+  }
+
   getPaymentMethodsForCurrentUser() {
     const currentUserJson = localStorage.getItem('currentUser');
     if (currentUserJson) {
@@ -169,22 +179,32 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   pagar() {
-    console.log(this.PurchaseId);
+    
+    
+    
+    console.log('djkdskjsdjksdjkdjk',this.PurchaseId);
     const orderId = this.PurchaseId;
     const quantityValue = this.quantityElement?.nativeElement.textContent;
+    console.log('no se cual es',this.data[0].Product.Quantity);
 
     console.log('quantityValue:', quantityValue);
+
+    if(this.data[0].Product.Quantity < quantityValue){
+      this.notification.showError('No hay suficiente cantidad disponible.');
+      return ;
+    }
+  
 
     this.gService.markOrderAsCompleted(orderId).subscribe(
       (response) => {
         this.data.forEach((item: any) => {
           const productId = item.Product.ProductId;
-          const productQuantity = (item.Product.Quantity); // Asegúrate de que item.Product.Quantity sea correcto
+          const productQuantity = item.Product.Quantity; // Asegúrate de que item.Product.Quantity sea correcto
           const purchasedQuantity = item.Quantity; // Asegúrate de que item.Quantity sea correcto
 
           // Verifica los valores antes de calcular newQuantity
 
-          const newQuantity = (productQuantity - purchasedQuantity);
+          const newQuantity = productQuantity - purchasedQuantity;
 
           console.log('valor actualizadando', quantityValue);
           console.log('resta', newQuantity);
@@ -200,7 +220,7 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
               console.error('Error al actualizar la cantidad:', updateError);
             }
           );
-          console.log(newQuantity, 'antes de que llegueeeee')
+          console.log(newQuantity, 'antes de que llegueeeee');
           this.gService.updateProductQuantity(productId, newQuantity).subscribe(
             (updateResponse) => {
               console.log('Cantidad actualizada:', updateResponse);
@@ -220,6 +240,7 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
         this.notification.showError('¡Error al pagar la orden!');
       }
     );
+
   }
 
   ngOnDestroy() {
