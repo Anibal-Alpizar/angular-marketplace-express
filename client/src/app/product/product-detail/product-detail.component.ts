@@ -71,6 +71,17 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
+  checkQuantityAvailability() {
+    if (this.quantity > this.data[0].Quantity) {
+      // La cantidad seleccionada es mayor que la cantidad disponible
+      this.notificationService.showError(
+        'No hay suficiente cantidad disponible.'
+      );
+      return false;
+    }
+    return true;
+  }
+
   getPaymentMethodsForCurrentUser() {
     const currentUserJson = localStorage.getItem('currentUser');
     if (currentUserJson) {
@@ -95,6 +106,11 @@ export class ProductDetailComponent implements OnInit {
 
   onSubmit(id: number) {
     const currentUserString = localStorage.getItem('currentUser');
+
+    // Verificar la disponibilidad de la cantidad seleccionada
+    if (!this.checkQuantityAvailability()) {
+      return; // Detener el proceso si la cantidad no está disponible
+    }
 
     if (!this.selectedAddressControl.value) {
       this.notificationService.showError(

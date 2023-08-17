@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment.development';
 import { Order } from '../order/interfaces/Order';
 import { catchError } from 'rxjs/operators';
 import { CREATEORDER_ROUTE, HOME_ROUTE } from '../constants/routes.constants';
+import {PRODUCTSDETAILS_ROUTE} from '../constants/routes.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,15 @@ export class OrdersService {
   currentUser: any;
 
   constructor(private http: HttpClient) {}
+
+  updateProductQuantity(productId: string, quantity: number): Observable<any> {
+    const endPoint = `${PRODUCTSDETAILS_ROUTE}/${productId}`;
+    const url = `${this.urlAPI}/${endPoint}`;
+    const data = { quantity }; 
+
+    return this.http.patch(url, data); 
+  }
+
 
   list(endPoint: string): Observable<Order[]> {
     return this.http.get<Order[]>(this.urlAPI + endPoint);

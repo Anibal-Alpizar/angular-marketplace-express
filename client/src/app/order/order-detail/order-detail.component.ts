@@ -127,8 +127,25 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
   pagar() {
     console.log(this.PurchaseId);
     const orderId = this.PurchaseId;
+
     this.gService.markOrderAsCompleted(orderId).subscribe(
       (response) => {
+       
+        this.data.forEach((item: any) => {
+          const productId = item.Product.ProductId;
+          const newQuantity = item.Product.Quantity - item.Quantity;
+          console.log('productId:', productId);
+          console.log('newQuantity:', newQuantity);
+          this.gService.updateProductQuantity(productId, newQuantity).subscribe(
+            (updateResponse) => {
+              console.log('Cantidad actualizada:', updateResponse);
+            },
+            (updateError) => {
+              console.error('Error al actualizar la cantidad:', updateError);
+            }
+          );
+        });
+
         this.notification.showSuccess('¡Orden pagada con éxito!');
         this.router.navigate([ORDERS_ROUTE]);
       },
