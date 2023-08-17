@@ -146,8 +146,13 @@ export class LocationsComponent implements OnInit {
   }
 
   loadDistricts(provinceNumber: string, cantonNumber: string): void {
+    console.log(provinceNumber, (cantonNumber))
+
+   const cantonNumberFinal = parseInt(cantonNumber)
+    console.log(cantonNumberFinal+1)
+
     this.lService
-      .getDistritos(provinceNumber, cantonNumber)
+      .getDistritos(provinceNumber, (cantonNumberFinal+1).toString())
       .then((data: any) => {
         this.districts = Object.values(data);
         console.log(
