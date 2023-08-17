@@ -207,6 +207,56 @@ export const markOrderAsCompleted = async (req: Request, res: Response) => {
     res.json(updatedPurchase);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error al marcar la orden como completada" });
+    res
+      .status(500)
+      .json({ message: "Error al marcar la orden como completada" });
+  }
+};
+
+export const updateProductQuantityByPurchaseId = async (
+  req: Request,
+  res: Response
+) => {
+  const purchaseId = parseInt(req.params.id);
+  const newQuantity = parseInt(req.body.newQuantity);
+
+  try {
+    const purchase = await prisma.purchase.findUnique({
+      where: { PurchaseId: purchaseId },
+      include: {
+        Product: true,
+      },
+    });
+
+    if (!purchase) {
+      return res.status(404).json({ message: "Compra no encontrada" });
+    }
+
+    if (!purchase.Product) {
+      return res
+        .status(400)
+        .json({ message: "El producto asociado no fue encontrado" });
+    }
+
+    const availableQuantity = purchase.Product.Quantity;
+
+    if (newQuantity > availableQuantity) {
+      return res.status(400).json({
+        message:
+          "La cantidad solicitada excede la cantidad disponible del producto",
+      });
+    }
+
+    const updatedPurchase = await prisma.purchase.update({
+      where: { PurchaseId: purchaseId },
+      data: { Quantity: newQuantity },
+    });
+
+    res.json(updatedPurchase);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Error al actualizar la cantidad de la compra" });
   }
 };

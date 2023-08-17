@@ -23,6 +23,10 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
   selectedPaymentMethod: PaymentMethod | undefined;
   PurchaseId: any;
   isCanceled: boolean = false;
+  quantity: number = 1;
+  items: any[] = [];
+  selectedIndex: number | undefined;
+  quantityOffset: string = '';
 
   formatDate(dateString: string): string {
     if (!dateString) {
@@ -78,16 +82,44 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
       }
     }
   }
+  // decreaseQuantity(index: number) {
+  //   if (this.data[index].Quantity > 1) {
+  //     this.data[index].Quantity--;
+  //     this.updateTotalPrice();
+  //   }
+  //   console.log(`current quantity: ${this.quantity}`);
+  // }
+
   decreaseQuantity(index: number) {
     if (this.data[index].Quantity > 1) {
       this.data[index].Quantity--;
       this.updateTotalPrice();
+      this.selectedIndex = index; // Actualizar el índice seleccionado
+      this.quantityOffset = `current quantity: ${this.getItemQuantityWithOffset(
+        this.data[index],
+        index
+      )}`;
     }
   }
+
+  // increaseQuantity(index: number) {
+  //   this.data[index].Quantity++;
+  //   this.updateTotalPrice();
+  //   console.log(`current quantity: ${this.quantity}`);
+  // }
 
   increaseQuantity(index: number) {
     this.data[index].Quantity++;
     this.updateTotalPrice();
+    this.selectedIndex = index; // Actualizar el índice seleccionado
+    this.quantityOffset = `current quantity: ${this.getItemQuantityWithOffset(
+      this.data[index],
+      index
+    )}`;
+  }
+
+  getItemQuantityWithOffset(item: any, index: number): number {
+    return item.Quantity + (index === this.selectedIndex ? this.quantity : 0);
   }
 
   updateTotalPrice() {
@@ -119,8 +151,9 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
           (sum: number, item: any) => sum + item.TaxAmount,
           0
         );
-        console.log(this.isCanceled)
+        console.log(this.isCanceled);
         this.PurchaseId = this.data[0].PurchaseId;
+        this.quantity = this.data[0].Quantity;
       });
   }
 
@@ -130,7 +163,6 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
 
     this.gService.markOrderAsCompleted(orderId).subscribe(
       (response) => {
-       
         this.data.forEach((item: any) => {
           const productId = item.Product.ProductId;
           const newQuantity = item.Product.Quantity - item.Quantity;
@@ -146,6 +178,16 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
           );
         });
 
+        console.log(this.quantityOffset)
+
+        const quantityOffset = Number(this.quantityOffset.split(' ')[2]);
+
+        this.gService
+          .updateOrderQuantity(orderId, quantityOffset)
+          .subscribe((response) => {
+            console.log('Cantidad actualizada:', response);
+          });
+
         this.notification.showSuccess('¡Orden pagada con éxito!');
         this.router.navigate([ORDERS_ROUTE]);
       },
@@ -153,6 +195,8 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
         this.notification.showError('¡Error al pagar la orden!');
       }
     );
+
+    console.log(this);
   }
 
   ngOnDestroy() {
