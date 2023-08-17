@@ -187,12 +187,16 @@ export const details = async (req: Request, res: Response) => {
   }
 };
 
+
 export const markOrderAsCompleted = async (req: Request, res: Response) => {
   const purchaseId = parseInt(req.params.id);
 
   try {
     const purchase = await prisma.purchase.findUnique({
       where: { PurchaseId: purchaseId },
+      include: {
+        Product: true, // Include product details
+      },
     });
 
     if (!purchase) {
@@ -204,14 +208,22 @@ export const markOrderAsCompleted = async (req: Request, res: Response) => {
       data: { PurchaseStatus: "Completada" },
     });
 
+    // Update product quantity
+    const productId = purchase.Product.ProductId;
+    const newQuantity = purchase.Product.Quantity - purchase.Quantity;
+
+    await prisma.product.update({
+      where: { ProductId: productId },
+      data: { Quantity: newQuantity },
+    });
+
     res.json(updatedPurchase);
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ message: "Error al marcar la orden como completada" });
+    res.status(500).json({ message: "Error al marcar la orden como completada" });
   }
 };
+
 
 export const updateProductQuantityByPurchaseId = async (
   req: Request,

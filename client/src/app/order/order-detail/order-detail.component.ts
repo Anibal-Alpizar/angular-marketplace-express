@@ -157,17 +157,27 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
       });
   }
 
+ 
   pagar() {
     console.log(this.PurchaseId);
     const orderId = this.PurchaseId;
-
+  
     this.gService.markOrderAsCompleted(orderId).subscribe(
       (response) => {
         this.data.forEach((item: any) => {
           const productId = item.Product.ProductId;
-          const newQuantity = item.Product.Quantity - item.Quantity;
+          const productQuantity = item.Product.Quantity; // Asegúrate de que item.Product.Quantity sea correcto
+          const purchasedQuantity = item.Quantity; // Asegúrate de que item.Quantity sea correcto
+    
+          // Verifica los valores antes de calcular newQuantity
+          console.log('productQuantity:', productQuantity);
+          console.log('purchasedQuantity:', purchasedQuantity);
+    
+          const newQuantity = productQuantity - purchasedQuantity;
+    
           console.log('productId:', productId);
           console.log('newQuantity:', newQuantity);
+    
           this.gService.updateProductQuantity(productId, newQuantity).subscribe(
             (updateResponse) => {
               console.log('Cantidad actualizada:', updateResponse);
@@ -177,17 +187,7 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
             }
           );
         });
-
-        console.log(this.quantityOffset)
-
-        const quantityOffset = Number(this.quantityOffset.split(' ')[2]);
-
-        this.gService
-          .updateOrderQuantity(orderId, quantityOffset)
-          .subscribe((response) => {
-            console.log('Cantidad actualizada:', response);
-          });
-
+    
         this.notification.showSuccess('¡Orden pagada con éxito!');
         this.router.navigate([ORDERS_ROUTE]);
       },
@@ -195,8 +195,7 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
         this.notification.showError('¡Error al pagar la orden!');
       }
     );
-
-    console.log(this);
+    
   }
 
   ngOnDestroy() {

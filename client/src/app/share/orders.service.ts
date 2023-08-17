@@ -19,9 +19,9 @@ export class OrdersService {
   updateProductQuantity(productId: string, quantity: number): Observable<any> {
     const endPoint = `${PRODUCTSDETAILS_ROUTE}/${productId}`;
     const url = `${this.urlAPI}/${endPoint}`;
-    const data = { quantity };
+    const data = { quantity }; 
 
-    return this.http.patch(url, data);
+    return this.http.patch(url, data); 
   }
 
   list(endPoint: string): Observable<Order[]> {
