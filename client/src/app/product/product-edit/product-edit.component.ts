@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from 'src/app/share/notification.service';
@@ -107,12 +107,12 @@ export class ProductEditComponent implements OnInit {
   }
   onSubmit() {
     const formData = new FormData();
-    formData.append('productName', this.productForm.get('productName')?.value);
-    formData.append('price', this.productForm.get('price')?.value);
-    formData.append('quantity', this.productForm.get('quantity')?.value);
-    formData.append('category', this.productForm.get('category')?.value);
-    formData.append('status', this.productForm.get('status')?.value);
-    formData.append('description', this.productForm.get('description')?.value);
+    formData.append('ProductName', this.productForm.get('productName')?.value);
+    formData.append('Price', this.productForm.get('price')?.value);
+    formData.append('Quantity', this.productForm.get('quantity')?.value);
+    formData.append('Category', this.productForm.get('category')?.value);
+    formData.append('Status', this.productForm.get('status')?.value);
+    formData.append('Description', this.productForm.get('description')?.value);
 
     if (this.image1File) {
       formData.append('sampleFile', this.image1File, this.image1File.name);

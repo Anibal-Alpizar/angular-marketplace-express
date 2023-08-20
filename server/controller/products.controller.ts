@@ -410,7 +410,7 @@ export const updateProduct = async (req: Request, res: Response) => {
     const updatedProduct = await prisma.product.update({
       where: { ProductId: productId },
       data: {
-        ProductName: req.body.ProductName || existingProduct.ProductName,
+        ProductName: req.body.ProductName,
         Description: req.body.Description || existingProduct.Description,
         Price: parseFloat(req.body.Price) || existingProduct.Price,
         Status: req.body.Status || existingProduct.Status,
