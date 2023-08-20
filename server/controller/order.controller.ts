@@ -127,7 +127,11 @@ export const getPurchaseByCustumer = async (req: Request, res: Response) => {
     const user = await prisma.user.findUnique({
       where: { UserId: userId },
       include: {
-        Purchase: true,
+        Purchase: {
+          orderBy: {
+            PurchaseStatus: "desc",
+          },
+        },
         Addresses: true,
         PaymentMethod: true,
         Products: true,
@@ -137,7 +141,7 @@ export const getPurchaseByCustumer = async (req: Request, res: Response) => {
     if (!user || !user.Purchase || user.Purchase.length === 0) {
       return res
         .status(404)
-        .json({ message: "No se encotraon compras para el usuario" });
+        .json({ message: "No se encontraron compras para el usuario" });
     }
 
     const purchase = user.Purchase;

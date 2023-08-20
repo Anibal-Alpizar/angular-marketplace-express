@@ -9,9 +9,6 @@ import { Observable, Subject, takeUntil } from 'rxjs';
   templateUrl: './table-orders.component.html',
   styleUrls: ['./table-orders.component.css'],
 })
- 
-
-
 export class TableOrdersComponent {
   @Input() columns!: Column[];
   @Input() filterOrders: Order[] = [];
@@ -20,10 +17,7 @@ export class TableOrdersComponent {
   totalPrice: number = 0;
   totalTaxes: number = 0;
 
-  constructor(
-    private gService: OrdersService,
-    
-  ) {}
+  constructor(private gService: OrdersService) {}
 
   getProductNames(order: Order): string {
     const purchaseItems = order?.PurchaseItems || [];
