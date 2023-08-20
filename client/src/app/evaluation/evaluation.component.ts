@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NotificationService } from '../share/notification.service';
 import { EvaluationService } from '../share/evaluation.service';
+import { Router } from '@angular/router';
+import { HOME_ROUTE } from '../constants/routes.constants';
 
 @Component({
   selector: 'app-evaluation',
@@ -15,7 +17,8 @@ export class EvaluationComponent implements OnInit {
 
   constructor(
     private notification: NotificationService,
-    private evaluationService: EvaluationService
+    private evaluationService: EvaluationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -37,6 +40,7 @@ export class EvaluationComponent implements OnInit {
         .subscribe((response) => {
           console.log('response:', response);
           this.notification.showSuccess('Gracias por tu evaluación.');
+          this.router.navigate([HOME_ROUTE]);
         });
     } else {
       this.notification.showError('No se ha encontrado el usuario.');

@@ -13,7 +13,7 @@ import * as moment from 'moment';
 import { PaymentMethod } from 'src/app/interfaces/payment.interface';
 import { PaymentService } from 'src/app/share/payment.service';
 import { NotificationService } from 'src/app/share/notification.service';
-import { ORDERS_ROUTE } from 'src/app/constants/routes.constants';
+import { EVALUATIONS_ROUTE } from 'src/app/constants/routes.constants';
 
 @Component({
   selector: 'app-order-detail',
@@ -232,7 +232,7 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
         this.notification.showSuccess('¡Orden pagada con éxito!');
         localStorage.setItem('purchaseId', orderId);
 
-        this.router.navigate([ORDERS_ROUTE]);
+        this.router.navigate([EVALUATIONS_ROUTE]);
       },
       (error) => {
         this.notification.showError('¡Error al pagar la orden!');
