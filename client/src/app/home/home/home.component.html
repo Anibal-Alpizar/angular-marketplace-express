@@ -1,349 +1,370 @@
-<section class="text-gray-700 body-font">
-    <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
-        <div
-            class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
-            <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Producto más vendido
-                <br class="hidden lg:inline-block">de la semana
-            </h1>
-            <p class="mb-8 leading-relaxed">
-                Computadora de escritorio HP 290 G4 Microtower PC (9th Generation Intel® Core™ i5 processor, 8 GB RAM, 1
-                TB HDD, Windows 10 Pro 64)
-            </p>
-            <div class="flex justify-center">
-                <button routerLink="/products/all"
-                    class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Ver
-                    productos</button>
-                <button routerLink="/about"
-                    class="ml-4 inline-flex text-gray-700 bg-gray-200 border-0 py-2 px-6 focus:outline-none hover:bg-gray-300 rounded text-lg">Mi
-                    perfil</button>
+<div *ngIf="isCustomer()">
+    <section class="text-gray-700 body-font">
+        <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+            <div
+                class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
+                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Producto más vendido
+                    <br class="hidden lg:inline-block">de la semana
+                </h1>
+                <p class="mb-8 leading-relaxed">
+                    Computadora de escritorio HP 290 G4 Microtower PC (9th Generation Intel® Core™ i5 processor, 8 GB
+                    RAM, 1
+                    TB HDD, Windows 10 Pro 64)
+                </p>
+                <div class="flex justify-center">
+                    <button routerLink="/products/all"
+                        class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Ver
+                        productos</button>
+                    <button routerLink="/about"
+                        class="ml-4 inline-flex text-gray-700 bg-gray-200 border-0 py-2 px-6 focus:outline-none hover:bg-gray-300 rounded text-lg">Mi
+                        perfil</button>
+                </div>
+            </div>
+            <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
+                <img class="object-cover object-center rounded" alt="hero"
+                    src="https://revistadiners.com.co/wp-content/uploads/2020/01/computadores_1200x800.jpg">
             </div>
         </div>
-        <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
-            <img class="object-cover object-center rounded" alt="hero"
-                src="https://revistadiners.com.co/wp-content/uploads/2020/01/computadores_1200x800.jpg">
-        </div>
-    </div>
-</section>
-<section class="text-gray-700 body-font border-t border-gray-200">
-    <div class="container px-5 py-24 mx-auto">
-        <div class="flex flex-col text-center w-full mb-20">
-            <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">ROOF PARTY POLAROID</h2>
-            <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900">Master Cleanse Reliac Heirloom</h1>
-        </div>
-        <div class="flex flex-wrap -m-4">
-            <div class="p-4 md:w-1/3">
-                <div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
-                    <div class="flex items-center mb-3">
-                        <div
-                            class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
-                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                            </svg>
+    </section>
+    <section class="text-gray-700 body-font border-t border-gray-200">
+        <div class="container px-5 py-24 mx-auto">
+            <div class="flex flex-col text-center w-full mb-20">
+                <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">ROOF PARTY POLAROID</h2>
+                <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900">Master Cleanse Reliac Heirloom
+                </h1>
+            </div>
+            <div class="flex flex-wrap -m-4">
+                <div class="p-4 md:w-1/3">
+                    <div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
+                        <div class="flex items-center mb-3">
+                            <div
+                                class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
+                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                                </svg>
+                            </div>
+                            <h2 class="text-gray-900 text-lg title-font font-medium">Estrellas fugaces</h2>
                         </div>
-                        <h2 class="text-gray-900 text-lg title-font font-medium">Estrellas fugaces</h2>
+                        <div class="flex-grow">
+                            <p class="leading-relaxed text-base"> Descubre nuestra colección de estrellas fugaces, un
+                                espectáculo celestial para tu hogar.
+                                Aprovecha nuestras ofertas especiales y lleva la magia del cielo a tu vida.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 md:w-1/3">
+                    <div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
+                        <div class="flex items-center mb-3">
+                            <div
+                                class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
+                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </div>
+                            <h2 class="text-gray-900 text-lg title-font font-medium">El Catalizador</h2>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="leading-relaxed text-base">
+                                Potencia tus habilidades creativas con El Catalizador, una herramienta imprescindible
+                                para
+                                artistas y diseñadores. Experimenta con nuestra exclusiva selección de materiales y
+                                colores.
+                                ¡Desbloquea tu imaginación y da vida a tus ideas más audaces!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 md:w-1/3">
+                    <div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
+                        <div class="flex items-center mb-3">
+                            <div
+                                class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
+                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                                    <circle cx="6" cy="6" r="3"></circle>
+                                    <circle cx="6" cy="18" r="3"></circle>
+                                    <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
+                                </svg>
+                            </div>
+                            <h2 class="text-gray-900 text-lg title-font font-medium">Neptuno</h2>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="leading-relaxed text-base">
+                                Descubre la majestuosidad de Neptuno con nuestra colección de productos inspirados en el
+                                mar. Desde productos de tecnologia hasta decoración para el hogar, nuestra gama rinde
+                                homenaje a la belleza
+                                del océano.
+                                Sumérgete en la esencia de Neptuno y lleva la tranquilidad del mar a tu vida.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="text-gray-700 body-font border-t border-gray-200">
+        <div class="container px-5 py-24 mx-auto flex flex-wrap">
+            <div class="lg:w-1/2 w-full mb-10 lg:mb-0 rounded-lg overflow-hidden">
+                <img alt="feature" class="object-cover object-center h-full w-full"
+                    src="https://www.unimart.com/cdn/shop/products/Canvasfotosconguias_2_3_1_80.jpg?v=1689194557">
+            </div>
+            <div class="flex flex-col flex-wrap lg:py-6 -mb-10 lg:w-1/2 lg:pl-12 lg:text-left text-center">
+                <div class="flex flex-col mb-10 lg:items-start items-center">
+                    <div
+                        class="w-12 h-12 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5">
+                        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                        </svg>
                     </div>
                     <div class="flex-grow">
-                        <p class="leading-relaxed text-base"> Descubre nuestra colección de estrellas fugaces, un
-                            espectáculo celestial para tu hogar.
-                            Aprovecha nuestras ofertas especiales y lleva la magia del cielo a tu vida.
-                        </p>
+                        <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Parlante Portátil Bluetooth,
+                            Srs-xb13
+                        </h2>
+                        <p class="leading-relaxed text-base">El SRS-XB13 es resistente y portátil e incluye una correa
+                            diseñada para que sea fácil llevártelo a cualquier lugar.</p>
                     </div>
                 </div>
-            </div>
-            <div class="p-4 md:w-1/3">
-                <div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
-                    <div class="flex items-center mb-3">
-                        <div
-                            class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
-                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-                                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
-                            </svg>
-                        </div>
-                        <h2 class="text-gray-900 text-lg title-font font-medium">El Catalizador</h2>
+                <div class="flex flex-col mb-10 lg:items-start items-center">
+                    <div
+                        class="w-12 h-12 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5">
+                        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+                            <circle cx="6" cy="6" r="3"></circle>
+                            <circle cx="6" cy="18" r="3"></circle>
+                            <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
+                        </svg>
                     </div>
                     <div class="flex-grow">
-                        <p class="leading-relaxed text-base">
-                            Potencia tus habilidades creativas con El Catalizador, una herramienta imprescindible para
-                            artistas y diseñadores. Experimenta con nuestra exclusiva selección de materiales y colores.
-                            ¡Desbloquea tu imaginación y da vida a tus ideas más audaces!
-                        </p>
+                        <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Bonito</h2>
+                        <p class="leading-relaxed text-base">Pero que no te engañe su pequeño tamaño, gracias a Extra
+                            Bass™
+                            y el procesador de difusión de sonido, este altavoz es muy potente.</p>
                     </div>
                 </div>
-            </div>
-            <div class="p-4 md:w-1/3">
-                <div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
-                    <div class="flex items-center mb-3">
-                        <div
-                            class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
-                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-                                <circle cx="6" cy="6" r="3"></circle>
-                                <circle cx="6" cy="18" r="3"></circle>
-                                <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
-                            </svg>
-                        </div>
-                        <h2 class="text-gray-900 text-lg title-font font-medium">Neptuno</h2>
+                <div class="flex flex-col mb-10 lg:items-start items-center">
+                    <div
+                        class="w-12 h-12 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5">
+                        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+                            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
                     </div>
                     <div class="flex-grow">
-                        <p class="leading-relaxed text-base">
-                            Descubre la majestuosidad de Neptuno con nuestra colección de productos inspirados en el
-                            mar. Desde productos de tecnologia hasta decoración para el hogar, nuestra gama rinde
-                            homenaje a la belleza
-                            del océano.
-                            Sumérgete en la esencia de Neptuno y lleva la tranquilidad del mar a tu vida.
-                        </p>
+                        <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Garantia</h2>
+                        <p class="leading-relaxed text-base">1 año por defectos de fabrica.</p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<section class="text-gray-700 body-font border-t border-gray-200">
-    <div class="container px-5 py-24 mx-auto flex flex-wrap">
-        <div class="lg:w-1/2 w-full mb-10 lg:mb-0 rounded-lg overflow-hidden">
-            <img alt="feature" class="object-cover object-center h-full w-full"
-                src="https://www.unimart.com/cdn/shop/products/Canvasfotosconguias_2_3_1_80.jpg?v=1689194557">
-        </div>
-        <div class="flex flex-col flex-wrap lg:py-6 -mb-10 lg:w-1/2 lg:pl-12 lg:text-left text-center">
-            <div class="flex flex-col mb-10 lg:items-start items-center">
-                <div
-                    class="w-12 h-12 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5">
-                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
-                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                    </svg>
-                </div>
-                <div class="flex-grow">
-                    <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Parlante Portátil Bluetooth, Srs-xb13
-                    </h2>
-                    <p class="leading-relaxed text-base">El SRS-XB13 es resistente y portátil e incluye una correa
-                        diseñada para que sea fácil llevártelo a cualquier lugar.</p>
-                </div>
-            </div>
-            <div class="flex flex-col mb-10 lg:items-start items-center">
-                <div
-                    class="w-12 h-12 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5">
-                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
-                        <circle cx="6" cy="6" r="3"></circle>
-                        <circle cx="6" cy="18" r="3"></circle>
-                        <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
-                    </svg>
-                </div>
-                <div class="flex-grow">
-                    <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Bonito</h2>
-                    <p class="leading-relaxed text-base">Pero que no te engañe su pequeño tamaño, gracias a Extra Bass™
-                        y el procesador de difusión de sonido, este altavoz es muy potente.</p>
-                </div>
-            </div>
-            <div class="flex flex-col mb-10 lg:items-start items-center">
-                <div
-                    class="w-12 h-12 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5">
-                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
-                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                </div>
-                <div class="flex-grow">
-                    <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Garantia</h2>
-                    <p class="leading-relaxed text-base">1 año por defectos de fabrica.</p>
-                </div>
+    </section>
+    <section class="text-gray-700 body-font border-t border-gray-200">
+        <div class="container px-5 py-24 mx-auto">
+            <div class="xl:w-1/2 lg:w-3/4 w-full mx-auto text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                    class="inline-block w-8 h-8 text-gray-400 mb-8" viewBox="0 0 975.036 975.036">
+                    <path
+                        d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z">
+                    </path>
+                </svg>
+                <p class="leading-relaxed text-lg">
+                    En nuestra tienda de productos electrónicos, te ofrecemos la última tecnología y gadgets para llevar
+                    tu
+                    experiencia al siguiente nivel. Sumérgete en un mundo de innovación y descubre una amplia selección
+                    de
+                    dispositivos electrónicos de vanguardia.
+                    Desde bombillas LED inteligentes que te permiten controlar la iluminación de tu hogar con tu
+                    smartphone,
+                    hasta altavoces inalámbricos con sonido de alta fidelidad que llenarán tu espacio con música
+                    cristalina.
+                    Nuestra tienda ecoomers también es el lugar ideal para encontrar productos electrónicos sostenibles
+                    y
+                    respetuosos con el medio ambiente. Explora nuestra gama de cargadores solares, que te permiten
+                    cargar
+                    tus dispositivos utilizando energía solar limpia y renovable.
+                    Además, ofrecemos una selección de productos reacondicionados y reciclados que te permiten ahorrar
+                    dinero y reducir tu huella ecológica al mismo tiempo.
+                    ¡Ven y descubre el emocionante mundo de la tecnología en nuestra tienda ecoomers de productos
+                    electrónicos! Nuestro equipo de expertos estará encantado de ayudarte a encontrar el dispositivo
+                    perfecto para tus necesidades y brindarte una experiencia de compra excepcional.
+                </p>
+                <span class="inline-block h-1 w-10 rounded bg-indigo-500 mt-8 mb-6"></span>
+                <h2 class="text-gray-900 font-medium title-font tracking-wider text-sm">ANIBAL ALPIZAR & CARLO BONILLA
+                </h2>
+                <p class="text-gray-500">Desarrolladores</p>
             </div>
         </div>
-    </div>
-</section>
-<section class="text-gray-700 body-font border-t border-gray-200">
-    <div class="container px-5 py-24 mx-auto">
-        <div class="xl:w-1/2 lg:w-3/4 w-full mx-auto text-center">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="inline-block w-8 h-8 text-gray-400 mb-8"
-                viewBox="0 0 975.036 975.036">
-                <path
-                    d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z">
-                </path>
-            </svg>
-            <p class="leading-relaxed text-lg">
-                En nuestra tienda de productos electrónicos, te ofrecemos la última tecnología y gadgets para llevar tu
-                experiencia al siguiente nivel. Sumérgete en un mundo de innovación y descubre una amplia selección de
-                dispositivos electrónicos de vanguardia.
-                Desde bombillas LED inteligentes que te permiten controlar la iluminación de tu hogar con tu smartphone,
-                hasta altavoces inalámbricos con sonido de alta fidelidad que llenarán tu espacio con música cristalina.
-                Nuestra tienda ecoomers también es el lugar ideal para encontrar productos electrónicos sostenibles y
-                respetuosos con el medio ambiente. Explora nuestra gama de cargadores solares, que te permiten cargar
-                tus dispositivos utilizando energía solar limpia y renovable.
-                Además, ofrecemos una selección de productos reacondicionados y reciclados que te permiten ahorrar
-                dinero y reducir tu huella ecológica al mismo tiempo.
-                ¡Ven y descubre el emocionante mundo de la tecnología en nuestra tienda ecoomers de productos
-                electrónicos! Nuestro equipo de expertos estará encantado de ayudarte a encontrar el dispositivo
-                perfecto para tus necesidades y brindarte una experiencia de compra excepcional.
-            </p>
-            <span class="inline-block h-1 w-10 rounded bg-indigo-500 mt-8 mb-6"></span>
-            <h2 class="text-gray-900 font-medium title-font tracking-wider text-sm">ANIBAL ALPIZAR & CARLO BONILLA</h2>
-            <p class="text-gray-500">Desarrolladores</p>
+    </section>
+    <section class="text-gray-700 body-font relative">
+        <div class="absolute inset-0 bg-gray-300">
+            <iframe width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0" title="map"
+                scrolling="no"
+                src="https://maps.google.com/maps?width=100%&amp;height=600&amp;hl=en&amp;q=Alajuela,%20Costa%20Rica,%20R%C3%ADo%20Segundo&amp;ie=UTF8&amp;t=&amp;z=14&amp;iwloc=B&amp;output=embed"
+                style="filter: grayscale(1) contrast(1.2) opacity(0.4);"></iframe>
         </div>
-    </div>
-</section>
-<section class="text-gray-700 body-font relative">
-    <div class="absolute inset-0 bg-gray-300">
-        <iframe width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0" title="map" scrolling="no"
-            src="https://maps.google.com/maps?width=100%&amp;height=600&amp;hl=en&amp;q=Alajuela,%20Costa%20Rica,%20R%C3%ADo%20Segundo&amp;ie=UTF8&amp;t=&amp;z=14&amp;iwloc=B&amp;output=embed"
-            style="filter: grayscale(1) contrast(1.2) opacity(0.4);"></iframe>
-    </div>
-    <div class="container px-5 py-24 mx-auto flex">
-        <div
-            class="lg:w-1/3 md:w-1/2 bg-white rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 relative z-10">
-            <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Recomendaciones</h2>
-            <p class="leading-relaxed mb-5 text-gray-600">Envianos tus comentarios y sugerencias para mejorar nuestro
-                servicio.
-            </p>
-            <input
-                class="bg-white rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2 mb-4"
-                placeholder="Email" type="email">
-            <textarea
-                class="bg-white rounded border border-gray-400 focus:outline-none h-32 focus:border-indigo-500 text-base px-4 py-2 mb-4 resize-none"
-                placeholder="Message"></textarea>
-            <button
-                class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-                Enviar
-            </button>
-            <p class="text-xs text-gray-500 mt-3">
-                Derechos Reservados © 2023
-            </p>
-        </div>
-    </div>
-</section>
-<footer class="text-gray-700 body-font">
-    <div class="container px-5 py-24 mx-auto">
-        <div class="flex flex-wrap md:text-left text-center -mb-10 -mx-4">
-            <div class="lg:w-1/6 md:w-1/2 w-full px-4">
-                <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">APPLE</h2>
-                <nav class="list-none mb-10">
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">iPhone</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">MacBook</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">iPad</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">AirPods</a>
-                    </li>
-                </nav>
+        <div class="container px-5 py-24 mx-auto flex">
+            <div
+                class="lg:w-1/3 md:w-1/2 bg-white rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 relative z-10">
+                <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Recomendaciones</h2>
+                <p class="leading-relaxed mb-5 text-gray-600">Envianos tus comentarios y sugerencias para mejorar
+                    nuestro
+                    servicio.
+                </p>
+                <input
+                    class="bg-white rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2 mb-4"
+                    placeholder="Email" type="email">
+                <textarea
+                    class="bg-white rounded border border-gray-400 focus:outline-none h-32 focus:border-indigo-500 text-base px-4 py-2 mb-4 resize-none"
+                    placeholder="Message"></textarea>
+                <button
+                    class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                    Enviar
+                </button>
+                <p class="text-xs text-gray-500 mt-3">
+                    Derechos Reservados © 2023
+                </p>
             </div>
+        </div>
+    </section>
+    <footer class="text-gray-700 body-font">
+        <div class="container px-5 py-24 mx-auto">
+            <div class="flex flex-wrap md:text-left text-center -mb-10 -mx-4">
+                <div class="lg:w-1/6 md:w-1/2 w-full px-4">
+                    <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">APPLE</h2>
+                    <nav class="list-none mb-10">
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">iPhone</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">MacBook</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">iPad</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">AirPods</a>
+                        </li>
+                    </nav>
+                </div>
 
-            <div class="lg:w-1/6 md:w-1/2 w-full px-4">
-                <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">SAMSUNG</h2>
-                <nav class="list-none mb-10">
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">Galaxy</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">Monitores</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">Televisores</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">Earbuds</a>
-                    </li>
-                </nav>
-            </div>
+                <div class="lg:w-1/6 md:w-1/2 w-full px-4">
+                    <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">SAMSUNG</h2>
+                    <nav class="list-none mb-10">
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">Galaxy</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">Monitores</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">Televisores</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">Earbuds</a>
+                        </li>
+                    </nav>
+                </div>
 
-            <div class="lg:w-1/6 md:w-1/2 w-full px-4">
-                <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">GOOGLE</h2>
-                <nav class="list-none mb-10">
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">Pixel</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">Chromebook</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">Nest</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">Stadia</a>
-                    </li>
-                </nav>
-            </div>
+                <div class="lg:w-1/6 md:w-1/2 w-full px-4">
+                    <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">GOOGLE</h2>
+                    <nav class="list-none mb-10">
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">Pixel</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">Chromebook</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">Nest</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">Stadia</a>
+                        </li>
+                    </nav>
+                </div>
 
-            <div class="lg:w-1/6 md:w-1/2 w-full px-4">
-                <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">SONY</h2>
-                <nav class="list-none mb-10">
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">PlayStation</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">Bravia</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">WH-1000XM4</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">Cyber-shot</a>
-                    </li>
-                </nav>
-            </div>
+                <div class="lg:w-1/6 md:w-1/2 w-full px-4">
+                    <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">SONY</h2>
+                    <nav class="list-none mb-10">
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">PlayStation</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">Bravia</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">WH-1000XM4</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">Cyber-shot</a>
+                        </li>
+                    </nav>
+                </div>
 
-            <div class="lg:w-1/6 md:w-1/2 w-full px-4">
-                <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">LG</h2>
-                <nav class="list-none mb-10">
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">Smartphones</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">Televisores</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">Lavadoras</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">Aires
-                            acondicionados</a>
-                    </li>
-                </nav>
-            </div>
+                <div class="lg:w-1/6 md:w-1/2 w-full px-4">
+                    <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">LG</h2>
+                    <nav class="list-none mb-10">
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">Smartphones</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">Televisores</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">Lavadoras</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">Aires
+                                acondicionados</a>
+                        </li>
+                    </nav>
+                </div>
 
-            <!-- Bloque 2: Microsoft -->
-            <div class="lg:w-1/6 md:w-1/2 w-full px-4">
-                <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">MICROSOFT</h2>
-                <nav class="list-none mb-10">
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">Surface</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">Xbox</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800">Office</a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800"
-                            href="/productos/microsoft/accessories">Accesorios</a>
-                    </li>
-                </nav>
+                <!-- Bloque 2: Microsoft -->
+                <div class="lg:w-1/6 md:w-1/2 w-full px-4">
+                    <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">MICROSOFT</h2>
+                    <nav class="list-none mb-10">
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">Surface</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">Xbox</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800">Office</a>
+                        </li>
+                        <li>
+                            <a class="text-gray-600 hover:text-gray-800"
+                                href="/productos/microsoft/accessories">Accesorios</a>
+                        </li>
+                    </nav>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="bg-gray-200">
-        <div class="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
-            <p class="text-gray-500 text-sm text-center sm:text-left">© 2023 Rio Sur Electronics —
-                <a href="https://twitter.com/knyttneve" rel="noopener noreferrer" class="text-gray-600 ml-1"
-                    target="_blank">@riisurelectronics</a>
-            </p>
+        <div class="bg-gray-200">
+            <div class="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
+                <p class="text-gray-500 text-sm text-center sm:text-left">© 2023 Rio Sur Electronics —
+                    <a href="https://twitter.com/knyttneve" rel="noopener noreferrer" class="text-gray-600 ml-1"
+                        target="_blank">@riisurelectronics</a>
+                </p>
+            </div>
         </div>
-    </div>
-</footer>
-<a href="https://github.com/anibal-alpizar"
-    class="rounded-full w-12 h-12 bg-gray-100 fixed bottom-0 right-0 flex items-center justify-center text-gray-800 mr-8 mb-8 shadow-sm border-gray-300 border"
-    target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path
-            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
-        </path>
-    </svg></a>
+    </footer>
+    <a href="https://github.com/anibal-alpizar"
+        class="rounded-full w-12 h-12 bg-gray-100 fixed bottom-0 right-0 flex items-center justify-center text-gray-800 mr-8 mb-8 shadow-sm border-gray-300 border"
+        target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path
+                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+            </path>
+        </svg></a>
+</div>
+
+<div *ngIf="isVendorAdmin()">
+   
+</div>

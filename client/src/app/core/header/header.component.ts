@@ -38,10 +38,6 @@ export class HeaderComponent implements OnInit {
     } else {
       this.currentUser = null;
     }
-
-    this.authService.isAuthenticated.subscribe((valor) => {
-      this.isAuthenticated = valor;
-    });
   }
 
   isVendor(): boolean {
