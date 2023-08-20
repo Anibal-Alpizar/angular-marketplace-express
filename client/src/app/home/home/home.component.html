@@ -365,6 +365,27 @@
         </svg></a>
 </div>
 
-<div *ngIf="isVendorAdmin()">
-   
+<div *ngIf="isVendorAdmin()" class="bg-gray-100">
+    <mat-sidenav-container class="flex">
+        <mat-sidenav-content class="p-6">
+            <mat-card class="w-full">
+                <mat-card-header>
+                    <mat-card-title>Dashboard</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-white p-4 rounded shadow">
+                            <h2 class="text-lg font-semibold mb-2">Cantidad de Compras Hoy</h2>
+                            <p class="text-3xl">{{ salesPerDay?.cantidadDeCompras }}</p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded shadow">
+                            <h2 class="text-lg font-semibold mb-2">Fecha de Hoy</h2>
+                            <p class="text-3xl">{{ getCurrentDate() | date: 'dd/MM/yyyy' }}</p>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
 </div>
