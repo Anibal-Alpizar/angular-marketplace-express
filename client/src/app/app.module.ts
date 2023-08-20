@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { OrderModule } from './order/order.module';
 import { ProductModule } from './product/product.module';
 import { UserModule } from './user/user.module';
+import { EvaluationModule } from './evaluation/evaluation.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrModule } from 'ngx-toastr';
@@ -35,6 +36,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ProductModule,
     OrderModule,
     UserModule,
+    EvaluationModule,
 
     // my routing
     AppRoutingModule,

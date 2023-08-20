@@ -74,8 +74,8 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
 
   checkQuantityAvailability() {
     if (this.quantity > this.data[0].Quantity) {
-      console.log('tengo', this.quantity)
-      console.log('en el array hay', this.data[0].Quantity)
+      console.log('tengo', this.quantity);
+      console.log('en el array hay', this.data[0].Quantity);
       this.notification.showError('No hay suficiente cantidad disponible.');
       return false;
     }
@@ -179,21 +179,17 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   pagar() {
-    
-    
-    
-    console.log('djkdskjsdjksdjkdjk',this.PurchaseId);
+    console.log('djkdskjsdjksdjkdjk', this.PurchaseId);
     const orderId = this.PurchaseId;
     const quantityValue = this.quantityElement?.nativeElement.textContent;
-    console.log('no se cual es',this.data[0].Product.Quantity);
+    console.log('no se cual es', this.data[0].Product.Quantity);
 
     console.log('quantityValue:', quantityValue);
 
-    if(this.data[0].Product.Quantity < quantityValue){
+    if (this.data[0].Product.Quantity < quantityValue) {
       this.notification.showError('No hay suficiente cantidad disponible.');
-      return ;
+      return;
     }
-  
 
     this.gService.markOrderAsCompleted(orderId).subscribe(
       (response) => {
@@ -234,13 +230,14 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
         });
 
         this.notification.showSuccess('¡Orden pagada con éxito!');
+        localStorage.setItem('purchaseId', orderId);
+
         this.router.navigate([ORDERS_ROUTE]);
       },
       (error) => {
         this.notification.showError('¡Error al pagar la orden!');
       }
     );
-
   }
 
   ngOnDestroy() {

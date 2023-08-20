@@ -1,0 +1,63 @@
+<form>
+    <div class="flex items-center justify-center">
+        <div class="relative m-5 h-75 w-96 select-none rounded-lg border border-gray-100 p-6 shadow-lg">
+            <p class="text-xl font-black">Evalúa la calidad de la atención recibida</p>
+            <p class="mt-3">¿Cómo calificaría la calidad de la atención recibida?</p>
+            <svg xmlns="http://www.w3.org/2000/svg" id="smile" class="absolute top-0 right-0 m-5 h-6 w-6" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div class="mt-3 flex justify-between space-x-1">
+                <div (click)="handleRatingClick(1)" [class.selected]="numeroSeleccionado === 1"
+                    class="flex h-12 w-16 cursor-pointer items-center justify-center rounded-md bg-sky-200 font-bold text-blue-900 hover:bg-blue-300">
+                    1
+                </div>
+                <div (click)="handleRatingClick(2)" [class.selected]="numeroSeleccionado === 2"
+                    class="flex h-12 w-16 cursor-pointer items-center justify-center rounded-md bg-sky-200 font-bold text-blue-900 hover:bg-blue-300">
+                    2
+                </div>
+                <div (click)="handleRatingClick(3)" [class.selected]="numeroSeleccionado === 3"
+                    class="flex h-12 w-16 cursor-pointer items-center justify-center rounded-md bg-sky-200 font-bold text-blue-900 hover:bg-blue-300">
+                    3
+                </div>
+                <div (click)="handleRatingClick(4)" [class.selected]="numeroSeleccionado === 4"
+                    class="flex h-12 w-16 cursor-pointer items-center justify-center rounded-md bg-sky-200 font-bold text-blue-900 hover:bg-blue-300">
+                    4
+                </div>
+                <div (click)="handleRatingClick(5)" [class.selected]="numeroSeleccionado === 5"
+                    class="flex h-12 w-16 cursor-pointer items-center justify-center rounded-md bg-sky-200 font-bold text-blue-900 hover:bg-blue-300">
+                    5
+                </div>
+            </div>
+            <div class="mt-2 flex justify-between text-sm text-gray-400">
+                <p>No satisfecho</p>
+                <p>Muy satisfecho</p>
+            </div>
+        </div>
+
+
+        <div class="relative m-5 h-75 w-96 select-none rounded-lg border border-gray-100 p-6 shadow-lg">
+            <p class="text-xl font-black">Comentarios</p>
+            <p class="mt-3">¿Tienes algún comentario o sugerencia?</p>
+            <svg xmlns="http://www.w3.org/2000/svg" class="absolute top-0 right-0 m-5 h-6 w-6" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div class="mt-3 flex flex-col justify-between space-y-1">
+                <label for="message" class="text-sm leading-7 text-gray-600">Mensaje</label>
+                <textarea id="message" name="message" [(ngModel)]="comentario"
+                    class="h-32 w-full resize-none rounded border border-gray-300 bg-white py-1 px-3 text-base leading-6 text-gray-700 outline-none transition-colors duration-200 ease-in-out focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="
+    ">
+        <div class="flex items-center justify-center mt-3">
+            <button (click)="send()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Enviar evaluación
+            </button>
+        </div>
+    </div>
+</form>
