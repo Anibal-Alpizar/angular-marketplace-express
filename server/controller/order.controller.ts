@@ -277,3 +277,30 @@ export const updateProductQuantityByPurchaseId = async (
       .json({ message: "Error al actualizar la cantidad de la compra" });
   }
 };
+
+export const getCompletedPurchases = async (req: Request, res: Response) => {
+  try {
+    const completedPurchases = await prisma.purchase.findMany({
+      where: {
+        PurchaseStatus: "Completada", // Filter by 'Completada' status
+      },
+      include: {
+        Product: {
+          select: {
+            ProductName: true,
+          },
+        },
+        User: {
+          select: {
+            FullName: true,
+          },
+        },
+      },
+    });
+
+    res.json(completedPurchases);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+};

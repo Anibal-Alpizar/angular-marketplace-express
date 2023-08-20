@@ -28,6 +28,12 @@ export class OrdersService {
     return this.http.get<Order[]>(this.urlAPI + endPoint);
   }
 
+  listCompletedOrders(): Observable<Order[]> {
+    const endPoint = 'completed-orders';
+    const url = `${this.urlAPI}/${endPoint}`;
+    return this.http.get<Order[]>(url);
+  }
+
   getOrderDetails(OrderId: string): Observable<Order> {
     const endPoint = `details/${OrderId}`;
     const url = `${this.urlAPI}/${endPoint}`;

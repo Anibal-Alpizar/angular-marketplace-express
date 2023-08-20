@@ -6,6 +6,7 @@ import { TableOrdersComponent } from '../components/table-orders/table-orders.co
 import { FormsModule } from '@angular/forms';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { OrderByVendorComponent } from './order-by-vendor/order-by-vendor.component';
+import { OrderByCompletedOrdersComponent } from './order-by-completed-orders/order-by-completed-orders.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { OrderByVendorComponent } from './order-by-vendor/order-by-vendor.compon
     TableOrdersComponent,
     OrderDetailComponent,
     OrderByVendorComponent,
+    OrderByCompletedOrdersComponent,
   ],
   imports: [CommonModule, OrderRoutingModule, FormsModule],
 })
