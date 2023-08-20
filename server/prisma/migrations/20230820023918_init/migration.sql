@@ -145,11 +145,11 @@ CREATE TABLE `PurchaseItem` (
 
 -- CreateTable
 CREATE TABLE `Evaluation` (
-    `EvaluationId` INTEGER NOT NULL,
+    `EvaluationId` INTEGER NOT NULL AUTO_INCREMENT,
     `UserId` INTEGER NOT NULL,
     `Rating` INTEGER NOT NULL,
     `Comment` VARCHAR(191) NOT NULL,
-    `purchasePurchaseId` INTEGER NULL,
+    `PurchaseId` INTEGER NOT NULL,
 
     PRIMARY KEY (`EvaluationId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -209,4 +209,4 @@ ALTER TABLE `PurchaseItem` ADD CONSTRAINT `PurchaseItem_ProductId_fkey` FOREIGN 
 ALTER TABLE `Evaluation` ADD CONSTRAINT `Evaluation_UserId_fkey` FOREIGN KEY (`UserId`) REFERENCES `User`(`UserId`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Evaluation` ADD CONSTRAINT `Evaluation_purchasePurchaseId_fkey` FOREIGN KEY (`purchasePurchaseId`) REFERENCES `Purchase`(`PurchaseId`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `Evaluation` ADD CONSTRAINT `Evaluation_PurchaseId_fkey` FOREIGN KEY (`PurchaseId`) REFERENCES `Purchase`(`PurchaseId`) ON DELETE RESTRICT ON UPDATE CASCADE;
