@@ -95,7 +95,7 @@ model Product {
   Photos       Photo[]
   Questions    Question[]
   PurchaseItem PurchaseItem[]
-  Purchase Purchase[]
+  Purchase     Purchase[]
 }
 
 model Photo {
@@ -129,17 +129,17 @@ model Purchase {
   UserId          Int
   PaymentMethodId Int
   AddressId       Int
-  ProductId      Int
-  Quantity       Int
+  ProductId       Int
+  Quantity        Int
   TotalAmount     Float
   TaxAmount       Float
   PurchaseDate    DateTime
   PurchaseStatus  String
-  Subtotal       Float
+  Subtotal        Float
   User            User           @relation(fields: [UserId], references: [UserId])
   Address         Address        @relation(fields: [AddressId], references: [AddressId])
   PaymentMethod   PaymentMethod  @relation(fields: [PaymentMethodId], references: [PaymentMethodId])
-  Product        Product  @relation(fields: [ProductId], references: [ProductId])
+  Product         Product        @relation(fields: [ProductId], references: [ProductId])
   PurchaseItems   PurchaseItem[]
   Evaluations     Evaluation[]
 }
@@ -156,11 +156,11 @@ model PurchaseItem {
 }
 
 model Evaluation {
-  EvaluationId       Int       @id
-  UserId             Int
-  Rating             Int
-  Comment            String
-  User               User      @relation(fields: [UserId], references: [UserId])
-  Purchase           Purchase? @relation(fields: [purchasePurchaseId], references: [PurchaseId])
-  purchasePurchaseId Int?
+  EvaluationId Int      @id @default(autoincrement())
+  UserId       Int
+  Rating       Int
+  Comment      String
+  User         User     @relation(fields: [UserId], references: [UserId])
+  Purchase     Purchase @relation(fields: [PurchaseId], references: [PurchaseId])
+  PurchaseId   Int
 }
