@@ -33,6 +33,11 @@ export class LocationsComponent implements OnInit {
     this.loadProvinces();
     this.reactiveForm();
     this.loadUserAddresses(this.curretnUserId);
+
+    // Verificar si el usuario actual es un vendedor y ya tiene direcciones al inicio
+  if (this.currentUser.user.Role === 'vendor' && this.userAddresses.length > 0) {
+    this.notificationService.showError('Los vendedores solo pueden tener una dirección.');
+  }
   }
 
   reactiveForm() {
@@ -49,6 +54,13 @@ export class LocationsComponent implements OnInit {
   createAddress(): void {
     this.makeSubmit = true;
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+    if (currentUser.user.Role === 'vendor' && this.userAddresses.length > 0) {
+      this.notificationService.showError(
+        'Los vendedores solo pueden tener una dirección.'
+      );
+      return;
+    }
 
     const formData = {
       userId: currentUser.user.UserId,
@@ -98,7 +110,7 @@ export class LocationsComponent implements OnInit {
 
   onCantonSelected(event: any): void {
     const selectedCantonName = event.target.value;
-    console.log(selectedCantonName)
+    console.log(selectedCantonName);
     if (selectedCantonName) {
       const selectedCantonNumber = Object.keys(
         this.cantons[this.selectedProvince as string]
@@ -107,8 +119,6 @@ export class LocationsComponent implements OnInit {
           this.cantons[this.selectedProvince as string][key] ===
           selectedCantonName
       );
-
-      
 
       if (selectedCantonNumber) {
         console.log(`Selected Canton Number: ${selectedCantonNumber}`);
@@ -146,13 +156,13 @@ export class LocationsComponent implements OnInit {
   }
 
   loadDistricts(provinceNumber: string, cantonNumber: string): void {
-    console.log(provinceNumber, (cantonNumber))
+    console.log(provinceNumber, cantonNumber);
 
-   const cantonNumberFinal = parseInt(cantonNumber)
-    console.log(cantonNumberFinal+1)
+    const cantonNumberFinal = parseInt(cantonNumber);
+    console.log(cantonNumberFinal + 1);
 
     this.lService
-      .getDistritos(provinceNumber, (cantonNumberFinal+1).toString())
+      .getDistritos(provinceNumber, (cantonNumberFinal + 1).toString())
       .then((data: any) => {
         this.districts = Object.values(data);
         console.log(
@@ -196,6 +206,12 @@ export class LocationsComponent implements OnInit {
   onProvinceSelected(event: any): void {
     const selectedProvinceName = event.target.value;
     this.selectedProvince = selectedProvinceName;
+
+     // Verificar si el usuario actual es un vendedor y ya tiene direcciones al seleccionar una provincia
+  if (this.currentUser.user.Role === 'vendor' && this.userAddresses.length > 0) {
+    this.notificationService.showError('Los vendedores solo pueden tener una dirección.');
+    return;
+  }
 
     this.lService
       .getProvinces()

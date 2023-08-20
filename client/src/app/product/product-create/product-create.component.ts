@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProductCreateService } from 'src/app/share/product-create.service';
-import { IMAGE1, IMAGE2 } from 'src/app/constants/images.constants';
+import { IMAGE1, IMAGE2, IMAGE3, IMAGE4 } from 'src/app/constants/images.constants';
 import { ALLPRODUCTS_ROUTE } from 'src/app/constants/routes.constants';
 import { FileReaderEventTarget } from 'src/app/interfaces/product-create.interface';
 import {
@@ -21,9 +21,13 @@ export class ProductCreateComponent {
   categoryOptions: { value: string; label: string }[];
   image1File: File | null = null;
   image2File: File | null = null;
+  image3File: File | null = null;
+  image4File: File | null = null;
 
   image1Preview: string | undefined;
   image2Preview: string | undefined;
+  image3Preview: string | undefined;
+  image4Preview: string | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -57,6 +61,15 @@ export class ProductCreateComponent {
     if (this.image2File) {
       formData.append('sampleFile2', this.image2File, this.image2File.name);
     }
+
+    if (this.image3File) {
+      formData.append('sampleFile3', this.image3File, this.image3File.name);
+    }
+
+    if (this.image4File) {
+      formData.append('sampleFile4', this.image4File, this.image4File.name);
+    }
+
 
     const currentUserString = localStorage.getItem('currentUser');
     if (currentUserString) {
@@ -93,8 +106,12 @@ export class ProductCreateComponent {
         this.formCreate.reset();
         this.image1File = null;
         this.image2File = null;
+        this.image3File = null;
+        this.image4File = null;
         this.image1Preview = undefined;
         this.image2Preview = undefined;
+        this.image3Preview = undefined;
+        this.image4Preview = undefined;
         this.notificationService.showSuccess('Producto creado correctamente.');
         this.router.navigate([ALLPRODUCTS_ROUTE]);
       },
@@ -117,6 +134,12 @@ export class ProductCreateComponent {
       } else if (imageNumber === IMAGE2) {
         this.image2File = file;
         this.showImagePreview(file, IMAGE2);
+      } else if (imageNumber === IMAGE3) {
+        this.image3File = file;
+        this.showImagePreview(file, IMAGE3);
+      } else if (imageNumber === IMAGE4) {
+        this.image4File = file;
+        this.showImagePreview(file, IMAGE4);
       }
     }
   }
@@ -129,6 +152,10 @@ export class ProductCreateComponent {
         this.image1Preview = target.result?.toString();
       } else if (imageNumber === IMAGE2) {
         this.image2Preview = target.result?.toString();
+      } else if (imageNumber === IMAGE3) {
+        this.image3Preview = target.result?.toString();
+      } else if (imageNumber === IMAGE4) {
+        this.image4Preview = target.result?.toString();
       }
     };
     reader.readAsDataURL(file);

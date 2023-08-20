@@ -47,20 +47,6 @@ export class LocationService {
       });
   }
 
-  // example: 
-  // getPaymentMethodsByUserId(userId: number): Observable<PaymentMethod[]> {
-  //   const url = `${this.urlAPI}/users/${userId}/${GETPAYMENTMETHODSBYUSER_ROUTE}`;
-
-  //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-  //   return this.http.get<PaymentMethod[]>(url, { headers }).pipe(
-  //     catchError((error) => {
-  //       console.error('An error occurred:', error);
-  //       return throwError('Something went wrong; please try again later.');
-  //     })
-  //   );
-  // }
-
   getUserAddressesByUserId(userId: number): Observable<any[]>{
     const url = `${this.urlAPI}/locations/${userId}`;
     return this.http.get<any[]>(url);

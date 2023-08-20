@@ -150,13 +150,19 @@ export const createProduct = async (req: any, res: Response) => {
     //Se declara esta variable para cargar la imagen en ella
     let sampleFile: any;
     let sampleFile2: any;
+    let sampleFile3: any;
+    let sampleFile4: any;
 
     //Cargamos la imagen que nos envian
     sampleFile = req.files.sampleFile;
     sampleFile2 = req.files.sampleFile2;
+    sampleFile3 = req.files.sampleFile3;
+    sampleFile4 = req.files.sampleFile4;
 
     let fileName = "";
     let fileName2 = "";
+    let fileName3 = "";
+    let fileName4 = "";
 
     //Se crea una constante, donde se van a guardar las img con su nombre
     const path = `./uploads`;
@@ -201,8 +207,32 @@ export const createProduct = async (req: any, res: Response) => {
       });
     }
 
+    if(sampleFile3 && (sampleFile3.mimetype === "image/png" || sampleFile3.mimetype === "image/jpg")){
+      const fileExtension3 = sampleFile3.mimetype.split("/")[1];
+      fileName3 = `${uuidv4()}.${fileExtension3}`;
+
+      await sampleFile3.mv(`${path}/${fileName3}`, function (err: any) {
+        if (err)
+          return res
+            .status(404)
+            .json({ message: "No hay productos para el usuario especificado" });
+      });
+    }
+
+    if(sampleFile4 && (sampleFile4.mimetype === "image/png" || sampleFile4.mimetype === "image/jpg")){
+      const fileExtension4 = sampleFile4.mimetype.split("/")[1];
+      fileName4 = `${uuidv4()}.${fileExtension4}`;
+
+      await sampleFile4.mv(`${path}/${fileName4}`, function (err: any) {
+        if (err)
+          return res
+            .status(404)
+            .json({ message: "No hay productos para el usuario especificado" });
+      });
+    }
+
     //Agregar las variables, donde se encuentran la img en el array de Photos de la DB
-    products.Photos = [fileName, fileName2];
+    products.Photos = [fileName, fileName2, fileName3, fileName4];
 
     // Parseo de los valores de Price, Rating y Quantity a números
     products.Price = parseFloat(products.Price);
@@ -263,6 +293,8 @@ export const updateProduct = async (req: Request, res: Response) => {
     */
     let sampleFile: any;
     let sampleFile2: any;
+    let sampleFile3: any;
+    let sampleFile4: any;
 
     //Esta variable se declara para meter las imagenes nuevas en ella
     let updatedPhotos = [...existingProduct.Photos];
@@ -270,6 +302,8 @@ export const updateProduct = async (req: Request, res: Response) => {
     //Cargamos las imagenes que nos envian, en las variables declaradas anteriormente
     sampleFile = req.files?.sampleFile;
     sampleFile2 = req.files?.sampleFile2;
+    sampleFile3 = req.files?.sampleFile3;
+    sampleFile4 = req.files?.sampleFile4;
 
     const path = `./uploads`;
     //Verificamos si el tipo de img que nos estan enviando es el formato correcto de png y jpg
@@ -322,6 +356,34 @@ export const updateProduct = async (req: Request, res: Response) => {
 
       // Actualizamos las rutas de las fotos existentes
       updatedPhotos[1].PhotoURL = fileName2;
+    }
+
+    if(sampleFile3 && (sampleFile3.mimetype === "image/png" || sampleFile3.mimetype === "image/jpg")){
+      const fileExtension3 = sampleFile3.mimetype.split("/")[1];
+      const fileName3 = `${uuidv4()}.${fileExtension3}`;
+      await fs.ensureDir(path);
+      await sampleFile3.mv(`${path}/${fileName3}`, function (err: any) {
+        if (err)
+          return res
+            .status(404)
+            .json({ message: "No hay productos para el usuario especificado" });
+      });
+
+      updatedPhotos[2].PhotoURL = fileName3;
+    }
+
+    if(sampleFile4 && (sampleFile4.mimetype === "image/png" || sampleFile4.mimetype === "image/jpg")){
+      const fileExtension4 = sampleFile4.mimetype.split("/")[1];
+      const fileName4 = `${uuidv4()}.${fileExtension4}`;
+      await fs.ensureDir(path);
+      await sampleFile4.mv(`${path}/${fileName4}`, function (err: any) {
+        if (err)
+          return res
+            .status(404)
+            .json({ message: "No hay productos para el usuario especificado" });
+      });
+
+      updatedPhotos[3].PhotoURL = fileName4;
     }
 
     // Actualizamos las rutas de las fotos existentes

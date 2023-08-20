@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from 'src/app/share/notification.service';
-import { IMAGE1, IMAGE2 } from 'src/app/constants/images.constants';
+import { IMAGE1, IMAGE2, IMAGE3, IMAGE4 } from 'src/app/constants/images.constants';
 import { FileReaderEventTarget } from 'src/app/interfaces/product-create.interface';
 
 @Component({
@@ -16,8 +16,12 @@ export class ProductEditComponent implements OnInit {
   categoryOptions: { value: string; label: string }[];
   image1Preview: string | undefined;
   image2Preview: string | undefined;
+  image3Preview: string | undefined;
+  image4Preview: string | undefined;
   image1File: File | undefined;
   image2File: File | undefined;
+  image3File: File | undefined;
+  image4File: File | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -75,16 +79,22 @@ export class ProductEditComponent implements OnInit {
           if (data[0].Photos && data[0].Photos.length >= 2) {
             this.image1Preview = data[0].Photos[0].PhotoURL;
             this.image2Preview = data[0].Photos[1].PhotoURL;
+            this.image3Preview = data[0].Photos[2].PhotoURL;
+            this.image4Preview = data[0].Photos[3].PhotoURL;
 
             // Save image URLs in variables
             const image1Url = data[0].Photos[0].PhotoURL;
             const image2Url = data[0].Photos[1].PhotoURL;
+            const image3Url = data[0].Photos[2].PhotoURL;
+            const image4Url = data[0].Photos[3].PhotoURL;
             this.notificationService.showSuccess(
               'Detalles del producto obtenidos correctamente.'
             );
 
             console.log('Image 1 URL:', image1Url);
             console.log('Image 2 URL:', image2Url);
+            console.log('Image 3 URL:', image3Url);
+            console.log('Image 4 URL:', image4Url);
           }
         },
         (error) => {
@@ -110,6 +120,14 @@ export class ProductEditComponent implements OnInit {
 
     if (this.image2File) {
       formData.append('sampleFile2', this.image2File, this.image2File.name);
+    }
+
+    if (this.image3File) {
+      formData.append('sampleFile3', this.image3File, this.image3File.name);
+    }
+
+    if (this.image4File) {
+      formData.append('sampleFile4', this.image4File, this.image4File.name);
     }
 
     const productId = this.route.snapshot.paramMap.get('id');
@@ -146,6 +164,12 @@ export class ProductEditComponent implements OnInit {
       } else if (imageNumber === IMAGE2) {
         this.image2File = file;
         this.showImagePreview(file, IMAGE2);
+      } else if (imageNumber === IMAGE3) {
+        this.image3File = file;
+        this.showImagePreview(file, IMAGE3);
+      } else if (imageNumber === IMAGE4) {
+        this.image4File = file;
+        this.showImagePreview(file, IMAGE4);
       }
     }
   }
@@ -158,6 +182,10 @@ export class ProductEditComponent implements OnInit {
         this.image1Preview = target.result?.toString();
       } else if (imageNumber === IMAGE2) {
         this.image2Preview = target.result?.toString();
+      } else if (imageNumber === IMAGE3) {
+        this.image3Preview = target.result?.toString();
+      } else if (imageNumber === IMAGE4) {
+        this.image4Preview = target.result?.toString();
       }
     };
     reader.readAsDataURL(file);
