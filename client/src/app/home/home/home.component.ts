@@ -119,6 +119,14 @@ export class HomeComponent implements OnInit {
     );
   }
 
+  isVendor(): boolean {
+    return this.currentUser?.Roles?.includes('Vendor');
+  }
+
+  isAdmin(): boolean {
+    return this.currentUser?.Roles?.includes('Admin');
+  }
+
   getCurrentDate(): Date {
     return new Date();
   }

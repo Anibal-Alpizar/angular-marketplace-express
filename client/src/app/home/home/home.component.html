@@ -365,7 +365,7 @@
         </svg></a>
 </div>
 
-<div *ngIf="isVendorAdmin()" class="bg-gray-100">
+<div *ngIf="isAdmin()" class="bg-gray-100">
     <mat-sidenav-container class="flex">
         <mat-sidenav-content class="p-6">
             <mat-card class="w-full">
@@ -414,5 +414,10 @@
             </div>
         </div>
     </div>
+</div>
 
+<div *ngIf="isVendor()">
+    <h1 class="text-3xl font-semibold text-gray-700">
+        Aqui dashboard para vendedores
+    </h1>
 </div>
