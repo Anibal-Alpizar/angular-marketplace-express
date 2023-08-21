@@ -98,6 +98,7 @@ export const detailsProducts = async (req: Request, res: Response) => {
             IsActive: true,
             Address: true,
             Answers: true,
+            SellerRating: true,
           },
         },
         Questions: {
@@ -207,7 +208,11 @@ export const createProduct = async (req: any, res: Response) => {
       });
     }
 
-    if(sampleFile3 && (sampleFile3.mimetype === "image/png" || sampleFile3.mimetype === "image/jpg")){
+    if (
+      sampleFile3 &&
+      (sampleFile3.mimetype === "image/png" ||
+        sampleFile3.mimetype === "image/jpg")
+    ) {
       const fileExtension3 = sampleFile3.mimetype.split("/")[1];
       fileName3 = `${uuidv4()}.${fileExtension3}`;
 
@@ -219,7 +224,11 @@ export const createProduct = async (req: any, res: Response) => {
       });
     }
 
-    if(sampleFile4 && (sampleFile4.mimetype === "image/png" || sampleFile4.mimetype === "image/jpg")){
+    if (
+      sampleFile4 &&
+      (sampleFile4.mimetype === "image/png" ||
+        sampleFile4.mimetype === "image/jpg")
+    ) {
       const fileExtension4 = sampleFile4.mimetype.split("/")[1];
       fileName4 = `${uuidv4()}.${fileExtension4}`;
 
@@ -358,7 +367,11 @@ export const updateProduct = async (req: Request, res: Response) => {
       updatedPhotos[1].PhotoURL = fileName2;
     }
 
-    if(sampleFile3 && (sampleFile3.mimetype === "image/png" || sampleFile3.mimetype === "image/jpg")){
+    if (
+      sampleFile3 &&
+      (sampleFile3.mimetype === "image/png" ||
+        sampleFile3.mimetype === "image/jpg")
+    ) {
       const fileExtension3 = sampleFile3.mimetype.split("/")[1];
       const fileName3 = `${uuidv4()}.${fileExtension3}`;
       await fs.ensureDir(path);
@@ -372,7 +385,11 @@ export const updateProduct = async (req: Request, res: Response) => {
       updatedPhotos[2].PhotoURL = fileName3;
     }
 
-    if(sampleFile4 && (sampleFile4.mimetype === "image/png" || sampleFile4.mimetype === "image/jpg")){
+    if (
+      sampleFile4 &&
+      (sampleFile4.mimetype === "image/png" ||
+        sampleFile4.mimetype === "image/jpg")
+    ) {
       const fileExtension4 = sampleFile4.mimetype.split("/")[1];
       const fileName4 = `${uuidv4()}.${fileExtension4}`;
       await fs.ensureDir(path);

@@ -66,7 +66,7 @@
                 {{ data[0].ProductName }}
               </h2>
               <span class="text-sm text-gray-700 dark:text-gray-300">
-                ({{ data[0].User.UserId}})
+
                 {{
                 data[0].User.FullName
                 }}</span>
@@ -76,14 +76,17 @@
                 }}</span>
               <div class="flex items-center mt-2.5 mb-5">
                 <svg *ngFor="let star of [1, 2, 3, 4, 5]" aria-hidden="true" class="w-5 h-5" [ngClass]="{
-                    'text-yellow-500': star <= data[0].Rating,
-                    'text-gray-300': star > data[0].Rating || !data[0].Rating
+                    'text-yellow-500': star <= data[0].User.SellerRating,
+                    'text-gray-300': star > data[0].User.SellerRating || !data[0].User.SellerRating
                   }" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <title>Star</title>
                   <path
                     d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.53 1.118l-2.8-2.034a1 1 0 00-1.176 0l-2.8 2.034c-.775.57-1.83-.197-1.53-1.118l1.07-3.292a1 1 0 00-.364-1.118L.26 8.719C-.523 8.148-.12 7.01.849 7.01h3.461a1 1 0 00.95-.69L6.37 2.927zM10 15.337l-3.205 2.326.91-2.805-2.65-1.928 3.29-.02L10 8.344l1.656 4.566 3.29.02-2.65 1.928.91 2.805L10 15.337z">
                   </path>
                 </svg>
+                <span class="ml-2 text-xs italic text-gray-600 dark:text-gray-300">
+                  Este vendedor tiene {{ data[0].User.SellerRating}} estrellas
+                </span>
               </div>
               <p class="inline-block text-2xl font-semibold text-gray-700 dark:text-gray-400">
                 <span>${{ data[0].Price }}</span>
