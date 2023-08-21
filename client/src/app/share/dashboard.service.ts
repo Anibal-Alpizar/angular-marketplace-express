@@ -14,4 +14,9 @@ export class DashboardService {
     const url = `${this.urlAPI}/sales-per-day`;
     return this.http.get(url);
   }
+
+  getTopProductsByMonth() {
+    const url = `${this.urlAPI}/top-products-by-month`;
+    return this.http.get(url);
+  }
 }

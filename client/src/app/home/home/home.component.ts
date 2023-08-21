@@ -9,6 +9,21 @@ import { DashboardService } from 'src/app/share/dashboard.service';
 export class HomeComponent implements OnInit {
   currentUser: any;
   salesPerDay: any;
+  topProductsByMonth: any[] = [];
+  topProductsByMonthChartData: any[] = [];
+  topProductsByMonthChartLabels: any[] = [];
+  topProductsByMonthChartOptions: any = {
+    responsive: true,
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+    },
+  };
 
   constructor(private dashboardService: DashboardService) {}
 
@@ -30,6 +45,19 @@ export class HomeComponent implements OnInit {
     this.dashboardService.getSalesPerDay().subscribe((data: any) => {
       this.salesPerDay = data;
       console.log('salesPerDay', this.salesPerDay);
+    });
+
+    this.dashboardService.getTopProductsByMonth().subscribe((data: any) => {
+      this.topProductsByMonth = data;
+      this.topProductsByMonthChartData = [
+        {
+          data: this.topProductsByMonth.map((item: any) => item.TotalQuantity),
+          label: 'Cantidad',
+        },
+      ];
+      this.topProductsByMonthChartLabels = this.topProductsByMonth.map(
+        (item: any) => item.ProductName
+      );
     });
   }
 
