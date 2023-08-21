@@ -1,4 +1,4 @@
-import { getSalesPerDay, getTopProductsByMonth } from "../controller/dashboard.controller";
+import { getSalesPerDay, getTopProductsByMonth, calculateAverageRating } from "../controller/dashboard.controller";
 import { Router } from "express";
 
 const router = Router();
@@ -6,5 +6,7 @@ const router = Router();
 router.get("/sales-per-day", getSalesPerDay);
 
 router.get("/top-products-by-month", getTopProductsByMonth);
+
+router.get("/average-rating", calculateAverageRating);
 
 export default router;

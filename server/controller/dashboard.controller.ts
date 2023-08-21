@@ -47,7 +47,7 @@ export const getTopProductsByMonth = async (req: Request, res: Response) => {
         5;
     `
     );
-    
+
     const formattedResult = result.map((item: any) => ({
       ProductId: item.ProductId,
       ProductName: item.ProductName,
@@ -58,5 +58,53 @@ export const getTopProductsByMonth = async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "An error occurred while fetching data." });
+  }
+};
+
+export const calculateAverageRating = async (req: Request, res: Response) => {
+  try {
+    const sellerUsers = await prisma.user.findMany({
+      where: {
+        Roles: {
+          some: {
+            Role: {
+              RoleName: "Vendor",
+            },
+          },
+        },
+      },
+    });
+
+    const averageRatings = [];
+
+    for (const seller of sellerUsers) {
+      const evaluations = await prisma.evaluation.findMany({
+        where: {
+          Purchase: {
+            User: {
+              UserId: seller.UserId,
+            },
+          },
+        },
+      });
+
+      const totalRatings = evaluations.reduce(
+        (sum, evaluation) => sum + evaluation.Rating,
+        0
+      );
+      const averageRating = totalRatings / evaluations.length || 0;
+
+      averageRatings.push({
+        SellerUserId: seller.UserId,
+        AverageRating: averageRating,
+      });
+    }
+
+    // console.log("Average Ratings for Sellers:", averageRatings);
+    res.json(averageRatings);
+  } catch (error) {
+    console.error("Error calculating average ratings:", error);
+  } finally {
+    await prisma.$disconnect();
   }
 };
