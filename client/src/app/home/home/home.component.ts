@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ChartOptions } from 'chart.js';
 import { DashboardService } from 'src/app/share/dashboard.service';
 
 @Component({
@@ -12,16 +13,13 @@ export class HomeComponent implements OnInit {
   topProductsByMonth: any[] = [];
   topProductsByMonthChartData: any[] = [];
   topProductsByMonthChartLabels: any[] = [];
-  topProductsByMonthChartOptions: any = {
+  topProductsByMonthChartOptions: ChartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-          },
-        },
-      ],
+      y: {
+        beginAtZero: true,
+      },
     },
   };
 
@@ -52,6 +50,7 @@ export class HomeComponent implements OnInit {
       this.topProductsByMonthChartData = [
         {
           data: this.topProductsByMonth.map((item: any) => item.TotalQuantity),
+          backgroundColor: 'rgba(54, 162, 235, 0.6)', 
           label: 'Cantidad',
         },
       ];

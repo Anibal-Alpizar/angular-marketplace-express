@@ -369,32 +369,30 @@
     <mat-sidenav-container class="flex">
         <mat-sidenav-content class="p-6">
             <mat-card class="w-full">
-                <mat-card-header>
-                    <mat-card-title>Dashboard</mat-card-title>
-                </mat-card-header>
                 <mat-card-content>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-white p-4 rounded shadow">
-                            <h2 class="text-lg font-semibold mb-2">Cantidad de Compras Hoy</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded shadow">
+                            <h2 class="text-xl font-semibold mb-2">Cantidad de Compras Hoy</h2>
                             <p class="text-3xl">{{ salesPerDay?.cantidadDeCompras }}</p>
                         </div>
 
-                        <div class="bg-white p-4 rounded shadow">
-                            <h2 class="text-lg font-semibold mb-2">Fecha de Hoy</h2>
+                        <div class="bg-white p-6 rounded shadow">
+                            <h2 class="text-xl font-semibold mb-2">Fecha de Hoy</h2>
                             <p class="text-3xl">{{ getCurrentDate() | date: 'dd/MM/yyyy' }}</p>
-                        </div>
-                        <div class="bg-white p-4 rounded shadow">
-                            <h2 class="text-lg font-semibold mb-2">Productos Más Comprados Este Mes</h2>
-                            <div style="height: 300px;">
-                                <canvas baseChart [datasets]="topProductsByMonthChartData"
-                                    [labels]="topProductsByMonthChartLabels" [options]="topProductsByMonthChartOptions"
-                                    [type]="'bar'">
-                                </canvas>
-                            </div>
                         </div>
                     </div>
                 </mat-card-content>
             </mat-card>
         </mat-sidenav-content>
     </mat-sidenav-container>
+
+    <div class="bg-white p-6 rounded shadow mt-6">
+        <h2 class="text-xl font-semibold mb-2">Productos Más Comprados Este Mes</h2>
+        <div class="h-60 w-full">
+            <canvas baseChart [datasets]="topProductsByMonthChartData" [labels]="topProductsByMonthChartLabels"
+                [options]="topProductsByMonthChartOptions" [type]="'bar'">
+            </canvas>
+        </div>
+    </div>
+
 </div>
