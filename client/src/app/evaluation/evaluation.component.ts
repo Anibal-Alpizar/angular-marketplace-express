@@ -35,12 +35,6 @@ export class EvaluationComponent implements OnInit {
       const currentUser = JSON.parse(currentUserJson);
       const userId = currentUser.user.UserId;
 
-
-      this.evaluationService.calculateAverageRating().subscribe((response) => {
-        console.log('response:', response);
-      });
-      
-
       this.evaluationService
         .sendEvaluation(userId, this.rating, this.comentario, this.purchaseId)
         .subscribe((response) => {
@@ -48,6 +42,9 @@ export class EvaluationComponent implements OnInit {
           this.notification.showSuccess('Gracias por tu evaluación.');
           this.router.navigate([HOME_ROUTE]);
         });
+      this.evaluationService.calculateAverageRating().subscribe((response) => {
+        console.log('response:', response);
+      });
     } else {
       this.notification.showError('No se ha encontrado el usuario.');
     }

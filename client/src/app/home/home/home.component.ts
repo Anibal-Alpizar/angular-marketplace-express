@@ -22,6 +22,21 @@ export class HomeComponent implements OnInit {
       },
     },
   };
+  topRatedSellers: any[] = [];
+  topRatedSellersChartData: any[] = [];
+  topRatedSellersChartLabels: any[] = [];
+  topRatedSellersChartOptions: ChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
+  worstRatedSellers: any[] = [];
+  worstRatedSellersChartData: any[] = [];
+  worstRatedSellersChartLabels: any[] = [];
+  worstRatedSellersChartOptions: ChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
 
   constructor(private dashboardService: DashboardService) {}
 
@@ -50,12 +65,45 @@ export class HomeComponent implements OnInit {
       this.topProductsByMonthChartData = [
         {
           data: this.topProductsByMonth.map((item: any) => item.TotalQuantity),
-          backgroundColor: 'rgba(54, 162, 235, 0.6)', 
+          backgroundColor: 'rgba(54, 162, 235, 0.6)',
           label: 'Cantidad',
         },
       ];
       this.topProductsByMonthChartLabels = this.topProductsByMonth.map(
         (item: any) => item.ProductName
+      );
+    });
+    this.dashboardService.getTopRatedSellers().subscribe((data: any) => {
+      this.topRatedSellers = data;
+      this.topRatedSellersChartData = [
+        {
+          data: this.topRatedSellers.map((item: any) => item.AverageRating),
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.6)',
+            'rgba(54, 162, 235, 0.6)',
+            'rgba(75, 192, 192, 0.6)',
+            'rgba(255, 206, 86, 0.6)',
+            'rgba(153, 102, 255, 0.6)',
+          ],
+          label: 'Promedio de Calificación',
+        },
+      ];
+      this.topRatedSellersChartLabels = this.topRatedSellers.map(
+        (item: any) => item.FullName
+      );
+    });
+    this.dashboardService.getWorstRatedSellers().subscribe((data: any) => {
+      this.worstRatedSellers = data;
+      this.worstRatedSellersChartData = [
+        {
+          data: this.worstRatedSellers.map((item: any) => item.AverageRating),
+          borderColor: 'rgba(255, 99, 132, 1)',
+          fill: false,
+          label: 'Promedio de Calificación',
+        },
+      ];
+      this.worstRatedSellersChartLabels = this.worstRatedSellers.map(
+        (item: any) => item.FullName
       );
     });
   }

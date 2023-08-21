@@ -19,4 +19,14 @@ export class DashboardService {
     const url = `${this.urlAPI}/top-products-by-month`;
     return this.http.get(url);
   }
+
+  getTopRatedSellers() {
+    const url = `${this.urlAPI}/top-rated-sellers`;
+    return this.http.get(url);
+  }
+
+  getWorstRatedSellers() {
+    const url = `${this.urlAPI}/worst-rated-sellers`;
+    return this.http.get(url);
+  }
 }

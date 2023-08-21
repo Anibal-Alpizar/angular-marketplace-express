@@ -5,13 +5,19 @@ const prisma = new PrismaClient();
 
 export const getSalesPerDay = async (req: Request, res: Response) => {
   try {
-    const result = await prisma.$queryRaw<
-      [{ CantidadDeCompras: Prisma.Decimal }]
-    >(
-      Prisma.sql`SELECT COUNT(*) AS CantidadDeCompras FROM Purchase WHERE DATE(PurchaseDate) = CURDATE();`
-    );
+    const result = await prisma.purchase.findMany({
+      where: {
+        PurchaseDate: {
+          gte: new Date(new Date().setHours(0, 0, 0, 0)),
+          lt: new Date(new Date().setHours(23, 59, 59, 999)),
+        },
+      },
+      select: {
+        PurchaseDate: true,
+      },
+    });
 
-    const cantidadDeCompras = result[0]?.CantidadDeCompras?.toString() || "0";
+    const cantidadDeCompras = result.length.toString();
 
     res.json({ cantidadDeCompras });
   } catch (error) {
@@ -61,6 +67,78 @@ export const getTopProductsByMonth = async (req: Request, res: Response) => {
   }
 };
 
+export const getTopRatedSellers = async (req: Request, res: Response) => {
+  try {
+    const result: any = await prisma.$queryRaw(
+      Prisma.sql`
+      SELECT 
+        u.UserId, 
+        u.FullName,
+        AVG(e.Rating) AS AverageRating
+      FROM 
+        User u
+      LEFT JOIN
+        Evaluation e ON u.UserId = e.UserId
+      GROUP BY 
+        u.UserId, u.FullName
+      HAVING 
+        COUNT(e.Rating) > 0
+      ORDER BY 
+        AverageRating DESC
+      LIMIT 
+        5;
+    `
+    );
+
+    const formattedResult = result.map((item: any) => ({
+      UserId: item.UserId,
+      FullName: item.FullName,
+      AverageRating: parseFloat(item.AverageRating),
+    }));
+
+    res.json(formattedResult);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "An error occurred while fetching data." });
+  }
+};
+
+export const getWorstRatedSellers = async (req: Request, res: Response) => {
+  try {
+    const result: any = await prisma.$queryRaw(
+      Prisma.sql`
+      SELECT 
+        u.UserId, 
+        u.FullName,
+        AVG(e.Rating) AS AverageRating
+      FROM 
+        User u
+      LEFT JOIN
+        Evaluation e ON u.UserId = e.UserId
+      GROUP BY 
+        u.UserId, u.FullName
+      HAVING 
+        COUNT(e.Rating) > 0
+      ORDER BY 
+        AverageRating ASC
+      LIMIT 
+        3;
+    `
+    );
+
+    const formattedResult = result.map((item: any) => ({
+      UserId: item.UserId,
+      FullName: item.FullName,
+      AverageRating: parseFloat(item.AverageRating),
+    }));
+
+    res.json(formattedResult);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "An error occurred while fetching data." });
+  }
+};
+
 export const calculateAverageRating = async (req: Request, res: Response) => {
   try {
     const userRatings = await prisma.evaluation.findMany({
@@ -83,7 +161,8 @@ export const calculateAverageRating = async (req: Request, res: Response) => {
       ([userId, ratings]) => {
         const totalRatings = ratings.reduce((sum, rating) => sum + rating, 0);
         const averageRating = totalRatings / ratings.length || 0;
-        return { userId, averageRating };
+        const roundedAverage = Math.round(averageRating * 100) / 100; // Round to 2 decimal places
+        return { userId, averageRating: roundedAverage };
       }
     );
 

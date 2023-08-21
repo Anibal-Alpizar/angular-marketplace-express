@@ -395,4 +395,24 @@
         </div>
     </div>
 
+    <div class="bg-white p-6 rounded shadow mt-6 grid grid-cols-2 gap-6">
+        <div>
+            <h2 class="text-xl font-semibold mb-2">Top 5 Vendedores Mejor Calificados</h2>
+            <div class="h-60 w-full">
+                <canvas baseChart [datasets]="topRatedSellersChartData" [labels]="topRatedSellersChartLabels"
+                    [options]="topRatedSellersChartOptions" [type]="'pie'">
+                </canvas>
+            </div>
+        </div>
+
+        <div>
+            <h2 class="text-xl font-semibold mb-2">Top 3 Peores Vendedores Evaluados</h2>
+            <div class="h-60 w-full">
+                <canvas baseChart [datasets]="worstRatedSellersChartData" [labels]="worstRatedSellersChartLabels"
+                    [options]="worstRatedSellersChartOptions" [type]="'line'">
+                </canvas>
+            </div>
+        </div>
+    </div>
+
 </div>
