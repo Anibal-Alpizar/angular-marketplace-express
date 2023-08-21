@@ -30,6 +30,7 @@ model User {
   PaymentMethod     PaymentMethod[]
   Purchase          Purchase[]
   Products          Product[]
+  SellerRating      Float? 
 }
 
 model Role {

@@ -16,6 +16,11 @@ export class EvaluationService {
     return throwError('Something went wrong; please try again later.');
   }
 
+  calculateAverageRating() {
+    const url = `${this.urlAPI}/average-rating`;
+    return this.http.get(url).pipe(catchError(this.handleError));
+  }
+
   sendEvaluation(
     userId: number,
     rating: number,

@@ -35,6 +35,12 @@ export class EvaluationComponent implements OnInit {
       const currentUser = JSON.parse(currentUserJson);
       const userId = currentUser.user.UserId;
 
+
+      this.evaluationService.calculateAverageRating().subscribe((response) => {
+        console.log('response:', response);
+      });
+      
+
       this.evaluationService
         .sendEvaluation(userId, this.rating, this.comentario, this.purchaseId)
         .subscribe((response) => {

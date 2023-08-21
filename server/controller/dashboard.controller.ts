@@ -63,47 +63,41 @@ export const getTopProductsByMonth = async (req: Request, res: Response) => {
 
 export const calculateAverageRating = async (req: Request, res: Response) => {
   try {
-    const sellerUsers = await prisma.user.findMany({
-      where: {
-        Roles: {
-          some: {
-            Role: {
-              RoleName: "Vendor",
-            },
-          },
-        },
+    const userRatings = await prisma.evaluation.findMany({
+      select: {
+        UserId: true,
+        Rating: true,
       },
     });
 
-    const averageRatings = [];
+    const userRatingsMap = new Map<number, number[]>();
+    userRatings.forEach((rating) => {
+      const userId = rating.UserId;
+      if (!userRatingsMap.has(userId)) {
+        userRatingsMap.set(userId, []);
+      }
+      userRatingsMap.get(userId)?.push(rating.Rating);
+    });
 
-    for (const seller of sellerUsers) {
-      const evaluations = await prisma.evaluation.findMany({
-        where: {
-          Purchase: {
-            User: {
-              UserId: seller.UserId,
-            },
-          },
-        },
-      });
+    const userAverageRatings = Array.from(userRatingsMap.entries()).map(
+      ([userId, ratings]) => {
+        const totalRatings = ratings.reduce((sum, rating) => sum + rating, 0);
+        const averageRating = totalRatings / ratings.length || 0;
+        return { userId, averageRating };
+      }
+    );
 
-      const totalRatings = evaluations.reduce(
-        (sum, evaluation) => sum + evaluation.Rating,
-        0
-      );
-      const averageRating = totalRatings / evaluations.length || 0;
-
-      averageRatings.push({
-        SellerUserId: seller.UserId,
-        AverageRating: averageRating,
+    for (const { userId, averageRating } of userAverageRatings) {
+      await prisma.user.update({
+        where: { UserId: userId },
+        data: { SellerRating: averageRating },
       });
     }
 
-    // console.log("Average Ratings for Sellers:", averageRatings);
-    res.json(averageRatings);
+    res.json(userAverageRatings);
   } catch (error) {
-    console.error("Error calculating average ratings:", error);
+    console.error("Error calculating and updating user ratings:", error);
+    res.status(500).json({ message: "An error occurred while updating data." });
   } finally {
     await prisma.$disconnect();
   }
