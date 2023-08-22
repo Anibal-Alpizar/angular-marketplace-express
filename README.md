@@ -20,10 +20,16 @@ This web application project, developed using Angular and Node.js, aims to manag
    npm install
    ```
 
-2. Run the server:
+2. Run database migrations:
 
    ``
-   npm run devㅤ
+   npx prisma migrate dev --name init
+   ``
+
+3. Run the server:
+
+   ``
+   npm run dev
    ``
 
 ### Frontend (Angular - Client Folder)
