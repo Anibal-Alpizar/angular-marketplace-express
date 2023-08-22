@@ -71,7 +71,7 @@ This web application project, developed using Angular and Node.js, aims to manag
 
 ## Authors
 
-This project was collaboratively developed by [Anibal Alpizar](https://github.com/Anibal-Alpizar) and [Carlos Bonilla](https://github.com/cabonillamo).
+This project was collaboratively developed by [Anibal Alpizar](https://github.com/Anibal-Alpizar) and [Carlo Bonilla](https://github.com/cabonillamo).
 
 ## Contributing
 
