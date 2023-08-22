@@ -14,6 +14,7 @@ import { PaymentMethod } from 'src/app/interfaces/payment.interface';
 import { PaymentService } from 'src/app/share/payment.service';
 import { NotificationService } from 'src/app/share/notification.service';
 import { EVALUATIONS_ROUTE } from 'src/app/constants/routes.constants';
+import { BillService } from 'src/app/share/bill.service';
 
 @Component({
   selector: 'app-order-detail',
@@ -55,6 +56,7 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
     private route: ActivatedRoute,
     private paymentService: PaymentService,
     private notification: NotificationService,
+    private billService: BillService,
     private router: Router
   ) {}
 
@@ -229,7 +231,13 @@ export class OrderDetailComponent implements AfterViewInit, OnDestroy, OnInit {
           console.log('charlie', newQuantity);
         });
 
-        this.notification.showSuccess('¡Orden pagada con éxito!');
+        this.billService
+          .getOrderDetailsForInvoice(orderId)
+          .subscribe((response) => {});
+
+        this.notification.showSuccess(
+          '¡Orden pagada con éxito, a su correo llegará la factura!'
+        );
         localStorage.setItem('purchaseId', orderId);
 
         this.router.navigate([EVALUATIONS_ROUTE]);
