@@ -24,4 +24,6 @@ router.patch(
 
 router.patch("/change-product-quantity/:id", updateProductQuantityByPurchaseId);
 
+router.get("/completed-purchases", getCompletedPurchases);
+
 export default router;

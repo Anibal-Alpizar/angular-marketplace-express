@@ -3,7 +3,11 @@ import {
   getTopProductsByMonth,
   calculateAverageRating,
   getTopRatedSellers,
-  getWorstRatedSellers
+  getWorstRatedSellers,
+  getBestSellingProductsBySeller,
+  getTopCustomerBySeller,
+  getEvaluationCountsByRating,
+
 } from "../controller/dashboard.controller";
 import { Router } from "express";
 
@@ -18,5 +22,11 @@ router.get("/average-rating", calculateAverageRating);
 router.get("/top-rated-sellers", getTopRatedSellers);
 
 router.get("/worst-rated-sellers", getWorstRatedSellers);
+
+router.get("/best-selling-products-by-seller/:id", getBestSellingProductsBySeller);
+
+router.get("/top-customer-by-seller/:id", getTopCustomerBySeller);
+
+router.get("/evaluation-counts-by-rating/:id", getEvaluationCountsByRating);
 
 export default router;

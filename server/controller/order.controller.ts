@@ -214,7 +214,7 @@ export const markOrderAsCompleted = async (req: Request, res: Response) => {
 
     // Update product quantity
     const productId = purchase.Product.ProductId;
-    const newQuantity = purchase.Product.Quantity - purchase.Quantity - 1;
+    const newQuantity = purchase.Product.Quantity - purchase.Quantity;
 
     await prisma.product.update({
       where: { ProductId: productId },

@@ -29,7 +29,7 @@ export class OrdersService {
   }
 
   listCompletedOrders(): Observable<Order[]> {
-    const endPoint = 'completed-orders';
+    const endPoint = 'completed-purchases';
     const url = `${this.urlAPI}/${endPoint}`;
     return this.http.get<Order[]>(url);
   }

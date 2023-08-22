@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartOptions } from 'chart.js';
 import { DashboardService } from 'src/app/share/dashboard.service';
+import { AuthenticationService } from 'src/app/share/authentication.service';
 
 @Component({
   selector: 'app-home',
@@ -10,6 +11,11 @@ import { DashboardService } from 'src/app/share/dashboard.service';
 export class HomeComponent implements OnInit {
   currentUser: any;
   salesPerDay: any;
+  totalSold: any[] = [];
+  clente: any[] = [];
+  evaluationCountsByRating: any[] = [];
+  evaluationCountsByRatingChartData: any[] = [];
+  evaluationCountsByRatingChartLabels: any[] = [];
   topProductsByMonth: any[] = [];
   topProductsByMonthChartData: any[] = [];
   topProductsByMonthChartLabels: any[] = [];
@@ -38,7 +44,10 @@ export class HomeComponent implements OnInit {
     maintainAspectRatio: false,
   };
 
-  constructor(private dashboardService: DashboardService) {}
+  constructor(
+    private dashboardService: DashboardService,
+    authService: AuthenticationService
+  ) {}
 
   ngOnInit(): void {
     const currentUserString = localStorage.getItem('currentUser');
@@ -57,8 +66,45 @@ export class HomeComponent implements OnInit {
 
     this.dashboardService.getSalesPerDay().subscribe((data: any) => {
       this.salesPerDay = data;
-      console.log('salesPerDay', this.salesPerDay);
     });
+
+    const userId = this.currentUser.UserId;
+
+    this.dashboardService
+      .getBestSellingProductsBySeller(userId)
+      .subscribe((data: any) => {
+        this.totalSold = data;
+      });
+
+    this.dashboardService
+      .getTopcustomerbyseller(userId)
+      .subscribe((data: any) => {
+        this.clente = data;
+      });
+
+    this.dashboardService
+      .getEvaluationCountsByRating(userId)
+      .subscribe((data: any) => {
+        this.evaluationCountsByRating = data;
+        console.log(this.evaluationCountsByRating);
+        this.evaluationCountsByRatingChartData = [
+          {
+            data: this.evaluationCountsByRating.map((item: any) => item.Count),
+            backgroundColor: [
+              'rgba(0, 255, 0, 0.6)', // Verde
+              'rgba(0, 0, 255, 0.6)', // Azul
+              'rgba(255, 255, 0, 0.6)', // Amarillo
+              'rgba(255, 165, 0, 0.6)', // Naranja
+              'rgba(255, 0, 0, 0.6)', // Rojo
+            ],
+            label: 'Cantidad de Estrellas',
+          },
+        ];
+        console.log(this.evaluationCountsByRatingChartData);
+        this.evaluationCountsByRatingChartLabels =
+          this.evaluationCountsByRating.map((item: any) => item.Rating);
+        console.log(this.evaluationCountsByRatingChartLabels);
+      });
 
     this.dashboardService.getTopProductsByMonth().subscribe((data: any) => {
       this.topProductsByMonth = data;

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { PrismaClient, Prisma } from "@prisma/client";
+import { param } from "express-validator";
 
 const prisma = new PrismaClient();
 
@@ -181,3 +182,123 @@ export const calculateAverageRating = async (req: Request, res: Response) => {
     await prisma.$disconnect();
   }
 };
+
+
+export const getBestSellingProductsBySeller = async (req: Request, res: Response) => {
+  try {
+    const sellerId = parseInt(req.params.id);
+
+    const result: any = await prisma.$queryRaw(
+      Prisma.sql`
+      SELECT
+        p.ProductId,
+        p.ProductName,
+        COALESCE(SUM(pi.Quantity), 0) AS TotalSold
+      FROM
+        Product p
+      LEFT JOIN
+        Purchase pi ON p.ProductId = pi.ProductId
+      WHERE
+        p.UserId = ${sellerId}
+      GROUP BY
+        p.ProductId, p.ProductName
+      ORDER BY
+        TotalSold DESC
+      LIMIT
+        1;
+      `
+    );
+
+    const formattedResult = result.map((item: any) => ({
+      ProductId: item.ProductId,
+      ProductName: item.ProductName,
+      TotalSold: parseInt(item.TotalSold),
+    }));
+
+    res.json(formattedResult);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "An error occurred while fetching data." });
+  }
+};
+
+export const getTopCustomerBySeller = async (req: Request, res: Response) => {
+  try {
+    const sellerId = parseInt(req.params.id);
+
+    const result: any = await prisma.$queryRaw(
+      Prisma.sql`
+      SELECT
+        u.UserId,
+        u.FullName,
+        COALESCE(SUM(p.Quantity), 0) AS TotalPurchases
+      FROM
+        User u
+      LEFT JOIN
+        Purchase p ON u.UserId = p.UserId
+      LEFT JOIN
+        Product pr ON p.ProductId = pr.ProductId
+      WHERE
+        pr.UserId = ${sellerId}
+      GROUP BY
+        u.UserId, u.FullName
+      ORDER BY
+        TotalPurchases DESC
+      LIMIT
+        1;
+      `
+    );
+
+    const formattedResult = result.map((item: any) => ({
+      UserId: item.UserId,
+      FullName: item.FullName,
+      TotalPurchases: parseInt(item.TotalPurchases),
+    }));
+
+    res.json(formattedResult);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "An error occurred while fetching data." });
+  }
+};
+
+
+export const getEvaluationCountsByRating = async (req: Request, res: Response) => {
+  try {
+    const sellerId = parseInt(req.params.id);
+
+    const result: any = await prisma.$queryRaw(
+      Prisma.sql`
+      SELECT
+        e.Rating,
+        COUNT(e.EvaluationId) AS Count
+      FROM
+        Evaluation e
+      INNER JOIN
+        Purchase p ON e.PurchaseId = p.PurchaseId
+      INNER JOIN
+        Product pr ON p.ProductId = pr.ProductId
+      WHERE
+        pr.UserId = ${sellerId}
+      GROUP BY
+        e.Rating
+      ORDER BY
+        e.Rating DESC;
+      `
+    );
+
+    const formattedResult = result.map((item: any) => ({
+      Rating: item.Rating,
+      Count: parseInt(item.Count),
+    }));
+
+    res.json(formattedResult);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "An error occurred while fetching data." });
+  }
+};
+
+
+
+
