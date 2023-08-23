@@ -1,4 +1,13 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <div class="flex items-center space-x-4 p-4">
+    <label class="text-gray-600 dark:text-gray-300">Filtrar por estado:</label>
+    <select [(ngModel)]="selectedStatus" (ngModelChange)="applyFilter()"
+      class="border rounded px-2 py-1 w-full focus:outline-none focus:ring focus:border-blue-300">
+      <option value="">Todos</option>
+      <option value="Completada">Completada</option>
+      <option value="En progreso">En progreso</option>
+    </select>
+  </div>
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
       <tr>
@@ -9,7 +18,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let order of filterOrders"
+      <tr *ngFor="let order of filteredOrders"
         class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600">
         <td *ngFor="let columna of columns" class="px-6 py-4 text-center align-middle">
           <ng-container *ngIf="columna.key === 'UserId'">
@@ -40,7 +49,8 @@
         </td>
         <td>
           <div class="flex items-center justify-center">
-            <button routerLink="/orders/{{ order.PurchaseId }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+            <button routerLink="/orders/{{ order.PurchaseId }}"
+              class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500" viewBox="0 0 20 20"
                 fill="currentColor">
                 <path d="M10 12a2 2 0 100-4 2 2 0 000 4zM3 6a2 2 0 114 0 2 2 0 01-4 0zM17 14a2 2 0 100-4 2 2 0 000

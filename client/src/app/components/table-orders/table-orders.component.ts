@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Order } from 'src/app/order/interfaces/Order';
 import { Column } from 'src/app/components/interfaces/tableOrder';
 import { OrdersService } from 'src/app/share/orders.service';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-table-orders',
@@ -16,8 +16,31 @@ export class TableOrdersComponent {
   data: any;
   totalPrice: number = 0;
   totalTaxes: number = 0;
+  filteredOrders: Order[] = [];
+  selectedStatus: string | null = null;
 
-  constructor(private gService: OrdersService) {}
+  transform(items: any[], filterStatus: string | null): any[] {
+    if (!items || !filterStatus) {
+      return items;
+    }
+
+    return items.filter((item) => item.PurchaseStatus === filterStatus);
+  }
+
+  constructor(private gService: OrdersService) {
+    this.filterOrders = this.filterOrders;
+    this.applyFilter();
+  }
+
+  applyFilter() {
+    if (this.selectedStatus) {
+      this.filteredOrders = this.filterOrders.filter(
+        (order) => order.PurchaseStatus === this.selectedStatus
+      );
+    } else {
+      this.filteredOrders = this.filterOrders;
+    }
+  }
 
   getProductNames(order: Order): string {
     const purchaseItems = order?.PurchaseItems || [];
