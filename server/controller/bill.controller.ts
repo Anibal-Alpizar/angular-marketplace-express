@@ -66,7 +66,7 @@ export const getOrderDetailsForInvoice = async (
 
     const mailOptions = {
       from: process.env.GMAIL_USER,
-      to: "anibal.alpizar14@gmail.com",
+      to: order.User.Email,
       subject: "Factura de Compra",
       html: `
     <div style="font-family: Arial, sans-serif; margin: 20px;">

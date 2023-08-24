@@ -71,6 +71,17 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
+  isCurrentUserSeller(): boolean {
+    const currentUserString = localStorage.getItem('currentUser');
+    if (currentUserString) {
+      const currentUser = JSON.parse(currentUserString);
+      const sellerId = this.data[0]?.User?.UserId;
+      const currentUserId = currentUser.user.UserId;
+      return sellerId === currentUserId;
+    }
+    return false;
+  }
+
   checkQuantityAvailability() {
     if (this.quantity > this.data[0].Quantity) {
       // La cantidad seleccionada es mayor que la cantidad disponible
@@ -223,10 +234,14 @@ export class ProductDetailComponent implements OnInit {
       const currentUser = JSON.parse(currentUserString);
       const productId = this.route.snapshot.paramMap.get('id');
       const userId = currentUser.user.UserId;
+      const sellerId = this.data[0]?.User?.UserId; 
+      console.log('sellerId:', sellerId);
+      console.log('currentUserId:', userId);
+      console.log('UserId:', userId);
 
       if (productId !== null) {
         this.productService
-          .createAnswer(questionId, this.answerText[questionId], userId)
+          .createAnswer(questionId, this.answerText[questionId], userId,)
           .subscribe(
             (response: any) => {
               this.notificationService.showSuccess(
@@ -235,6 +250,7 @@ export class ProductDetailComponent implements OnInit {
               console.log('Respuesta enviada con éxito:', response);
               this.newAnswer[questionId] = '';
               window.location.reload();
+           
             },
             (error) => {
               this.notificationService.showError(

@@ -1,76 +1,10 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import { Purchase } from '@prisma/client';
+
 
 const prisma = new PrismaClient();
 
-// export const confirmarOrder = async (req: Request, res: Response) => {
-//   try {
-//     const { userId, paymentMethodId, addressId, purchaseItems } = req.body;
-
-//     const purchaseItemsData = purchaseItems.map((item: any) => ({
-//       Product: { connect: { ProductId: item.productId } },
-//       Quantity: item.quantity,
-//       Subtotal: item.subtotal,
-//       PurchaseStatus: "Pending",
-//     }));
-
-//     // Calcular el TotalAmount sumando los subtotales de los PurchaseItems y los precios de los productos
-//     const totalAmountWithoutTax = purchaseItems.reduce(
-//       (acc: number, item: any) => acc + item.subtotal + item.product.Price,
-//       0
-//     );
-
-//     // Calcular el impuesto (tax) del 13% del TotalAmount
-//     const taxAmount = totalAmountWithoutTax * 0.13;
-
-//     // Calcular el TotalAmount sumando los subtotales, el Price de los productos y el impuesto
-//     const totalAmount = totalAmountWithoutTax + taxAmount;
-
-//     const orderData: any = {
-//       User: {
-//         connect: {
-//           UserId: userId,
-//         },
-//       },
-//       PaymentMethod: {
-//         connect: {
-//           PaymentMethodId: paymentMethodId,
-//         },
-//       },
-//       Address: {
-//         connect: {
-//           AddressId: addressId,
-//         },
-//       },
-//       TotalAmount: totalAmount,
-//       TaxAmount: taxAmount,
-//       PurchaseStatus: "Pending",
-//       PurchaseItems: {
-//         create: purchaseItemsData,
-//       },
-//       PurchaseDate: new Date(),
-//     };
-
-//     const createdOrder = await prisma.purchase.create({
-//       data: orderData,
-//       include: {
-//         User: true,
-//         Address: true,
-//         PaymentMethod: true,
-//         PurchaseItems: {
-//           include: {
-//             Product: true,
-//           },
-//         },
-//       },
-//     });
-
-//     res.status(201).json(createdOrder);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Error creating order" });
-//   }
-// };
 
 export const createOrder = async (req: Request, res: Response) => {
   const purchase = req.body;
@@ -119,6 +53,49 @@ export const createOrder = async (req: Request, res: Response) => {
     res.json(error);
   }
 };
+
+export const getProductsPurchasedByVendor = async (req: Request, res: Response) => {
+  const vendorId = parseInt(req.params.id);
+
+  try {
+    const vendor = await prisma.user.findUnique({
+      where: { UserId: vendorId },
+      include: {
+        Products: {
+          include: {
+            Purchase: {
+              include: {
+                User: true,
+                Address: true,
+                PaymentMethod: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!vendor || !vendor.Products || vendor.Products.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No se encontraron productos comprados al proveedor" });
+    }
+
+    const purchasedProducts: Purchase[] = vendor.Products.reduce((acc:any, product) => {
+      if (product.Purchase && product.Purchase.length > 0) {
+        acc.push(...product.Purchase);
+      }
+      return acc;
+    }, []);
+
+    res.json(purchasedProducts);
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+};
+
+
 
 export const getPurchaseByCustumer = async (req: Request, res: Response) => {
   const userId = parseInt(req.params.id);

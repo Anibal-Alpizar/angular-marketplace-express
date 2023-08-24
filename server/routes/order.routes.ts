@@ -6,12 +6,15 @@ import {
   markOrderAsCompleted,
   updateProductQuantityByPurchaseId,
   getCompletedPurchases,
+  getProductsPurchasedByVendor,
 } from "../controller/order.controller";
 
 import { calculateAverageRating } from "../controller/dashboard.controller";
 
 const router = Router();
 router.get("/orderByCustumer/:id", getPurchaseByCustumer);
+
+router.get("/products-purchased-by-vendor/:id", getProductsPurchasedByVendor);
 
 router.get("/details/:id", details);
 
