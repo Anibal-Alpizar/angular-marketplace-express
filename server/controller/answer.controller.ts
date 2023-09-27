@@ -8,6 +8,7 @@ const prisma = new PrismaClient();
 export const createAnswer = async (req: Request, res: Response) => {
   const { AnswerText, QuestionId, UserId } = req.body;
 
+  
   try {
     const newAnswer = await prisma.answer.create({
       data: {
